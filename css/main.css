@@ -1,0 +1,282 @@
+@font-face {
+    font-family: "FX_LED";
+    src: url("fonts/FX-LED.TTF");
+}
+
+@font-face {
+    font-family: "Hack";
+    src: url("fonts/Hack-Bold.ttf");
+}
+
+html {
+    overflow: hidden;
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    background-color: rgb(255, 255, 255);
+}
+
+/*###########################################ADMIN MODALS########################################*/
+
+.main-container {
+    height: 95vh;
+    min-width: 100%;
+    background-color: #e8f3ff;
+
+    .navigation-bar {
+        background-color: #d6e7ff;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 100vh;
+        border-right: 1px solid rgb(83, 82, 82);
+
+        .top-box {
+            width: 100%;
+        }
+
+        .middle-box {
+            width: 100%;
+        }
+
+        .bottom-box {
+            display: flex;
+            justify-content:center;
+            width: 100%;
+        }
+
+    }
+
+    .row {
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
+
+    .display-content {
+        background-color: #e8f3ff;
+        flex-direction: column;
+
+        #reloj {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20rem;
+            height: 7rem;
+            border: 2px solid #3459ff;
+            border-radius: 10%;
+            font-family: monospace;
+            font-size: 6rem;
+        }
+
+        .users-container {
+            height: 60%;
+            border: 1px solid #dee2e6;
+            overflow-y: auto;
+        }
+    }
+}
+
+
+
+
+/*###########################################COMPONENTS########################################*/
+
+.hidden {
+    visibility: hidden !important;
+}
+
+.logo {
+    height: auto;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top-box,
+.middle-box,
+.bottom-box {
+    height: min-content;
+}
+
+.box-item {
+    color: white;
+    margin: 15px 0px;
+    background-color: #3459ff;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s all ease-in-out;
+}
+
+.box-item:hover {
+    transition: 0.4s all ease-in-out;
+    transform: translateY(-10px);
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #88b4ff !important;
+
+    h5 {
+        color: white;
+    }
+}
+
+.links {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+
+
+/*###########################################NAV-MODALS########################################*/
+
+/*###########################################Register modals########################################*/
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+}
+
+.register-modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    padding: 0px !important;
+
+    .register-modal-form {
+        width: 30rem;
+        height: 40rem;
+        display: flex;
+        flex-direction: row;
+        padding: 15px 15px 15px 15px;
+        border-radius: 15px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        overflow: hidden;
+
+
+        .password-field{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            align-items: center;
+
+            input-eye{
+                display: flex;
+                flex-direction: row;
+            }
+
+            .form-label {
+                font-size: medium;
+            }
+
+            .input {
+                width: 93%;
+                height: 45px;
+                border: 1px solid black;
+                border-radius: 30px;
+                color: #000000;
+                padding: 0 0 0 42px;
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            .eye-icon{
+                width: 25px;
+                height: 25;
+                cursor: pointer;
+            }
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+
+            .form-label {
+                font-size: medium;
+            }
+
+            .input {
+                height: 45px;
+                border: 1px solid black;
+                border-radius: 30px;
+                color: #000000;
+                padding: 0 0 0 42px;
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+
+
+            .check-box-field {
+                display: flex;
+
+                p {
+                    width: min-content;
+                    color: #3459ff;
+                }
+
+                .check-box {
+                    height: 45px;
+                    width: 40%;
+                    border: 1px solid black;
+                    border-radius: 30px;
+                    color: #000000;
+                    background: rgba(255, 255, 255, 0.1);
+                }
+            }
+
+        }
+    }
+}
+
+
+/*###########################################Login modals########################################*/
+
+.login-container {
+    gap: 10px;
+    min-height: 30rem;
+    width: 25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 15px 15px 15px;
+    border: 1px solid black;
+    border-radius: 15px;
+
+    .mediwaveLg {
+        margin-left: 2px;
+    }
+
+    .input-field {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+
+        .form-label {
+            font-size: medium;
+        }
+
+        .input {
+            height: 45px;
+            border: 1px solid black;
+            border-radius: 30px;
+            color: #000000;
+            padding: 0 0 0 42px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+}
