@@ -44,7 +44,7 @@ $("#signupForm").on("submit", function (e) {
             } else if (response.status === 8) {
                 $('#errorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('Ingrese un correo valido').show();
             } else if (response.status === 6) {
-                $('#errorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('Revise sus credenciales').show();
+                $('#errorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('Verifique los datos').show();
             } else if (response.status === 7) {
                 $('#errorsAlerts').removeClass("hidden").addClass('alert alert-success').text('Registro exitoso').show();
 
@@ -75,7 +75,6 @@ $("#editForm").on("submit", function (e) {
         cache: false,
         processData: false,
         success: function (response) {
-            console.log(response)
             if (response.status === 1) {
                 $('#editErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('Campo vacío').show();
             } else if (response.status === 2) {
@@ -98,4 +97,29 @@ $("#editForm").on("submit", function (e) {
         }
     });
 });
+
+
+
+
+/*####################################ITEMS AJAX######################################################*/ 
+
+function updateItemsTable() {
+    var tbody = '';
+    $.ajax({
+        url: 'ItemsTable.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (response) {
+                response.forEach(function (user) {
+                    tbody += user;
+                });
+                $('#itemsViewTable').html(tbody);
+            }
+        },
+        error: function (error) {
+            console.error('Error en la solicitud AJAX:', error);
+        }
+    });
+}
 

@@ -1,0 +1,270 @@
+.logo {
+  height: auto;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#reloj {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20rem;
+  height: 7rem;
+  border: 2px solid #3459ff;
+  border-radius: 10%;
+  font-family: monospace;
+  font-size: 6rem;
+}
+
+.lg-btn:hover {
+  transition: 0.4s all ease-in-out;
+  transform: translateY(-10px);
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #88b4ff !important;
+}
+
+.lg-btn {
+  color: white;
+  margin: 15px 0px;
+  background-color: #3459ff !important;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.4s all ease-in-out;
+}
+
+.hidden {
+  visibility: hidden !important;
+}
+
+.row {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.modal-register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  padding: 0px !important;
+}
+.modal-register-container .register-modal-form {
+  width: 30rem;
+  height: 40rem;
+  display: flex;
+  flex-direction: row;
+  padding: 15px 15px 15px 15px;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.modal-register-container .register-modal-form .password-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  align-items: center;
+}
+.modal-register-container .register-modal-form .password-field input-eye {
+  display: flex;
+  flex-direction: row;
+}
+.modal-register-container .register-modal-form .password-field .input {
+  width: 93%;
+  height: 45px;
+  border: 1px solid black;
+  border-radius: 30px;
+  color: #000000;
+  padding: 0 0 0 42px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.modal-register-container .register-modal-form .password-field .eye-icon {
+  width: 25px;
+  height: 25;
+  cursor: pointer;
+}
+.modal-register-container .register-modal-form .input-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.modal-register-container .register-modal-form .input-field .form-label {
+  font-size: medium;
+}
+.modal-register-container .register-modal-form .input-field input {
+  width: 93%;
+  height: 45px;
+  border: 1px solid black;
+  border-radius: 30px;
+  color: #000000;
+  padding: 0 0 0 42px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.edit-modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  padding: 0px !important;
+}
+.edit-modal-container .modal-form {
+  width: 30rem;
+  height: 40rem;
+  display: flex;
+  flex-direction: row;
+  padding: 15px 15px 15px 15px;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.edit-modal-container .modal-form .input-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.edit-modal-container .modal-form .input-field .form-label {
+  font-size: medium;
+}
+.edit-modal-container .modal-form .input-field input {
+  width: 93%;
+  height: 45px;
+  border: 1px solid black;
+  border-radius: 30px;
+  color: #000000;
+  padding: 0 0 0 42px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.admin-container {
+  min-height: 100vh;
+  min-width: 100%;
+  background-color: #e8f3ff;
+}
+.admin-container aside {
+  background-color: #d6e7ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  border-right: 1px solid rgb(83, 82, 82);
+}
+.admin-container .display-content {
+  background-color: #e8f3ff;
+  flex-direction: column;
+}
+.admin-container .display-content .users-container {
+  height: 60%;
+  border: 1px solid #dee2e6;
+  overflow-y: auto;
+}
+
+.login-section {
+  min-height: 100vh;
+  min-width: 100%;
+  background-color: #e8f3ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-section .login-form {
+  width: 30rem;
+  height: 40rem;
+  display: flex;
+  flex-direction: row;
+  padding: 15px 15px 15px 15px;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  height: auto;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  padding: 3rem;
+}
+.login-section .login-form .login-logo {
+  height: 120px;
+  width: 120px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.login-section .login-form .form-container {
+  height: 30rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+}
+.login-section .login-form .form-container .input-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  width: 100%;
+  margin-bottom: 0px;
+}
+.login-section .login-form .form-container .input-field .input {
+  width: 93%;
+  height: 45px;
+  border: 1px solid black;
+  border-radius: 30px;
+  color: #000000;
+  padding: 0 0 0 42px;
+  background: rgba(255, 255, 255, 0.1);
+  background: white;
+}
+
+.inventory-container {
+  min-height: 100vh;
+  min-width: 100%;
+  background-color: #e8f3ff;
+}
+.inventory-container aside {
+  background-color: #d6e7ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  border-right: 1px solid rgb(83, 82, 82);
+}
+.inventory-container .display-content {
+  background-color: #e8f3ff;
+  flex-direction: column;
+}
+.inventory-container .display-content .search-input {
+  width: 93%;
+  height: 45px;
+  border: 1px solid black;
+  border-radius: 30px;
+  color: #000000;
+  padding: 0 0 0 42px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 30%;
+  margin: 0.25rem;
+  background-color: white;
+}
+.inventory-container .display-content .users-container {
+  height: 60%;
+  border: 1px solid #dee2e6;
+  overflow-y: auto;
+  margin-top: 0px;
+}
+
+/*# sourceMappingURL=styles.css.map */

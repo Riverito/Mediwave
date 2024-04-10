@@ -1,0 +1,50 @@
+$dark-blue: #3459ff;
+
+
+.logo {
+    height: auto;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+#reloj {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20rem;
+    height: 7rem;
+    border: 2px solid $dark-blue;
+    border-radius: 10%;
+    font-family: monospace;
+    font-size: 6rem;
+}
+
+.lg-btn:hover {
+    transition: 0.4s all ease-in-out;
+    transform: translateY(-10px);
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #88b4ff !important;
+}
+
+.lg-btn {
+    color: white;
+    margin: 15px 0px;
+    background-color: $dark-blue !important;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s all ease-in-out;
+}
+
+.md-btn {}
+
+.sm-btn {}
+
+.hidden {
+    visibility: hidden !important;
+}

@@ -2,7 +2,7 @@
 
 if (isset($_POST["submit"])) {
     $userEmail = $_POST["userEmail"];
-    $pwd = $_POST["pwd"]; // Corregido el nombre de la variable
+    $pwd = $_POST["pwd"]; 
 
 
     require_once 'functions.inc.php';
@@ -14,7 +14,7 @@ if (isset($_POST["submit"])) {
     }
 
     LoginUser($conn, $userEmail, $pwd);
+    
 } else {
-    echo $pwd . 'weno';
     exit();
 }

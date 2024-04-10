@@ -3,7 +3,6 @@ require_once 'dbh.inc.php';
 /*############################################REGISTER FUNCTIONS################################################*/
 function emptyInputSignup($user_name, $pwd, $pwdRepeat, $user_apellido, $userCd, $userEmail, $userRol)
 {
-    $result;
     if (empty($user_name) || empty($pwd) || empty($pwdRepeat) || empty($user_apellido) || empty($userCd) || empty($userEmail) || empty($userRol)) {
         $result = true;
     } else {
@@ -14,7 +13,6 @@ function emptyInputSignup($user_name, $pwd, $pwdRepeat, $user_apellido, $userCd,
 
 function editEmptyInputSignup($user_name, $user_apellido, $userCd, $userEmail, $userRol)
 {
-    $result;
     if (empty($user_name)  || empty($user_apellido) || empty($userCd) || empty($userEmail) || empty($userRol)) {
         $result = true;
     } else {
@@ -26,20 +24,16 @@ function editEmptyInputSignup($user_name, $user_apellido, $userCd, $userEmail, $
 
 function invalidName($user_name)
 {
-    $result;
-    if (!preg_match("/^[a-zA-Z]*$/", $user_name)) {
-        $result = true;
-    } else {
-        $result = false;
+    if (preg_match("/^[a-zA-Z]*$/", $user_name)) {
+        return false;
     }
-    return $result;
+    return true;
 }
 
 function invalidSecondName($user_apellido)
 {
-    $result;
     if (!preg_match("/^[a-zA-Z]*$/", $user_apellido)) {
-        $result = true;
+        return true;
     } else {
         $result = false;
     }
@@ -48,7 +42,6 @@ function invalidSecondName($user_apellido)
 
 function invalidCd($userCd)
 {
-    $result;
     if (!preg_match("/^\d{7,8}$/", $userCd)) {
         $result = true;
     } else {
@@ -67,14 +60,14 @@ function valid_email($userEmail)
         if(filter_var($userEmail, FILTER_VALIDATE_EMAIL)!==false) return $userEmail;
         else
         {
-            $pattern = '/^(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){255,})(?!(?:(?:\\x22?\\x5C[\\x00-\\x7E]\\x22?)|(?:\\x22?[^\\x5C\\x22]\\x22?)){65,}@)(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22))(?:\\.(?:(?:[\\x21\\x23-\\x27\\x2A\\x2B\\x2D\\x2F-\\x39\\x3D\\x3F\\x5E-\\x7E]+)|(?:\\x22(?:[\\x01-\\x08\\x0B\\x0C\\x0E-\\x1F\\x21\\x23-\\x5B\\x5D-\\x7F]|(?:\\x5C[\\x00-\\x7F]))*\\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-+[a-z0-9]+)*\\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-+[a-z0-9]+)*)|(?:\\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\\]))$/iD';
+            $pattern = '/\b[\w.-]+@[\w.-]+.\w{2,4}\b/i';
             return (preg_match($pattern, $userEmail) === 1) ? $userEmail : false;
         }
     }
 }
+
 function pwdMatch($pwd, $pwdRepeat)
 {
-    $result;
     if ($pwd !== $pwdRepeat) {
         $result = true;
     } else {
@@ -86,7 +79,7 @@ function pwdMatch($pwd, $pwdRepeat)
 function uidExists($userId)
 {
     $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM users WHERE user_id = ?;";
+    $sql = "SELECT * FROM users WHERE id = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: " . url() . "/register.php?error=stmtfailed");
@@ -167,7 +160,6 @@ function createSession($userId, $userRol)
     switch ($userRol) {
         case 3:
             header("location: " . url() . "/inventorydashboard.php"); // Redirige a la página de inicio del enfermero
-
             break;
         case 2:
             header("location: " . url() . "/medidashboard.php"); // Redirige a la página de inicio del doctor
@@ -203,14 +195,13 @@ function LoginUser($conn, $userEmail, $pwd)
         if (password_verify($pwd, $hashedPwd)) {
             createSession($userId, $userRol);
         } else {
-            header("location: " . url() . "/login.php?error=clavemal");
+            header("location: " . url() . "/login.php?error=002"); //002 Clave erronea
         }
         mysqli_stmt_close($stmt);
     } else {
-        header("location: " . url() . "/login.php?error=usuarionoexiste");
+        header("location: " . url() . "/login.php?error=001"); //001 Usuario no existe
     }
 }
-
 function LogoutUser()
 {
     // Destruye la sesión
@@ -224,9 +215,9 @@ function LogoutUser()
 
 function createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol)
 {
-    $user_id = generateUserid();
+    $id = generateUserid();
 
-    $sql = "INSERT INTO users  (user_id, usersName, usersPwd, userApellido, userCd, userEmail, userRol) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO users  (id, usersName, usersPwd, userApellido, userCd, userEmail, userRol) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         exit();
@@ -234,7 +225,7 @@ function createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail
 
     $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
 
-    mysqli_stmt_bind_param($stmt, "sssssss", $user_id, $user_name, $hashedPwd, $user_apellido, $userCd, $userEmail, $userRol);
+    mysqli_stmt_bind_param($stmt, "sssssss", $id, $user_name, $hashedPwd, $user_apellido, $userCd, $userEmail, $userRol);
     mysqli_stmt_execute($stmt);
 
     if (mysqli_errno($conn) == 1062) {
@@ -248,7 +239,7 @@ function createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail
 function editUser($user_name, $user_apellido, $userCd, $userEmail, $userRol, $userId)
 {
     $conn = $GLOBALS['conn'];
-    $sql = "UPDATE users SET usersName=?, userApellido=?, userCd=?, userEmail=?, userRol=? WHERE user_id=?";
+    $sql = "UPDATE users SET usersName=?, userApellido=?, userCd=?, userEmail=?, userRol=? WHERE id=?";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         exit();
@@ -268,7 +259,7 @@ function userView($userId)
 {
 
     $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM users WHERE user_id = ?;";
+    $sql = "SELECT * FROM users WHERE id = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         exit();
@@ -297,7 +288,7 @@ function deleteUser($userId)
 
         $conn = $GLOBALS['conn'];
 
-        $sql = "DELETE FROM users WHERE user_id = ?";
+        $sql = "DELETE FROM users WHERE id = ?";
         $stmt = mysqli_stmt_init($conn);
 
         mysqli_stmt_prepare($stmt, $sql);
@@ -315,9 +306,6 @@ function deleteUser($userId)
     }
 }
 
-
-
-
 $GLOBALS['medi'] = '/mediwave';
 function url()
 {
@@ -328,3 +316,12 @@ function url()
         $GLOBALS['medi']
     );
 }
+
+
+
+########################################################################################################
+##########################################FUNCIONES INVENTARIO##########################################
+########################################################################################################
+
+
+

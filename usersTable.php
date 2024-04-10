@@ -26,10 +26,10 @@ while ($row2 = mysqli_fetch_array($result2)) {
     }
     $user .= '</td>' .
         '<td>' .
-        '<button type="button" data-bs-toggle="modal" data-bs-target="#EditUserModal" class="editbtn m-1 btn btn-primary" data-uid="' . $row2["user_id"] . '">' .
+        '<button type="button" data-bs-toggle="modal" data-bs-target="#EditUserModal" class="editbtn m-1 btn btn-primary" data-uid="' . $row2["id"] . '">' .
         '<i class="fa-solid fa-pen-to-square"></i>' .
         '</button>' .
-        '<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="delbtn m-1 btn btn-danger" data-uid="' . $row2["user_id"] . '">' .
+        '<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="delbtn m-1 btn btn-danger" data-uid="' . $row2["id"] . '">' .
         '<i class="fa-solid fa-trash"></i>' .
         '</button>' .
         '</td>' .

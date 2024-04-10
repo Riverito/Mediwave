@@ -2,46 +2,45 @@
 include('functions.php');
 get_header();
 ?>
-<div class="main-container">
+<div class="inventory-container">
     <div class="row">
-        <div class="col-2 p-3 text-center navigation-bar">
-            <div class="top-box">
+        <aside class="col-2 p-3 text-center navigation-bar">
+            <div class="w-100">
                 <div>
                     <img src="sources\images\mediwave.svg" class="logo">
                 </div>
             </div>
-            <div class="middle-box">
-
+            <div class="w-100">
+                <button type="button" class="btn col-12 lg-btn">
+                    <h5>Configuracion de usuario</h5>
+                </button>
+                <button id="inventoryDashBoard" class="btn col-12 lg-btn">
+                    <h5>Generar Reporte</h5>
+                </button>
+                <button id="inventoryDashBoard" class="btn col-12 lg-btn">
+                    <h5>Crear articulos</h5>
+                </button>
             </div>
-            <div class="bottom-box">
+            <div class="w-100">
                 <form class="w-100" method="post" action="functions.php">
-                    <button type="submit" name="submit" class="btn btn-lg col-12 box-item">Salir</button>
+                    <button type="submit" name="submit" class="btn col-12 lg-btn">Salir</button>
                 </form>
             </div>
-        </div>
+        </aside>
 
-        <div class="col display-content d-flex">
-            <div class="row d-flex mt-3">
-                <div class="align-self-start col-6">
-                    <h1 class="h2">Sistema de inventario</h1>
-                    <input type="text" class="input-label" placeholder="buscar">    
-                </div>
-
-                <div id="reloj" class="align-self-end col-6">
-                    <?php date_default_timezone_set("America/Caracas"); ?>
-                    <?php echo date("H:i"); ?>
-                </div>
+        <div class="col display-content d-flex align-items-center">
+            <div id="reloj">
+                <?php date_default_timezone_set("America/Caracas"); ?>
+                <?php echo date("H:i"); ?>
             </div>
-
-            <div class="users-container w-100 mt-5 ">
+            <input class="search-input align-self-start mt-5" type="text" placeholder="Buscar">
+            <div class="users-container  w-100">
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Apellido</th>
-                            <th scope="col">Cédula</th>
-                            <th scope="col">Correo</th>
-                            <th scope="col">Cargo</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Cantidad</th>
                             <th scope="col">Operaciones</th>
                         </tr>
                     </thead>
@@ -50,14 +49,14 @@ get_header();
                             updateUserTable();
                         });
                     </script>
-                    <tbody id="usersViewTable">
+                    <tbody id="itemsViewTable">
 
                     </tbody>
                 </table>
             </div>
             <div class="w-100 d-flex align-items-start justify-content-start">
-                <button type='button' data-bs-toggle='modal' data-bs-target='#NewUserModal' class='btn-info align-self-start m-1 btn'>
-                    Nuevo usuario
+                <button type='button' data-bs-toggle='modal' data-bs-target='#NewUserModal' class='align-self-start btn-primary m-1 btn sm-btn'>
+                    Crear articulo
                 </button>
             </div>
         </div>

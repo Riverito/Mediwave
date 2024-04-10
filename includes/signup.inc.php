@@ -24,7 +24,6 @@ if (!empty($_POST)) {
     $userRol = $formData["userRol"];
 
 
-
     if (emptyInputSignup($user_name, $pwd, $pwdRepeat, $user_apellido, $userCd, $userEmail, $userRol)) {
         $response['status'] = 1;
     } else if (invalidName($user_name)) {
@@ -35,7 +34,7 @@ if (!empty($_POST)) {
         $response['status'] = 4;
     } else if (pwdMatch($pwd, $pwdRepeat)){
         $response['status'] = 5;
-    } else if(valid_email($userEmail)){
+    } else if(!valid_email($userEmail)){
         $response['status'] = 8;
     } else if(createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol) === '1062'){
         $response['status'] = 6;

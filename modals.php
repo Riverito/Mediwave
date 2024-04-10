@@ -3,7 +3,7 @@ require_once('functions.php');
 ?>
 <div class="modal fade" id="NewUserModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content register-modal-container">
+        <div class="modal-register-container modal-content">
             <form action="includes/signup.inc.php" id="signupForm" method="post" class="register-modal-form row">
 
                 <div class="input-field col-6">
@@ -94,8 +94,8 @@ require_once('functions.php');
 
 <div class="modal fade" id="EditUserModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content register-modal-container">
-            <form action="includes/edit.inc.php" id="editForm" method="post" class="register-modal-form row">
+        <div class="modal-content edit-modal-container">
+            <form action="includes/edit.inc.php" id="editForm" method="post" class="modal-form row">
 
                 <input type="hidden" name="uid" value="">
 

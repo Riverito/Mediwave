@@ -1,0 +1,116 @@
+@use 'components.scss';
+@use 'fixes.scss';
+@use 'modals.scss';
+@use 'login.scss';
+
+@mixin container {
+  min-height: 100vh;
+  min-width: 100%;
+  background-color: #e8f3ff;
+}
+
+.admin-container {
+  @include container;
+
+  aside {
+    background-color: #d6e7ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    border-right: 1px solid rgb(83, 82, 82);
+  }
+
+  .display-content {
+    background-color: #e8f3ff;
+    flex-direction: column;
+
+    .users-container {
+      height: 60%;
+      border: 1px solid #dee2e6;
+      overflow-y: auto;
+    }
+  }
+}
+
+
+.login-section {
+  @include container;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  .login-form {
+    @include modals.modal-form;
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    height: auto;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    padding: 3rem;
+
+    .login-logo {
+      height: 120px;
+      width: 120px;
+      margin-bottom: 0px;
+      margin-top: 0px;
+    }
+
+    .form-container {
+      height: 30rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 30px;
+
+      .input-field {
+        @include modals.input-container;
+        width: 100%;
+        margin-bottom: 0px;
+
+        .input {
+          @include modals.input;
+          background: white;
+        }
+      }
+    }
+
+  }
+}
+
+.inventory-container {
+  @include container;
+
+  aside {
+    background-color: #d6e7ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    border-right: 1px solid rgb(83, 82, 82);
+  }
+
+  .display-content {
+    background-color: #e8f3ff;
+    flex-direction: column;
+
+    .search-input {
+      @include modals.input;
+      width: 30%;
+      margin: 0.25rem;
+      background-color: white;
+      
+    }
+
+    .users-container {
+      height: 60%;
+      border: 1px solid #dee2e6;
+      overflow-y: auto;
+      margin-top: 0px;
+    }
+  }
+}
