@@ -12,13 +12,10 @@ get_header();
             </div>
             <div class="w-100">
                 <button type="button" class="btn col-12 lg-btn">
-                    <h5>Configuracion de usuario</h5>
+                    <h5>Configuracion</h5>
                 </button>
                 <button id="inventoryDashBoard" class="btn col-12 lg-btn">
                     <h5>Generar Reporte</h5>
-                </button>
-                <button id="inventoryDashBoard" class="btn col-12 lg-btn">
-                    <h5>Crear articulos</h5>
                 </button>
             </div>
             <div class="w-100">

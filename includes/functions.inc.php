@@ -79,7 +79,7 @@ function pwdMatch($pwd, $pwdRepeat)
 function uidExists($userId)
 {
     $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM users WHERE id = ?;";
+    $sql = "SELECT * FROM users WHERE idUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: " . url() . "/register.php?error=stmtfailed");
@@ -217,7 +217,7 @@ function createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail
 {
     $id = generateUserid();
 
-    $sql = "INSERT INTO users  (id, usersName, usersPwd, userApellido, userCd, userEmail, userRol) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO users  (idUsuario, usersName, usersPwd, userApellido, userCd, userEmail, userRol) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         exit();
@@ -239,7 +239,7 @@ function createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail
 function editUser($user_name, $user_apellido, $userCd, $userEmail, $userRol, $userId)
 {
     $conn = $GLOBALS['conn'];
-    $sql = "UPDATE users SET usersName=?, userApellido=?, userCd=?, userEmail=?, userRol=? WHERE id=?";
+    $sql = "UPDATE users SET usersName=?, userApellido=?, userCd=?, userEmail=?, userRol=? WHERE idUsuario=?";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         exit();
@@ -259,7 +259,7 @@ function userView($userId)
 {
 
     $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM users WHERE id = ?;";
+    $sql = "SELECT * FROM users WHERE idUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         exit();
@@ -288,7 +288,7 @@ function deleteUser($userId)
 
         $conn = $GLOBALS['conn'];
 
-        $sql = "DELETE FROM users WHERE id = ?";
+        $sql = "DELETE FROM users WHERE idUsuario = ?";
         $stmt = mysqli_stmt_init($conn);
 
         mysqli_stmt_prepare($stmt, $sql);
