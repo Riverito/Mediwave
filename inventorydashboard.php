@@ -43,7 +43,7 @@ get_header();
                     </thead>
                     <script>
                         $(document).ready(function() {
-                            updateUserTable();
+                            updateItemsTable();
                         });
                     </script>
                     <tbody id="itemsViewTable">
@@ -51,8 +51,9 @@ get_header();
                     </tbody>
                 </table>
             </div>
+
             <div class="w-100 d-flex align-items-start justify-content-start">
-                <button type='button' data-bs-toggle='modal' data-bs-target='#NewUserModal' class='align-self-start btn-primary m-1 btn sm-btn'>
+                <button type='button' data-bs-toggle='modal' data-bs-target='#NewItemModal' class='align-self-start btn-primary m-1 btn sm-btn'>
                     Crear articulo
                 </button>
             </div>

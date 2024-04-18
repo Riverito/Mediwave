@@ -141,3 +141,75 @@ require_once('functions.php');
         </div>
     </div>
 </div>
+
+<!-- ##############################New Item modal#########################-->
+
+<div class="modal fade" id="NewItemModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-register-container modal-content">
+            <form action="includes/newItem.inc.php" id="NewItemForm" method="post" class="register-modal-form row">
+
+                <div class="input-field col-12">
+                    <label class="form-label align-self-start" for="itemName">Nombre</label>
+                    <input id="newItemName" class="input form-label" type="text" name="itemName">
+                </div>
+
+                <div class="input-field col-12">
+                    <label class="form-label align-self-start" for="Descripcion">Descripcion</label>
+                    <textarea id="NewItemDescripcion" class="input p-2" type="text" name="NewItemDescripcion" style="min-height: 5rem;"></textarea>
+                </div>
+
+                <div class="input-field col-12">
+                    <label class="form-label align-self-start" for="newItemCount">Cantidad</label>
+                    <input type="number" id="newItemCount" class="input" value="0" name="NewItemCount">
+                </div>
+
+                <div class="input-field col-6 mt-1">
+                    <button type="submit" name="editUser" class="btn submit btn-primary m-1">Registrar</button>
+                </div>
+
+                <div class="input-field col-6 mt-1">
+                    <div type="button" class="btn btn-danger m-1" data-bs-dismiss="modal">Volver al menu</div>
+                </div>
+                
+                <div id="itemErrorsAlerts" class='hidden alert alert-primary mb-5 text-center' role='alert'></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ##############################Edit Item modal#########################-->
+
+<div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-register-container modal-content">
+            <form action="includes/newItem.inc.php" id="editItemForm" method="post" class="register-modal-form row">
+
+                <div class="input-field col-12">
+                    <label class="form-label align-self-start" for="itemName">Nombre</label>
+                    <input id="editItemName" class="input form-label" type="text" name="itemName">
+                </div>
+
+                <div class="input-field col-12">
+                    <label class="form-label align-self-start" for="Descripcion">Descripcion</label>
+                    <textarea id="editItemDescripcion" class="input p-2" type="text" name="NewItemDescripcion" style="min-height: 5rem;"></textarea>
+                </div>
+
+                <div class="input-field col-12">
+                    <label class="form-label align-self-start" for="newItemCount">Cantidad</label>
+                    <input type="number" id="editItemCount" class="input" value="0" name="NewItemCount">
+                </div>
+
+                <div class="input-field col-6 mt-1">
+                    <button type="submit" name="submit" class="btn submit btn-primary m-1">Registrar</button>
+                </div>
+
+                <div class="input-field col-6 mt-1">
+                    <div type="button" class="btn btn-danger m-1" data-bs-dismiss="modal">Volver al menu</div>
+                </div>
+                <input type="hidden" name="uid" value="">
+                <div id="itemErrorsAlerts" class='hidden alert alert-primary mb-5 text-center' role='alert'></div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,9 @@
 <?php
 require_once 'dbh.inc.php';
+const INCLUDE_DIR = "includes/";
+const INCLUDE_USERS = INCLUDE_DIR."users/";
+const INCLUDE_ITEMS = INCLUDE_DIR."items/";
+
 /*############################################REGISTER FUNCTIONS################################################*/
 function emptyInputSignup($user_name, $pwd, $pwdRepeat, $user_apellido, $userCd, $userEmail, $userRol)
 {
@@ -50,16 +54,14 @@ function invalidCd($userCd)
     return $result;
 }
 
-function valid_email($userEmail) 
+function valid_email($userEmail)
 {
-    if(is_array($userEmail) || is_numeric($userEmail) || is_bool($userEmail) || is_float($userEmail) || is_file($userEmail) || is_dir($userEmail) || is_int($userEmail))
+    if (is_array($userEmail) || is_numeric($userEmail) || is_bool($userEmail) || is_float($userEmail) || is_file($userEmail) || is_dir($userEmail) || is_int($userEmail))
         return false;
-    else
-    {
-        $userEmail=trim(strtolower($userEmail));
-        if(filter_var($userEmail, FILTER_VALIDATE_EMAIL)!==false) return $userEmail;
-        else
-        {
+    else {
+        $userEmail = trim(strtolower($userEmail));
+        if (filter_var($userEmail, FILTER_VALIDATE_EMAIL) !== false) return $userEmail;
+        else {
             $pattern = '/\b[\w.-]+@[\w.-]+.\w{2,4}\b/i';
             return (preg_match($pattern, $userEmail) === 1) ? $userEmail : false;
         }
@@ -126,7 +128,7 @@ function cdExists($userCd)
 
     return $result;
 }
-function generateUserid($length = 6)
+function generateId($length = 6)
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
@@ -215,7 +217,7 @@ function LogoutUser()
 
 function createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol)
 {
-    $id = generateUserid();
+    $id = generateId();
 
     $sql = "INSERT INTO users  (idUsuario, usersName, usersPwd, userApellido, userCd, userEmail, userRol) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_stmt_init($conn);
@@ -317,11 +319,51 @@ function url()
     );
 }
 
-
-
 ########################################################################################################
 ##########################################FUNCIONES INVENTARIO##########################################
 ########################################################################################################
 
+function createItem($conn, $item_name, $item_description, $item_count)
+{
+    $id = generateId();
+
+    if (empty($item_name) || empty($item_description) || empty($item_count)) {
+        return 1;
+    }
+
+    if (!preg_match("/^[a-zA-Z0-9\s]+$/", $item_name)) {
+        return 2;
+    }
+    if (!preg_match("/^[a-zA-Z0-9\s]+$/", $item_description)) {
+        return 2;
+    }
+    if (!preg_match("/^\d+$/", $item_count)) {
+        return 2;
+    }
 
 
+    $sql = "INSERT INTO insumo (idInsumo , NombreInsumo, Descripcion, Cantidad) VALUES (?, ?, ?, ?)";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        echo "MySQL Error: (" . mysqli_errno($conn) . ") " . mysqli_error($conn) . "<br>";
+        return "Error";
+    }
+
+    mysqli_stmt_bind_param($stmt, "ssss", $id, $item_name, $item_description, $item_count);
+
+    if (mysqli_stmt_execute($stmt)) {
+        $affectedRows = mysqli_stmt_affected_rows($stmt);
+        if ($affectedRows === 0) {
+            return 5;
+        }
+        mysqli_stmt_close($stmt);
+        return 6;
+    } else {
+        if (mysqli_errno($conn) == 1062) {
+            return 3;
+        } else {
+            echo "MySQL Error: (" . mysqli_errno($conn) . ") " . mysqli_error($conn) . "<br>";
+            return "Error";
+        }
+    }
+}

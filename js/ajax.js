@@ -101,7 +101,7 @@ $("#editForm").on("submit", function (e) {
 
 
 
-/*####################################ITEMS AJAX######################################################*/ 
+/*####################################ITEMS AJAX######################################################*/
 
 function updateItemsTable() {
     var tbody = '';
@@ -111,8 +111,8 @@ function updateItemsTable() {
         dataType: 'json',
         success: function (response) {
             if (response) {
-                response.forEach(function (user) {
-                    tbody += user;
+                response.forEach(function (insumo) {
+                    tbody += insumo;
                 });
                 $('#itemsViewTable').html(tbody);
             }
@@ -123,3 +123,38 @@ function updateItemsTable() {
     });
 }
 
+
+
+$("#NewItemForm").on("submit", function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "includes/items/newItem.inc.php",
+        data: new FormData(this),
+        dataType: "json",
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (response) {
+            console.log(response)
+            if (response.status === 1) {
+                $('#itemErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('Campo vacío').show();
+            } else if (response.status === 2) {
+                $('#itemErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('No se permiten caracteres especiales').show();
+            } else if (response.status === 3) {
+                $('#itemErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('Este ítem ya existe').show();
+            } else if (response.status === 5) {
+                $('#itemErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('Algo ha salido mal').show();
+            } else if (response.status === 6) {
+                $('#itemErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('Ítem creado satisfactoriamente').show();
+                $('#newItemName').val('');
+                $('#NewItemDescripcion').val('');
+                $('#newItemCount').val('');
+                updateItemsTable();
+            } 
+        },
+        error: function (error) {
+            console.log("New item form ajax request fail", error);
+        }
+    });
+});

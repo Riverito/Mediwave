@@ -4,9 +4,7 @@ if (isset($_POST["submit"])) {
     $userEmail = $_POST["userEmail"];
     $pwd = $_POST["pwd"]; 
 
-
     require_once 'functions.inc.php';
-
 
     if (emptyInputLogin($userEmail, $pwd) !== false) {
         header("location: ".url()."/login.php?error=campovacio");

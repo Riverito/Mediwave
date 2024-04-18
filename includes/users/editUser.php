@@ -4,7 +4,7 @@
 $errorEmpty = false;
 $errorEmail = false;
 
-if (!empty($_POST)) {
+if (!empty($_POST["editUser"])) {
     $response = array(
         'status' => 0,
         'message' => 'Fallo alguna función'
@@ -12,8 +12,7 @@ if (!empty($_POST)) {
 
     require_once 'functions.inc.php';
     $formData = $_POST;
-
-
+    
     $userId = $_POST["uid"];
     $user_name = $formData["editNombre"];
     $user_apellido = $formData["editApellido"];

@@ -68,9 +68,31 @@ $(document).ready(function () {
         updateUserTable();
     });
 
+    $(document).on('click', '.delbtn', function () {
+        let operationId = $(this).data('uid');
+        $('#delform>input[name="uid"]').val(operationId);
+        updateUserTable();
+    });
+
+    
     $(document).on('click', '#inventoryDashBoard', function () {
         window.location.href = "inventorydashboard.php";
-        console.log('waos')
     })
+
+    $(document).on('click', '.editbtn', function () {
+
+        let operationId = $(this).data('uid');
+        $('#editItemForm>input[name="uid"]').val(operationId);
+
+        var currentRow = $(this).closest("tr");
+        var itemName = currentRow.find('td:eq(0)').text();
+        var itemDescription = currentRow.find('td:eq(1)').text();
+        var itemCount = currentRow.find('td:eq(2)').text();
+
+        $('#editItemName').val(itemName);
+        $('#editItemDescripcion').val(itemDescription);
+        $('#editItemCount').val(itemCount);
+    });
+
 });
 

@@ -4,3 +4,4 @@ if (isset($_POST["submit"])) {
     $userId = $_POST["uid"];
     deleteUser($userId);
 }
+
