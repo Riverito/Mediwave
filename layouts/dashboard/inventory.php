@@ -7,7 +7,7 @@ get_header();
         <aside class="col-2 p-3 text-center navigation-bar">
             <div class="w-100">
                 <div>
-                    <img src="sources\images\mediwave.svg" class="logo">
+                    <img src="src/img/mediwave.svg" class="logo">
                 </div>
             </div>
             <div class="w-100">

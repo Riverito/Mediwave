@@ -5,15 +5,15 @@ if (isset($_POST["submit"])) {
     $pwd = $_POST["pwd"]; 
 
 
-    require_once 'functions.inc.php';
+    require_once (ABSPATH .'core/functions.php');
 
 
     if (emptyInputLogin($userEmail, $pwd) !== false) {
-        header("location: ".url()."/login.php?error=campovacio");
+        header("location: /auth?error=campovacio");
         exit();
     }
-
-    LoginUser($conn, $userEmail, $pwd);
+    
+    LoginUser($GLOBALS["conn"], $userEmail, $pwd);
     
 } else {
     exit();

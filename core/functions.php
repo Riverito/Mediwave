@@ -1,6 +1,16 @@
 <?php
-require_once 'dbh.inc.php';
-/*############################################REGISTER FUNCTIONS################################################*/
+require_once 'DB.php';
+/* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
+function get_header() {
+    include('./layouts/header.php'); // Ruta al archivo header.php
+}
+
+function get_footer() {
+    include('./layouts/footer.php'); // Ruta al archivo footer.php
+}
+/* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
+
+/* ########################################## ## REGISTER FUNCTIONS  ########################################## ######*/
 function emptyInputSignup($user_name, $pwd, $pwdRepeat, $user_apellido, $userCd, $userEmail, $userRol)
 {
     if (empty($user_name) || empty($pwd) || empty($pwdRepeat) || empty($user_apellido) || empty($userCd) || empty($userEmail) || empty($userRol)) {
@@ -107,7 +117,7 @@ function cdExists($userCd)
     $sql = "SELECT * FROM users WHERE userCd = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: " . url() . "/register.php?error=stmtfailed");
+        header("location: " .  LAYOUTS_DIR . "/register.php?error=stmtfailed");
         exit();
     }
 
@@ -137,7 +147,7 @@ function generateUserid($length = 6)
     return $id;
 }
 
-/*############################################LOGIN FUNCTIONS################################################*/
+/* ########################################## ##LOGIN FUNCTIONS ########################################## ######*/
 
 function emptyInputLogin($userEmail, $pwd)
 {
@@ -159,13 +169,14 @@ function createSession($userId, $userRol)
 
     switch ($userRol) {
         case 3:
-            header("location: " . url() . "/inventorydashboard.php"); // Redirige a la página de inicio del enfermero
+            header("location: " . url() . "/dashboard.php"); // Redirige a la página de inicio del enfermero
             break;
         case 2:
-            header("location: " . url() . "/medidashboard.php"); // Redirige a la página de inicio del doctor
+            //TODO: IT DOES NOT HAVE LAYOUT YET SO THIS TECHNICALLY DOESNT WORK BRO WTF.
+            header("location: " . LAYOUTS_DIR . "/dashboard/users.php"); // Redirige a la página de inicio del doctor
             break;
         case 1:
-            header("location: " . url() . "/admindashboard.php"); // Redirige a la página de inicio del administrador
+            header("location: " . LAYOUTS_DIR . "/dashboard/users.php"); // Redirige a la página de inicio del administrador
             break;
     }
     exit();
@@ -188,18 +199,23 @@ function LoginUser($conn, $userEmail, $pwd)
 
         foreach ($row as $r) {
             $hashedPwd = $r["usersPwd"];
-            $userId = $r["user_id"];
+            $userId = $r["idUsuario"];
             $userRol = $r["userRol"];
         }
 
         if (password_verify($pwd, $hashedPwd)) {
-            createSession($userId, $userRol);
+
+            session_start();
+
+            $_SESSION["idUsuario"] = $userId;
+            $_SESSION["userRol"] = $userRol;
+
         } else {
-            header("location: " . url() . "/login.php?error=002"); //002 Clave erronea
+            header("location: /auth?error=002"); //002 Clave erronea
         }
         mysqli_stmt_close($stmt);
     } else {
-        header("location: " . url() . "/login.php?error=001"); //001 Usuario no existe
+        header("location: /auth?error=001"); //001 Usuario no existe
     }
 }
 function LogoutUser()
@@ -207,18 +223,18 @@ function LogoutUser()
     // Destruye la sesión
     session_destroy();
     // Redirige al usuario de vuelta al login
-    header("location: " . url() . "/login.php");
+    header("location: /");
     exit();
 }
 
-################################### CRUD FUNCTIONS#############################################
+################################### CRUD FUNCTIONS ########################################## ###
 
-function createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol)
+function createUser($user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol)
 {
     $id = generateUserid();
 
     $sql = "INSERT INTO users  (idUsuario, usersName, usersPwd, userApellido, userCd, userEmail, userRol) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = mysqli_stmt_init($conn);
+    $stmt = mysqli_stmt_init($GLOBALS['conn']);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         exit();
     }
@@ -228,7 +244,7 @@ function createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail
     mysqli_stmt_bind_param($stmt, "sssssss", $id, $user_name, $hashedPwd, $user_apellido, $userCd, $userEmail, $userRol);
     mysqli_stmt_execute($stmt);
 
-    if (mysqli_errno($conn) == 1062) {
+    if (mysqli_errno($GLOBALS['conn']) == 1062) {
         return '1062';
     }
 
@@ -299,7 +315,7 @@ function deleteUser($userId)
         mysqli_stmt_bind_param($stmt, "s", $userId);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
-        header("location: " . url() . "/admindashboard.php"); // Redirige a la página de inicio del usuario
+        header("location: " . LAYOUTS_DIR . "/dashboard/users.php"); // Redirige a la página de inicio del usuario
         exit();
     } else {
         echo 'no hay vainas';
@@ -319,9 +335,9 @@ function url()
 
 
 
-########################################################################################################
-##########################################FUNCIONES INVENTARIO##########################################
-########################################################################################################
+ ##########################################  ########################################## ####################
+ ########################################## FUNCIONES INVENTARIO ########################################## 
+ ##########################################  ########################################## ####################
 
 
 

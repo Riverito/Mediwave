@@ -1,6 +1,5 @@
 <?php
-include "functions.php";
-
+$conn = $GLOBALS['conn'];
 $sql1 = "SELECT * FROM roles";
 $result1 = mysqli_query($conn, $sql1);
 $row_roles = mysqli_fetch_all($result1, MYSQLI_ASSOC);
@@ -34,7 +33,6 @@ while ($row2 = mysqli_fetch_array($result2)) {
         '</button>' .
         '</td>' .
         '</tr>';
-
 
     $usuarios[] = $user;
 }

@@ -1,12 +1,11 @@
 <?php
-include_once 'header.php';
-include_once 'functions.php';
+get_header();
 ?>
 <section class="login-section">
 
-  <form action="includes/login.inc.php" method="post" class="login-form d-flex align-items-center justify-contetent-center">
+  <form action="/auth" method="post" class="login-form d-flex align-items-center justify-contetent-center">
 
-    <img src="sources\images\mediwave.svg" class="login-logo w-100">
+    <img src="src/img/mediwave.svg" class="login-logo w-100">
     <div class="form-container w-100">
       <h2 class="h2">Inicio de sesion</h2>
 
@@ -46,3 +45,6 @@ include_once 'functions.php';
     </div>
   </form>
 </section>
+<?php
+get_footer();
+?>

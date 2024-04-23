@@ -1,7 +1,7 @@
 function updateUserTable() {
     var tbody = '';
     $.ajax({
-        url: 'usersTable.php',
+        url: '/dashboard/index',
         type: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -18,13 +18,12 @@ function updateUserTable() {
     });
 }
 
-
 $("#signupForm").on("submit", function (e) {
     e.preventDefault();
 
     $.ajax({
         type: "POST",
-        url: "includes/signup.inc.php",
+        url: $(this).attr("action"),
         data: new FormData(this),
         dataType: "json",
         contentType: false,
@@ -48,13 +47,7 @@ $("#signupForm").on("submit", function (e) {
             } else if (response.status === 7) {
                 $('#errorsAlerts').removeClass("hidden").addClass('alert alert-success').text('Registro exitoso').show();
 
-                $('#newUserName').val('');
-                $('#newUserSecondName').val('');
-                $('#passwordField').val('');
-                $('#passwordField2').val('');
-                $('#NewUserCd').val('');
-                $('#NewUserMail').val('');
-                $('#NewUserRol').val('');
+                $('#signupForm')[0].reset();
                 updateUserTable();
             }
         },
@@ -68,7 +61,7 @@ $("#editForm").on("submit", function (e) {
     e.preventDefault();
     $.ajax({
         type: "POST",
-        url: "includes/edit.inc.php",
+        url: "includes/user/update.php",
         data: new FormData(this),
         dataType: "json",
         contentType: false,
@@ -101,7 +94,7 @@ $("#editForm").on("submit", function (e) {
 
 
 
-/*####################################ITEMS AJAX######################################################*/ 
+/*####################################ITEMS AJAX ########################################## ############*/ 
 
 function updateItemsTable() {
     var tbody = '';

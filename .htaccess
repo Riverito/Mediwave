@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+# Activa el módulo de reescritura
+RewriteEngine On
+
+# Borra la extensión .php de las URLs
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Excluir recursos estáticos
+RewriteCond %{REQUEST_URI} !\.(js|css|scss|jpg|jpeg|png|webp|svg)$
+RewriteRule ^(.*)$ index.php/$1 [L]
+
+</IfModule>

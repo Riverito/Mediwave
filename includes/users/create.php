@@ -9,7 +9,6 @@ $errorEmpty = false;
 $errorEmail = false;
 
 if (!empty($_POST)) {
-    require_once 'functions.inc.php';
     $formData = $_POST;
 
     $user_name = $formData["user_name"];
@@ -36,7 +35,7 @@ if (!empty($_POST)) {
         $response['status'] = 5;
     } else if(!valid_email($userEmail)){
         $response['status'] = 8;
-    } else if(createUser($conn, $user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol) === '1062'){
+    } else if(createUser($user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol) === '1062'){
         $response['status'] = 6;
     } else {
         $response['status'] = 7;

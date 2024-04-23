@@ -1,10 +1,7 @@
-<?php
-require_once('functions.php');
-?>
 <div class="modal fade" id="NewUserModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-register-container modal-content">
-            <form action="includes/signup.inc.php" id="signupForm" method="post" class="register-modal-form row">
+            <form action="/dashboard/create" id="signupForm" method="post" class="register-modal-form row">
 
                 <div class="input-field col-6">
                     <label class="form-label align-self-start" for="nombre">Nombre</label>
@@ -65,7 +62,7 @@ require_once('functions.php');
     </div>
 </div>
 
-<!-- ##########################################DELETE USER MODAL########################################## -->
+<!--  ########################################## DELETE USER MODAL ##########################################  -->
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -80,7 +77,7 @@ require_once('functions.php');
                 </h4>
             </div>
 
-            <form id="delform" method="post" action="includes/dataDrive.inc.php" class="modal-footer">
+            <form id="delform" method="post" action="includes/suser/delete.php" class="modal-footer">
                 <input type="hidden" name="uid" value="">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button for="userDelete" name="submit" class="btn submit btn-danger">Eliminar</button>
@@ -90,12 +87,12 @@ require_once('functions.php');
 </div>
 
 
-<!-- ##########################################EDIT USER MODAL ########################################## -->
+<!--  ########################################## EDIT USER MODAL  ##########################################  -->
 
 <div class="modal fade" id="EditUserModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content edit-modal-container">
-            <form action="includes/edit.inc.php" id="editForm" method="post" class="modal-form row">
+            <form action="includes/user/update.php" id="editForm" method="post" class="modal-form row">
 
                 <input type="hidden" name="uid" value="">
 

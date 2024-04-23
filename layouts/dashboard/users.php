@@ -1,5 +1,4 @@
 <?php
-include('functions.php');
 get_header();
 ?>
 <div class="admin-container">
@@ -7,7 +6,7 @@ get_header();
         <aside class="col-2 p-3 text-center navigation-bar">
             <div class="w-100">
                 <div>
-                    <img src="sources\images\mediwave.svg" class="logo">
+                    <img src="src/img/mediwave.svg" class="logo">
                 </div>
             </div>
             <div class="w-100">
@@ -61,14 +60,7 @@ get_header();
     </div>
 </div>
 
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-<script>
-    var quill = new Quill('#editor', {
-        theme: 'snow'
-    });
-</script>
-
 <?php
-require_once('modals.php');
 get_footer();
+require_once(LAYOUTS_DIR.'/modals/modals.php');
 ?>
