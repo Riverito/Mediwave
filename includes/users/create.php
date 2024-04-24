@@ -39,9 +39,12 @@ if (!empty($_POST)) {
         $response['status'] = 6;
     } else {
         $response['status'] = 7;
+        $response['message'] = 'successful';
+        echo 'Registro exitoso.';
+        die();
     }
 } 
-
+$response['message'] = 'Ha ocurrido un error.';
 echo json_encode($response);
 
 

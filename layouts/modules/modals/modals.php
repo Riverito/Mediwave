@@ -77,7 +77,7 @@
                 </h4>
             </div>
 
-            <form id="delform" method="post" action="includes/suser/delete.php" class="modal-footer">
+            <form id="delform" method="post" action="/dashboard/delete" class="modal-footer">
                 <input type="hidden" name="uid" value="">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button for="userDelete" name="submit" class="btn submit btn-danger">Eliminar</button>

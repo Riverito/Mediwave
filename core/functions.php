@@ -218,6 +218,7 @@ function LoginUser($conn, $userEmail, $pwd)
         header("location: /auth?error=001"); //001 Usuario no existe
     }
 }
+
 function LogoutUser()
 {
     // Destruye la sesión
@@ -310,15 +311,12 @@ function deleteUser($userId)
         mysqli_stmt_prepare($stmt, $sql);
         // Manejar error de preparación de la sentencia
 
-
-
         mysqli_stmt_bind_param($stmt, "s", $userId);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
-        header("location: " . LAYOUTS_DIR . "/dashboard/users.php"); // Redirige a la página de inicio del usuario
         exit();
     } else {
-        echo 'no hay vainas';
+        echo 'Esta entrada ya no existe';
     }
 }
 
