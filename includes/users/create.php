@@ -2,50 +2,42 @@
 
 $response = array(
     'status' => 0,
-    'message' => 'Form submission failed'
+    'message' => 'Ha ocurrido un error.'
 );
 
 $errorEmpty = false;
 $errorEmail = false;
 
 if (!empty($_POST)) {
-    $formData = $_POST;
-
-    $user_name = $formData["user_name"];
-    $pwd = $formData["pwd"];
-
-    $user_name = $formData["user_name"];
-    $pwd = $formData["pwd"];
-    $pwdRepeat = $formData["pwdrepeat"];
-    $user_apellido = $formData["user_apellido"];
-    $userCd = $formData["userCd"];
-    $userEmail = $formData["userEmail"];
-    $userRol = $formData["userRol"];
-
-
-    if (emptyInputSignup($user_name, $pwd, $pwdRepeat, $user_apellido, $userCd, $userEmail, $userRol)) {
+    //Utiliza condicionales de guardia mamaguebador xd
+    //Utiliza sólo ifs, si es true la condicion entonces cambia el status.
+    //Si después de cambiar el código de status también necesitas un mensaje custom, mándalo desde acá, no desde el js.
+    //Acuerdate que el código procedural va de arriba a abajo, intenta hacer un proceso en el cual las condiciones de guardia
+    //detengan el proceso si se llegan a cumplir. Sólo con ifs, no es necesario el else if.
+    
+    if (emptyInputSignup( $_POST["user_name"], $_POST["pwd"], $_POST["pwdrepeat"], $_POST["user_apellido"], $_POST["userCd"], $_POST["userEmail"], $_POST["userRol"])) {
         $response['status'] = 1;
-    } else if (invalidName($user_name)) {
-        $response['status'] = 2;
-    } else if (invalidSecondName($user_apellido)) {
-        $response['status'] = 3;
-    } else if (invalidCd($userCd)){
-        $response['status'] = 4;
-    } else if (pwdMatch($pwd, $pwdRepeat)){
-        $response['status'] = 5;
-    } else if(!valid_email($userEmail)){
-        $response['status'] = 8;
-    } else if(createUser($user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol) === '1062'){
-        $response['status'] = 6;
-    } else {
-        $response['status'] = 7;
-        $response['message'] = 'successful';
-        echo 'Registro exitoso.';
-        die();
     }
-} 
-$response['message'] = 'Ha ocurrido un error.';
+
+    if (invalidName($_POST["user_name"]) or invalidName($_POST["user_apellido"])) {
+        $response['status'] = 2;
+    }
+
+    if (invalidCd($_POST["userCd"])){
+        $response['status'] = 3;
+    }
+
+    if (pwdMatch($_POST["pwd"], $_POST["pwdrepeat"])){
+        $response['status'] = 4;
+    }
+    if(!valid_email($_POST["userEmail"])){
+        $response['status'] = 5;
+    }
+
+    createUser($user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol);
+}
 echo json_encode($response);
+
 
 
 

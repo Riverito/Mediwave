@@ -42,12 +42,14 @@ $(document).ready(function(){
                     $('#errorsAlerts').removeClass("hidden").addClass('alert alert-primary').text('Verifique los datos').show();
                 } else if (response.status === 7) {
                     $('#errorsAlerts').removeClass("hidden").addClass('alert alert-success').text('Registro exitoso').show();
+                    console.log(1);
+                    flashToast('Registro exitoso.');
                     $('#signupForm')[0].reset();
                     updateUserTable();
                 }
             },
             error: function (error) {
-                console.log("SignupForm ajax request fail", error)
+                console.log("SignupForm ajax request fail", error);
             }
         });
     });
@@ -80,7 +82,7 @@ $(document).ready(function(){
                 }
             },
             error: function (error) {
-                console.log("Algo salio mal", error)
+                console.log("Algo salio mal", error);
             }
         });
     });

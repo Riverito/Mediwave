@@ -1,4 +1,4 @@
-import { Toastify } from "../../node_modules/toastify-js/src/toastify.js";
+import '../../node_modules/toastify-js/src/toastify-es.js';
 
 function flashToast(message, type='primary'){
     if( type='error' ){

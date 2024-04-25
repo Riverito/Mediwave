@@ -62,18 +62,21 @@ function invalidCd($userCd)
 
 function valid_email($userEmail) 
 {
-    if(is_array($userEmail) || is_numeric($userEmail) || is_bool($userEmail) || is_float($userEmail) || is_file($userEmail) || is_dir($userEmail) || is_int($userEmail))
+    if(is_array($userEmail) || is_numeric($userEmail) || is_bool($userEmail) || is_float($userEmail) || is_file($userEmail) || is_dir($userEmail) || is_int($userEmail)){
         return false;
-    else
-    {
-        $userEmail=trim(strtolower($userEmail));
-        if(filter_var($userEmail, FILTER_VALIDATE_EMAIL)!==false) return $userEmail;
-        else
-        {
-            $pattern = '/\b[\w.-]+@[\w.-]+.\w{2,4}\b/i';
-            return (preg_match($pattern, $userEmail) === 1) ? $userEmail : false;
-        }
     }
+
+    $pattern = '/\b[\w.-]+@[\w.-]+.\w{2,4}\b/i';
+    if ( preg_match($pattern, $userEmail) != 1 ){
+        return false;
+    }
+
+    $userEmail=trim(strtolower($userEmail));
+    if( filter_var($userEmail, FILTER_VALIDATE_EMAIL) == false ){
+        return false;
+    }
+
+    return true;
 }
 
 function pwdMatch($pwd, $pwdRepeat)
@@ -250,7 +253,7 @@ function createUser($user_name, $pwd, $user_apellido, $userCd, $userEmail, $user
     }
 
     mysqli_stmt_close($stmt);
-    return "registrado";
+    return true;
 }
 
 function editUser($user_name, $user_apellido, $userCd, $userEmail, $userRol, $userId)
