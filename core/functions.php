@@ -1,11 +1,13 @@
 <?php
 require_once 'DB.php';
 /* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
-function get_header() {
+function get_header()
+{
     include('./layouts/header.php'); // Ruta al archivo header.php
 }
 
-function get_footer() {
+function get_footer()
+{
     include('./layouts/footer.php'); // Ruta al archivo footer.php
 }
 /* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
@@ -60,23 +62,23 @@ function invalidCd($userCd)
     return $result;
 }
 
-function valid_email($userEmail) 
+function valid_email($userEmail)
 {
-    if(is_array($userEmail) || is_numeric($userEmail) || is_bool($userEmail) || is_float($userEmail) || is_file($userEmail) || is_dir($userEmail) || is_int($userEmail)){
+    if (is_array($userEmail) || is_numeric($userEmail) || is_bool($userEmail) || is_float($userEmail) || is_file($userEmail) || is_dir($userEmail) || is_int($userEmail)) {
         return false;
     }
 
     $pattern = '/\b[\w.-]+@[\w.-]+.\w{2,4}\b/i';
-    if ( preg_match($pattern, $userEmail) != 1 ){
+    if (preg_match($pattern, $userEmail) != 1) {
         return false;
     }
 
-    $userEmail=trim(strtolower($userEmail));
-    if( filter_var($userEmail, FILTER_VALIDATE_EMAIL) == false ){
+    $userEmail = trim(strtolower($userEmail));
+    if (filter_var($userEmail, FILTER_VALIDATE_EMAIL) == false) {
         return false;
     }
 
-    return true;
+    return $userEmail;
 }
 
 function pwdMatch($pwd, $pwdRepeat)
@@ -115,15 +117,10 @@ function uidExists($userId)
 
 function cdExists($userCd)
 {
-
     $conn = $GLOBALS['conn'];
     $sql = "SELECT * FROM users WHERE userCd = ?;";
     $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: " .  LAYOUTS_DIR . "/register.php?error=stmtfailed");
-        exit();
-    }
-
+    mysqli_stmt_prepare($stmt, $sql);
     mysqli_stmt_bind_param($stmt, "s", $userCd);
     mysqli_stmt_execute($stmt);
 
@@ -139,6 +136,29 @@ function cdExists($userCd)
 
     return $result;
 }
+
+function emailExists($userCd)
+{
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM users WHERE userEmail = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $userCd);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($resultData);
+    mysqli_stmt_close($stmt);
+
+    if (!empty($rowcount) and $rowcount >= 1) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
+
 function generateUserid($length = 6)
 {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -212,7 +232,6 @@ function LoginUser($conn, $userEmail, $pwd)
 
             $_SESSION["idUsuario"] = $userId;
             $_SESSION["userRol"] = $userRol;
-
         } else {
             header("location: /auth?error=002"); //002 Clave erronea
         }
@@ -339,6 +358,3 @@ function url()
  ##########################################  ########################################## ####################
  ########################################## FUNCIONES INVENTARIO ########################################## 
  ##########################################  ########################################## ####################
-
-
-
