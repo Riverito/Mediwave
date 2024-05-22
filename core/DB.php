@@ -3,7 +3,6 @@ $serverName = "localhost";
 $dbUserName = "root";
 $dbPassword = "";
 $dbName = "mediwave";
-$string = "hola";
 
 $GLOBALS["conn"] = mysqli_connect($serverName, $dbUserName, $dbPassword, $dbName);
 

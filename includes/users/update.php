@@ -1,48 +1,54 @@
 <?php
-$errorEmpty = false;
-$errorEmail = false;
+
+$response = array(
+    'status' => 0,
+    'message' => 'Ha ocurrido un error.'
+);
 
 if (!empty($_POST)) {
-    $response = array(
-        'status' => 0,
-        'message' => 'Fallo alguna función'
-    );
 
-    require_once 'functions.inc.php';
-    $formData = $_POST;
-
-
-    $userId = $_POST["uid"];
-    $user_name = $formData["editNombre"];
-    $user_apellido = $formData["editApellido"];
-    $userCd = $formData["editUserCd"];
-    $userEmail = $formData["editMail"];
-    $userRol = $formData["editRol"];
-
-    if (editEmptyInputSignup($user_name, $user_apellido, $userCd, $userEmail, $userRol) !== false) {
+    if (editEmptyInputSignup($_POST["editNombre"], $_POST["editApellido"], $_POST["editUserCd"], $_POST["editMail"], $_POST["editRol"])) {
         $response['status'] = 1;
-        $response['message'] = 'Campo vacío';
-    } else if (invalidName($user_name) !== false) {
+        $response['message'] = 'Existen campos vacíos.';
+        reportKill($response);
+    }
+
+    if (invalidName($_POST["editNombre"]) or invalidName($_POST["editApellido"])) {
         $response['status'] = 2;
         $response['message'] = 'No incluya caracteres especiales en el nombre';
-    } else if (invalidSecondName($user_apellido) !== false) {
-        $response['status'] = 3;
-        $response['message'] = 'Apellido inválido';
-    } else if (invalidCd($userCd) !== false) {
-        $response['status'] = 4;
-        $response['message'] = 'Cédula inválida';
-    } else if (!valid_email($userEmail)) {
-        $response['status'] = 9;
-        $response['message'] = 'Correo invalido';
-    } else if (editUser($user_name, $user_apellido, $userCd, $userEmail, $userRol, $userId) === '1062') {
-        $response['status'] = 5;
-    } else if (editUser($user_name, $user_apellido, $userCd, $userEmail, $userRol, $userId) === 'success') {
-        $response['status'] = 6;
-        $response['message'] = 'Se edito';
-    } else {
-        $response['status'] = 88;
-        $response['message'] = 'Algo salio mal';
+        reportKill($response);
     }
-}
 
+    if (invalidCd($_POST["editUserCd"])) {
+        $response['status'] = 3;
+        $response['message'] = 'Cédula inválida';
+        reportKill($response);
+    }
+
+    if (cdExists($_POST["editUserCd"])) {
+        $response['status'] = 4;
+        $response['message'] = 'La cédula ya esta registrada.';
+        reportKill($response);
+    }
+
+    if (!valid_email($_POST["editMail"])) {
+        $response['status'] = 5;
+        $response['message'] = 'El correo no es válido.';
+        reportKill($response);
+    } else {
+        $filteredEmail = valid_email($_POST["editMail"]);
+    }
+
+    if (emailExists($filteredEmail)) {
+        $response['status'] = 6;
+        $response['message'] = 'Este correo ya fue registrado.';
+        reportKill($response);
+    }
+
+    if (editUser($_POST["editNombre"], $_POST["editApellido"], $_POST["editUserCd"], $_POST["editMail"], $_POST["editRol"], $_POST["uid"])) {
+        $response['status'] = 20;
+        $response['message'] = 'Se edito';
+    }
+
+}
 echo json_encode($response);

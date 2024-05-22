@@ -1,4 +1,4 @@
-<div class="users-container  w-100 mt-5 ">
+<div class="users-table-container  w-100 mt-5 ">
     <table class="table table-striped table-bordered">
         <thead>
             <tr>
@@ -10,6 +10,7 @@
                 <th scope="col">Operaciones</th>
             </tr>
         </thead>
+        <script src="../../../src/js/usersAjax.js"></script>
         <script>
             $(document).ready(function() {
                 updateUserTable();

@@ -68,9 +68,5 @@ $(document).ready(function () {
         updateUserTable();
     });
 
-    $(document).on('click', '#inventoryDashBoard', function () {
-        window.location.href = "inventorydashboard.php";
-        console.log('waos')
-    })
 });
 

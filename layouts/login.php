@@ -3,7 +3,7 @@ get_header();
 ?>
 <section class="login-section">
 
-  <form action="/auth" method="post" class="login-form d-flex align-items-center justify-contetent-center">
+  <form action="/auth" method="post" class="login-form d-flex align-items-center justify-contetent-center" id>
 
     <img src="src/img/mediwave.svg" class="login-logo w-100">
     <div class="form-container w-100">

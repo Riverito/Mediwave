@@ -1,3 +1,4 @@
+@use 'modals.scss';
 $dark-blue: #3459ff;
 
 
@@ -48,3 +49,10 @@ $dark-blue: #3459ff;
 .hidden {
     visibility: hidden !important;
 }
+
+.search-input {
+    @include modals.input;
+    width: 30%;
+    margin: 0.25rem;
+    background-color: white;
+  }

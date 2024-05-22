@@ -9,6 +9,13 @@
   background-color: #e8f3ff;
 }
 
+@mixin table-container{
+  height: 33rem;
+  border: 1px solid #dee2e6;
+  overflow-y: auto;
+  margin-top: 0px;
+}
+
 .admin-container {
   @include container;
 
@@ -26,10 +33,8 @@
     background-color: #e8f3ff;
     flex-direction: column;
 
-    .users-container {
-      height: 60%;
-      border: 1px solid #dee2e6;
-      overflow-y: auto;
+    .users-table-container {
+      @include table-container;
     }
   }
 }
@@ -59,7 +64,7 @@
     }
 
     .form-container {
-      height: 30rem;
+      height: auto;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -106,11 +111,13 @@
       
     }
 
-    .users-container {
-      height: 60%;
-      border: 1px solid #dee2e6;
-      overflow-y: auto;
-      margin-top: 0px;
+    .inventory-table-container {
+      @include table-container;
+      .table{
+        tr{
+          position: sticky;
+        }
+      }
     }
   }
 }

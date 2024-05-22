@@ -8,13 +8,17 @@
         <button type="button" class="btn col-12 lg-btn">
             <h5>Historial Medico</h5>
         </button>
-        <button id="inventoryDashBoard" class="btn col-12 lg-btn">
+
+        <a href="/inventory">
+        <button  id="inventoryDashBoard" class="btn col-12 lg-btn">
             <h5>Inventario</h5>
         </button>
+        </a>
     </div>
     <div class="w-100">
         <a href="/logout">
             <button class="btn col-12 lg-btn">Salir</button>
         </a>
     </div>
+
 </aside>

@@ -72,8 +72,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <h4>Estás apunto de eliminar un usuario.<br>
-                    ¿Está seguro?
+                <h4>Estás apunto de eliminar un usuario. Lo que eliminara su acceso al sistema<br>
+                    ¿Está seguro de realizar esta operación?
                 </h4>
             </div>
 
@@ -87,12 +87,12 @@
 </div>
 
 
-<!--  ########################################## EDIT USER MODAL  ##########################################  -->
+<!--  ########################################### EDIT USER MODAL  ##########################################  -->
 
 <div class="modal fade" id="EditUserModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content edit-modal-container">
-            <form action="includes/user/update.php" id="editForm" method="post" class="modal-form row">
+        <div class="modal-content edit-user-container">
+            <form action="/dashboard/update" id="editForm" method="post" class="modal-form row">
 
                 <input type="hidden" name="uid" value="">
 
@@ -132,9 +132,11 @@
                 <div class="input-field col-6 mt-1">
                     <div type="button" class="btn btn-danger m-1" data-bs-dismiss="modal">Volver al menu</div>
                 </div>
-
                 <div id="editErrorsAlerts" class='hidden alert alert-primary mb-5 text-center' role='alert'></div>
             </form>
         </div>
     </div>
 </div>
+
+<!--  ########################################## New item Modal  ##########################################  -->
+

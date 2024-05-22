@@ -1,57 +1,3 @@
-@import "../../node_modules/toastify-js/src/toastify.css";
-
-.logo {
-  height: auto;
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#reloj {
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20rem;
-  height: 7rem;
-  border: 2px solid #3459ff;
-  border-radius: 10%;
-  font-family: monospace;
-  font-size: 6rem;
-}
-
-.lg-btn:hover {
-  transition: 0.4s all ease-in-out;
-  transform: translateY(-10px);
-  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
-  background-color: #88b4ff !important;
-}
-
-.lg-btn {
-  color: white;
-  margin: 15px 0px;
-  background-color: #3459ff !important;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.4s all ease-in-out;
-}
-
-.hidden {
-  visibility: hidden !important;
-}
-
-.row {
-  margin-right: 0px !important;
-  margin-left: 0px !important;
-}
-
-* {
-  margin: 0px;
-  padding: 0px;
-}
-
 .modal-register-container {
   display: flex;
   justify-content: center;
@@ -113,14 +59,14 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-.edit-modal-container {
+.edit-user-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 90vh;
   padding: 0px !important;
 }
-.edit-modal-container .modal-form {
+.edit-user-container .modal-form {
   width: 30rem;
   height: 40rem;
   display: flex;
@@ -132,15 +78,15 @@
   flex-wrap: wrap;
   overflow: hidden;
 }
-.edit-modal-container .modal-form .input-field {
+.edit-user-container .modal-form .input-field {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
 }
-.edit-modal-container .modal-form .input-field .form-label {
+.edit-user-container .modal-form .input-field .form-label {
   font-size: medium;
 }
-.edit-modal-container .modal-form .input-field input {
+.edit-user-container .modal-form .input-field input {
   width: 93%;
   height: 45px;
   border: 1px solid black;
@@ -148,6 +94,162 @@
   color: #000000;
   padding: 0 0 0 42px;
   background: rgba(255, 255, 255, 0.1);
+}
+
+.edit-item-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  padding: 0px !important;
+}
+.edit-item-modal .modal-form {
+  width: 30rem;
+  height: 40rem;
+  display: flex;
+  flex-direction: row;
+  padding: 15px 15px 15px 15px;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.edit-item-modal .modal-form .input-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.edit-item-modal .modal-form .input-field .form-label {
+  font-size: medium;
+}
+.edit-item-modal .modal-form .input-field input {
+  width: 93%;
+  height: 45px;
+  border: 1px solid black;
+  border-radius: 30px;
+  color: #000000;
+  padding: 0 0 0 42px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-ajustment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  padding: 0px !important;
+  height: 27rem;
+}
+.modal-ajustment .ajustment-form {
+  width: 100%;
+  height: 100%;
+}
+.modal-ajustment .ajustment-form .ajustments-item-info-container .row .input-name input[type=text] {
+  width: calc(100% - 0.5rem);
+  height: 2rem;
+  padding: 0.25rem;
+  margin-right: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.modal-ajustment .ajustment-form .ajustments-item-info-container .row .item-count input[type=text] {
+  width: calc(100% - 0.5rem);
+  height: 2rem;
+  padding: 0.25rem;
+  margin-right: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.modal-ajustment .ajustment-form .responsable-info-container .row .col-6 input[type=text] {
+  width: calc(100% - 0.5rem);
+  height: 2rem;
+  padding: 0.25rem;
+  margin-right: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.modal-ajustment .ajustment-form .responsable-info-container .row label {
+  width: calc(100% - 0.5rem);
+}
+
+.logo {
+  height: auto;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#reloj {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20rem;
+  height: 7rem;
+  border: 2px solid #3459ff;
+  border-radius: 10%;
+  font-family: monospace;
+  font-size: 6rem;
+}
+
+.lg-btn:hover {
+  transition: 0.4s all ease-in-out;
+  transform: translateY(-10px);
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #88b4ff !important;
+}
+
+.lg-btn {
+  color: white;
+  margin: 15px 0px;
+  background-color: #3459ff !important;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.4s all ease-in-out;
+}
+
+.hidden {
+  visibility: hidden !important;
+}
+
+.search-input {
+  width: 93%;
+  height: 45px;
+  border: 1px solid black;
+  border-radius: 30px;
+  color: #000000;
+  padding: 0 0 0 42px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 30%;
+  margin: 0.25rem;
+  background-color: white;
+}
+
+.row {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  overflow-y: hidden !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 .admin-container {
@@ -168,10 +270,11 @@
   background-color: #e8f3ff;
   flex-direction: column;
 }
-.admin-container .display-content .users-container {
-  height: 60%;
+.admin-container .display-content .users-table-container {
+  height: 33rem;
   border: 1px solid #dee2e6;
   overflow-y: auto;
+  margin-top: 0px;
 }
 
 .login-section {
@@ -207,7 +310,7 @@
   margin-top: 0px;
 }
 .login-section .login-form .form-container {
-  height: 30rem;
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -262,11 +365,14 @@
   margin: 0.25rem;
   background-color: white;
 }
-.inventory-container .display-content .users-container {
-  height: 60%;
+.inventory-container .display-content .inventory-table-container {
+  height: 33rem;
   border: 1px solid #dee2e6;
   overflow-y: auto;
   margin-top: 0px;
+}
+.inventory-container .display-content .inventory-table-container .table tr {
+  position: sticky;
 }
 
 /*# sourceMappingURL=styles.css.map */

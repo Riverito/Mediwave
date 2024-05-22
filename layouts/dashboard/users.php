@@ -16,7 +16,7 @@ get_header();
                 </button>
             </div>
             <?php
-            require_once(LAYOUTS_DIR . '/modules/users/usersTable.php');
+            require_once(LAYOUTS_DIR . '/modules/users/index.php');
             ?>
             <div class="w-100 d-flex align-items-start justify-content-start">
                 <button type='button' data-bs-toggle='modal' data-bs-target='#NewUserModal' class='align-self-start btn-primary m-1 btn sm-btn'>
@@ -26,8 +26,7 @@ get_header();
         </div>
     </div>
 </div>
-
 <?php
 get_footer();
-require_once(LAYOUTS_DIR . '/modules/modals/modals.php');
+require_once(LAYOUTS_DIR . '/modules/modals/users.php');
 ?>

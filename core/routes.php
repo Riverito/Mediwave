@@ -30,8 +30,28 @@ $klein->with('/dashboard', function () use ($klein) {
         require(INCLUDES_DIR . '/users/create.php');
     });
 
+
+    $klein->respond('POST', '/update', function () {
+        require(INCLUDES_DIR . '/users/update.php');
+    });
+
+
     $klein->respond('POST', '/delete', function () {
         require(INCLUDES_DIR . '/users/delete.php');
+    });
+
+    ######################### inventory  #########################
+
+    $klein->respond('GET', '/itemsTable', function () {
+        require(INCLUDES_DIR . '/inventory/itemsTable.php');
+    });
+
+    $klein->respond('POST', '/createItem', function () {
+        require(INCLUDES_DIR . '/inventory/createItem.php');
+    });
+
+    $klein->respond('POST', '/ajustments', function () {
+        require(INCLUDES_DIR . '/inventory/ajustments.php');
     });
 
     $klein->respond('GET', '', function ()  use ($klein) {
@@ -41,6 +61,11 @@ $klein->with('/dashboard', function () use ($klein) {
         include(LAYOUTS_DIR . '/dashboard/users.php');
     });
 });
+
+$klein->respond('GET', '/inventory', function () {
+    require(LAYOUTS_DIR . '/dashboard/inventory.php');
+});
+
 
 /******************* Dashboard *******************/
 

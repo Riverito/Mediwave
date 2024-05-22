@@ -1,9 +1,23 @@
 .row {
-    margin-right: 0px !important;
-    margin-left: 0px !important;
-  }
-  
-  *{
-    margin: 0px;
-    padding: 0px;
-  }
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  overflow-y: hidden !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

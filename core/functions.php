@@ -84,7 +84,7 @@ function valid_email($userEmail)
 
 function pwdMatch($pwd, $pwdRepeat)
 {
-    if ($pwd !== $pwdRepeat) {
+    if ($pwd == $pwdRepeat) {
         $result = true;
     } else {
         $result = false;
@@ -138,13 +138,13 @@ function cdExists($userCd)
     return $result;
 }
 
-function emailExists($userCd)
+function emailExists($filteredEmail)
 {
     $conn = $GLOBALS['conn'];
     $sql = "SELECT * FROM users WHERE userEmail = ?;";
     $stmt = mysqli_stmt_init($conn);
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $userCd);
+    mysqli_stmt_bind_param($stmt, "s", $filteredEmail);
     mysqli_stmt_execute($stmt);
 
     $resultData = mysqli_stmt_get_result($stmt);
@@ -156,7 +156,6 @@ function emailExists($userCd)
     } else {
         $result = false;
     }
-
     return $result;
 }
 
@@ -208,7 +207,6 @@ function createSession($userId, $userRol)
 
 function LoginUser($conn, $userEmail, $pwd)
 {
-
     $conn = $GLOBALS['conn'];
 
     $sql = "SELECT * FROM users WHERE userEmail = ?;";
@@ -234,11 +232,11 @@ function LoginUser($conn, $userEmail, $pwd)
             $_SESSION["idUsuario"] = $userId;
             $_SESSION["userRol"] = $userRol;
         } else {
-            header("location: /auth?error=002"); //002 Clave erronea
+            header("location: /auth?error=002");
         }
         mysqli_stmt_close($stmt);
     } else {
-        header("location: /auth?error=001"); //001 Usuario no existe
+        header("location: /auth?error=001");
     }
 }
 
@@ -288,16 +286,12 @@ function editUser($user_name, $user_apellido, $userCd, $userEmail, $userRol, $us
     mysqli_stmt_bind_param($stmt, "ssssss", $user_name, $user_apellido, $userCd, $userEmail, $userRol, $userId);
     mysqli_stmt_execute($stmt);
 
-    if (mysqli_errno($conn) == 1062) {
-        return '1062';
-    }
     mysqli_stmt_close($stmt);
-    return 'success';
+    return true;
 }
 
 function userView($userId)
 {
-
     $conn = $GLOBALS['conn'];
     $sql = "SELECT * FROM users WHERE idUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
@@ -342,7 +336,7 @@ function deleteUser($userId)
         echo 'Esta entrada ya no existe';
     }
 }
-
+///AAAAAAAAAAAAA
 $GLOBALS['medi'] = '/mediwave';
 function url()
 {
@@ -354,7 +348,8 @@ function url()
     );
 }
 
-function reportKill(&$response){
+function reportKill(&$response)
+{
     echo json_encode($response);
     die();
 }
@@ -365,4 +360,140 @@ function reportKill(&$response){
 ########################################## #################### #########################################
 
 
+function emptyNewItem($itemName, $ItemDrescription)
+{
 
+    if (empty($itemName)  || empty($ItemDrescription)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+function invalidItem($itemName)
+{
+
+    if (preg_match("/^[a-zA-Z\d\s]*$/", $itemName)) {
+        return false;
+    }
+    return true;
+}
+
+function itemExists($itemName)
+{
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM inventory WHERE nameItem = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $itemName);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($resultData);
+    mysqli_stmt_close($stmt);
+
+    if (!empty($rowcount) and $rowcount >= 1) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+
+function createItem($itemName, $ItemDrescription)
+{
+    $id = generateUserid();
+
+    $sql = "INSERT INTO inventory  (idItem, nameItem, descriptionItem) VALUES (?, ?, ?)";
+    $stmt = mysqli_stmt_init($GLOBALS['conn']);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "sss", $id, $itemName, $ItemDrescription);
+    mysqli_stmt_execute($stmt);
+
+    if (mysqli_errno($GLOBALS['conn']) == 1062) {
+        return '1062';
+    }
+
+    mysqli_stmt_close($stmt);
+    return true;
+}
+
+
+function updateInventory($itemId, $itemQuantity, $operation)
+{
+    $conn = $GLOBALS['conn'];
+    $currentCount = 0;
+
+    // Obtener la cantidad actual del inventario
+    $sql = "SELECT countItem FROM inventory WHERE idItem = ?";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $itemId);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    if ($row = mysqli_fetch_assoc($result)) {
+        $currentCount = $row['countItem'];
+    }
+    mysqli_stmt_close($stmt);
+
+    if ($operation === "sum") {
+        $newCount = $currentCount + $itemQuantity;
+    } elseif ($operation === "subtract") {
+        $newCount = $currentCount - $itemQuantity;
+        if ($newCount < 0) {
+            die("Error: la cantidad en el inventario no puede ser negativa.");
+        }
+    } else {
+        die("Operación no válida: " . htmlspecialchars($operation));
+    }
+
+    // Actualizar la cantidad en la base de datos
+    $sql = "UPDATE inventory SET countItem = ? WHERE idItem = ?";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
+    $stmt->bind_param("is", $newCount, $itemId);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    return $result;
+}
+
+
+
+
+function logAdjustment($itemId, $quantity, $operation, $reason)
+{
+    $adjustmentId = generateUserid();  // Suponiendo que tienes una función para generar ID de ajustes
+    $userId = "j6jDRz";  // Suponiendo que tienes una función para generar ID de usuario
+
+    $conn = $GLOBALS['conn'];
+    $adjustmentAmount = ($operation === 'subtract') ? -$quantity : $quantity;
+
+    $sql = "INSERT INTO inventory_adjustments (adjustmentId, itemId, adjustmentAmount, adjustmentReason, adjustmentDateTime, userId) VALUES (?, ?, ?, ?, NOW(), ?)";
+    $stmt = $conn->prepare($sql);
+
+    if (!$stmt) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
+
+    $stmt->bind_param("ssiss", $adjustmentId, $itemId, $adjustmentAmount, $reason, $userId);
+    $result = $stmt->execute();
+
+    if (!$result) {
+        die("Error en la ejecución de la consulta: " . $stmt->error);
+    }
+
+    $stmt->close();
+
+    return $result;
+}
