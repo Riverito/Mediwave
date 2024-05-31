@@ -15,6 +15,46 @@ function updateItemsTable() {
     });
 }
 
+function updateAjustmentTable() {
+    $.ajax({
+        url: '/dashboard/adjustmentTable',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (response) {
+                console.log(response);
+                renderAjustments(response);
+            }
+        },
+        error: function (error) {
+            console.error('Error en la solicitud AJAX:', error);
+        }
+    });
+    
+}
+
+function renderAjustments(ajustments) {
+    var searchText = $('#searchAjustments').val().toLowerCase();
+    var filteredAjustments = ajustments.filter(function (ajustment) {
+        return ajustment.nameItem.toLowerCase().includes(searchText) ||
+            ajustment.usersName.toLowerCase().includes(searchText);
+    });
+
+    var tbody = '';
+    filteredAjustments.forEach(function (ajustment) {
+        tbody += '<tr>' +
+            '<td>' + ajustment.nameItem + '</td>' +
+            '<td>' + ajustment.usersName + '</td>' +
+            '<td>' + ajustment.adjustmentAmount + '</td>' +
+            '<td>' + ajustment.adjustmentReason + '</td>' +
+            '<td>' + ajustment.adjustmentDateTime + '</td>' +
+            '</tr>';
+    });
+
+    $('#ajustmentsViewTable').html(tbody);
+}
+
+
 function renderItems(items) {
     var searchText = $('#searchTable').val().toLowerCase();
     var filteredItems = items.filter(function (item) {
@@ -28,13 +68,17 @@ function renderItems(items) {
             '<td>' + item.descriptionItem + '</td>' +
             '<td>' + item.countItem + '</td>' +
             '<td>' +
-            '<button type="button" data-bs-toggle="modal" data-bs-target="#EditItemModal" class="editbtn m-1 btn btn-primary" data-uid="' + item.idItem + '">' +
+            '<button type="button" data-bs-toggle="modal" data-bs-target="#editItemModal" class="editbtn m-1 btn btn-primary" data-uid="' + item.idItem + '">' +
             '<i class="fa-solid fa-pen-to-square"></i>' +
+            '</button>' +
+            '</td>' +
+            '<td>' +
+            '<button type="button" data-bs-toggle="modal" data-bs-target="#deleteItemModal" class="editbtn m-1 btn btn-danger" data-uid="' + item.idItem + '">' +
+            '<i class="fa-solid fa-trash"></i>' +
             '</button>' +
             '</td>' +
             '</tr>';
     });
-
     $('#inventoryViewTable').html(tbody);
 }
 
@@ -62,7 +106,10 @@ function renderFullScreenItems(items) {
 
 $(document).ready(function () {
 
+    $('#AjusRazonTexarea').val('');
+    $("#ajustTableProccess").empty();
     updateItemsTable();
+    updateAjustmentTable();
 
     var fullTable = $('#inventoryFullViewTable');
     var fullScreenTableModal = $('#fullScreenTable');
@@ -112,8 +159,6 @@ $(document).ready(function () {
             ajustTableProccess.append(newRow); // Agregar la nueva fila a la tabla
             fullScreenTableModal.modal('hide'); // Cerrar el modal
         }
-
-
     });
 
 
@@ -127,6 +172,7 @@ $(document).ready(function () {
     });
 
 
+
     $("#createItem").submit(function (e) {
         e.preventDefault();
         $.ajax({
@@ -137,7 +183,10 @@ $(document).ready(function () {
                 console.log(response);
                 response = JSON.parse(response);
                 console.log(response['message']);
-                $('#createItemErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text(response.message).show();
+                $('#createItemErrorsAlerts').removeClass("d-none").addClass('d-block alert alert-primary').text(response.message).show();
+                setTimeout(function () {
+                    $('#createItemErrorsAlerts').addClass('d-none');
+                }, 6000);
                 if (response.status == 20) {
                     $('#createItem')[0].reset();
                     updateItemsTable();
@@ -157,6 +206,28 @@ $(document).ready(function () {
         updateItemsTable();
     });
 
+    $('#searchAjustments').on('input', function () {
+        updateAjustmentTable();
+    });
+
+    $("#delItemform").submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: $(this).attr("action"),
+            data: $(this).serialize(),
+            success: function (response) {
+                $('#deleteItemModal').modal('hide');
+                updateUserTable();
+                updateAjustmentTable();
+            },
+            error: function (error) {
+                console.log("Algo salio mal", error)
+            }
+        });
+    });
+
+
 
     $("#ajustmentform").submit(function (e) {
         e.preventDefault();
@@ -165,12 +236,17 @@ $(document).ready(function () {
             url: $(this).attr("action"),
             data: $(this).serialize(),
             success: function (response) {
+                console.log(response);
                 response = JSON.parse(response);
                 $('#ajustmentErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text(response.message).show();
+                setTimeout(function () {
+                    $('#ajustmentErrorsAlerts').addClass('hidden');
+                }, 5000);
                 if (response.status == 20) {
                     updateItemsTable();
-                    $('#AjusRazonTexarea').val('');
-                    $("#ajustTableProccess").empty(); 
+                    updateAjustmentTable();
+                    $('#ajustmentform')[0].reset();
+                    ajustTableProccess.empty();
                 }
             },
             error: function (error) {

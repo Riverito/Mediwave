@@ -37,36 +37,6 @@ $(document).ready(function () {
 
 
 
-    $(document).on('click', '.editbtn', function () {
-
-        let operationId = $(this).data('uid');
-        $('#editForm>input[name="uid"]').val(operationId);
-
-        var currentRow = $(this).closest("tr");
-        var firstName = currentRow.find('td:eq(0)').text();
-        var lastName = currentRow.find('td:eq(1)').text();
-        var userCd = currentRow.find('td:eq(2)').text();
-        var email = currentRow.find('td:eq(3)').text();
-        var rol = currentRow.find('td:eq(4)').text();
-
-        if (rol == "Doctor") {
-            rol = 2
-        } else {
-            rol = 3;
-        }
-
-        $('#editNombre').val(firstName);
-        $('#editApellido').val(lastName);
-        $('#editUserCd').val(userCd);
-        $('#editEmail').val(email);
-        $('#editRol').val(rol);
-    });
-
-    $(document).on('click', '.delbtn', function () {
-        let operationId = $(this).data('uid');
-        $('#delform>input[name="uid"]').val(operationId);
-        updateUserTable();
-    });
 
 });
 

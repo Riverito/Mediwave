@@ -43,7 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $itemId = $itemIds[$i];
 
             if (!updateInventory($itemId, $itemQuantity, $operation)) {
-                throw new Exception("Error al actualizar el inventario para el ítem: " . $itemName);
+                $response['status'] = 2;
+                $response['message'] = 'La cantidad del item ' .  $itemName . " no puede ser negativa";
+                reportKill($response);
             }
 
             if (!logAdjustment($itemId, $itemQuantity, $operation, $ajustRazon)) {

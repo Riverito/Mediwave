@@ -1,66 +1,65 @@
 <div class="modal fade" id="NewUserModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-register-container modal-content">
-            <form action="/dashboard/create" id="signupForm" method="post" class="register-modal-form row">
-
-                <div class="input-field col-6">
-                    <label class="form-label align-self-start" for="nombre">Nombre</label>
-                    <input id="newUserName" class="input form-label " type="text" name="user_name">
-                </div>
-
-                <div class="input-field col-6">
-                    <label class="form-label align-self-start" for="apellido">Apellido</label>
-                    <input id="newUserSecondName" class="input" type="text" name="user_apellido">
-                </div>
-
-                <div class="password-field col-12">
-                    <label class="form-label align-self-start" for="pwd">Contraseña</label>
-                    <div class="input-eye w-100">
-                        <input class="input col-10" id="passwordField" type="password" name="pwd">
-                        <img class="eye-icon col-2" id="eye-icon" src="sources/images/eye-close.png" alt="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabel">Registrar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/dashboard/create" id="signupForm" method="post" class="row g-3">
+                    <div class="col-md-6">
+                        <label for="newUserName" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="newUserName" name="user_name">
                     </div>
-                </div>
-
-                <div class="password-field col-12">
-                    <label class="form-label align-self-start" for="pwdrepeat">Confirmar Contraseña</label>
-                    <div class="input-eye w-100">
-                        <input class="input" id="passwordField2" type="password" name="pwdrepeat">
-                        <img class="eye-icon" id="eye-icon2" src="sources/images/eye-close.png" alt="">
+                    <div class="col-md-6">
+                        <label for="newUserSecondName" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="newUserSecondName" name="user_apellido">
                     </div>
-                </div>
+                    <div class="col-12">
+                        <label for="passwordField" class="form-label">Contraseña</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="passwordField" name="pwd">
 
-                <div class="input-field col-12">
-                    <label class="form-label align-self-start" for="userCd">Cédula</label>
-                    <input id="NewUserCd" placeholder="V-" class="input" type="input-field" name="userCd">
-                </div>
-
-                <div class="input-field">
-                    <label class="form-label align-self-start" for="userMail">Correo electrónico</label>
-                    <input id="NewUserMail" placeholder="alguien@gmail.com" class="input" type="input-field" name="userEmail">
-                </div>
-
-                <div class="mb-3">
-                    <select id="NewUserRol" class="form-select" aria-label="select example" name="userRol">
-                        <option value="">Elija un rol para el usuario a registrar</option>
-                        <option value="3">Enfermero</option>
-                        <option value="2">Doctor</option>
-                    </select>
-                    <div class="invalid-feedback">Por favor elija un rol para el usuario</div>
-                </div>
-
-                <div class="input-field col-6 mt-1">
-                    <button type="submit" name="submit" class="btn submit btn-primary m-1">Registrar</button>
-                </div>
-
-                <div class="input-field col-6 mt-1">
-                    <div type="button" class="btn btn-danger m-1" data-bs-dismiss="modal">Volver al menu</div>
-                </div>
-
-                <div id="errorsAlerts" class='hidden alert alert-primary mb-5 text-center' role='alert'></div>
-            </form>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="passwordField2" class="form-label">Confirmar Contraseña</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="passwordField2" name="pwdrepeat">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label for="NewUserCd" class="form-label">Cédula</label>
+                        <input type="text" class="form-control" id="NewUserCd" name="userCd" placeholder="V-">
+                    </div>
+                    <div class="col-12">
+                        <label for="NewUserMail" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="NewUserMail" name="userEmail" placeholder="alguien@gmail.com">
+                    </div>
+                    <div class="col-12">
+                        <label for="NewUserRol" class="form-label">Rol del usuario</label>
+                        <select id="NewUserRol" class="form-select" name="userRol">
+                            <option value="">Elija un rol para el usuario a registrar</option>
+                            <option value="3">Enfermero</option>
+                            <option value="2">Doctor</option>
+                        </select>
+                        <div class="invalid-feedback">Por favor elija un rol para el usuario</div>
+                    </div>
+                    <div class="col-12 text-center">
+                        <div id="errorsAlerts" class="alert d-none alert-primary" role="alert"></div>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" name="submit" class="btn btn-primary w-100">Registrar</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">Volver al menú</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!--  ########################################## DELETE USER MODAL ##########################################  -->
 
@@ -90,50 +89,58 @@
 <!--  ########################################### EDIT USER MODAL  ##########################################  -->
 
 <div class="modal fade" id="EditUserModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content edit-user-container">
-            <form action="/dashboard/update" id="editForm" method="post" class="modal-form row">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabel">Modificar Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/dashboard/update" id="editForm" method="post" class="row g-3">
 
-                <input type="hidden" name="uid" value="">
+                    <input type="hidden" name="uid" value="">
 
-                <div class="input-field col-6">
-                    <label class="form-label align-self-start" for="editNombre">Nombre</label>
-                    <input id="editNombre" class="input form-label " type="text" name="editNombre"> </input>
-                </div>
+                    <div class="col-md-6">
+                        <label for="editNombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editNombre" name="editNombre">
+                    </div>
 
-                <div class="input-field col-6">
-                    <label class="form-label align-self-start" for="editApellido">Apellido</label>
-                    <input id="editApellido" class="input" type="text" name="editApellido">
-                </div>
+                    <div class="col-md-6">
+                        <label for="editApellido" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="editApellido" name="editApellido">
+                    </div>
 
-                <div class="input-field col-12">
-                    <label class="form-label align-self-start" for="editUserCd">Cédula</label>
-                    <input placeholder="V-" id="editUserCd" class="input" type="input-field" name="editUserCd">
-                </div>
+                    <div class="col-12">
+                        <label for="editUserCd" class="form-label">Cédula</label>
+                        <input type="text" class="form-control" id="editUserCd" name="editUserCd" placeholder="V-">
+                    </div>
 
-                <div class="input-field">
-                    <label class="form-label align-self-start" for="userMail">Correo electrónico</label>
-                    <input placeholder="alguien@gmail.com" id="editEmail" class="input" type="input-field" name="editMail">
-                </div>
+                    <div class="col-12">
+                        <label for="editEmail" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="editEmail" name="editMail" placeholder="alguien@gmail.com">
+                    </div>
 
-                <div class="mb-3">
-                    <select id="editRol" class="form-select" aria-label="select example" name="editRol">
-                        <option value="">Cambiar rol</option>
-                        <option value="3">Enfermero</option>
-                        <option value="2">Doctor</option>
-                    </select>
-                    <div class="invalid-feedback">Por favor elija un rol para el usuario</div>
-                </div>
+                    <div class="col-12">
+                        <label for="editRol" class="form-label">Cambiar rol</label>
+                        <select id="editRol" class="form-select" name="editRol">
+                            <option value="">Seleccione un rol</option>
+                            <option value="3">Enfermero</option>
+                            <option value="2">Doctor</option>
+                        </select>
+                        <div class="invalid-feedback">Por favor elija un rol para el usuario</div>
+                    </div>
 
-                <div class="input-field col-6 mt-1">
-                    <button type="submit" name="submit" class="btn submit btn-primary m-1">Modificar</button>
-                </div>
-                <input type="hidden" name="uid" value="">
-                <div class="input-field col-6 mt-1">
-                    <div type="button" class="btn btn-danger m-1" data-bs-dismiss="modal">Volver al menu</div>
-                </div>
-                <div id="editErrorsAlerts" class='hidden alert alert-primary mb-5 text-center' role='alert'></div>
-            </form>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-primary w-100">Modificar</button>
+                    </div>
+
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">Volver al menú</button>
+                    </div>
+
+                    <div id="editErrorsAlerts" class="alert alert-primary d-none text-center mt-3" role="alert"></div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

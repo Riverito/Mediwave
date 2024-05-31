@@ -133,44 +133,64 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-.modal-ajustment {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-  padding: 0px !important;
-  height: 27rem;
+.modal-ajustment .modal-content {
+  border-radius: 10px;
+  padding: 20px;
 }
-.modal-ajustment .ajustment-form {
-  width: 100%;
-  height: 100%;
+.modal-ajustment .modal-content .modal-header {
+  border-bottom: none;
 }
-.modal-ajustment .ajustment-form .ajustments-item-info-container .row .input-name input[type=text] {
-  width: calc(100% - 0.5rem);
-  height: 2rem;
-  padding: 0.25rem;
-  margin-right: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.modal-ajustment .modal-content .modal-header .modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
-.modal-ajustment .ajustment-form .ajustments-item-info-container .row .item-count input[type=text] {
-  width: calc(100% - 0.5rem);
-  height: 2rem;
-  padding: 0.25rem;
-  margin-right: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.modal-ajustment .modal-content .modal-header .btn-close {
+  background-color: transparent;
+  border: none;
 }
-.modal-ajustment .ajustment-form .responsable-info-container .row .col-6 input[type=text] {
-  width: calc(100% - 0.5rem);
-  height: 2rem;
-  padding: 0.25rem;
-  margin-right: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.modal-ajustment .modal-content .modal-body {
+  padding: 20px;
 }
-.modal-ajustment .ajustment-form .responsable-info-container .row label {
-  width: calc(100% - 0.5rem);
+.modal-ajustment .modal-content .modal-body .input-group {
+  margin-bottom: 1rem;
+}
+.modal-ajustment .modal-content .modal-body .input-group .input-group-text {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+.modal-ajustment .modal-content .modal-body .input-group .form-control {
+  border-left: none;
+}
+.modal-ajustment .modal-content .modal-body .table-responsive {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+.modal-ajustment .modal-content .modal-body .table th, .modal-ajustment .modal-content .modal-body .table td {
+  text-align: center;
+  vertical-align: middle;
+}
+.modal-ajustment .modal-content .modal-body .table th {
+  background-color: #f8f9fa;
+}
+.modal-ajustment .modal-content .modal-body .form-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.modal-ajustment .modal-content .modal-body textarea.form-control {
+  resize: none;
+  border-radius: 0.25rem;
+  padding: 10px;
+}
+.modal-ajustment .modal-content .modal-body .d-flex button {
+  font-size: 1rem;
+  padding: 10px 20px;
+}
+.modal-ajustment .modal-content .alert {
+  font-size: 1rem;
+  padding: 15px;
+  margin-top: 20px;
 }
 
 .logo {
@@ -276,6 +296,23 @@ input[type=number] {
   overflow-y: auto;
   margin-top: 0px;
 }
+@media (max-width: 768px) {
+  .admin-container aside {
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .admin-container .display-content {
+    padding: 1rem;
+  }
+}
+@media (max-width: 576px) {
+  .admin-container .display-content .users-table-container {
+    height: auto;
+  }
+}
 
 .login-section {
   min-height: 100vh;
@@ -334,6 +371,20 @@ input[type=number] {
   background: rgba(255, 255, 255, 0.1);
   background: white;
 }
+@media (max-width: 768px) {
+  .login-section .login-form {
+    width: 100%;
+    padding: 1.5rem;
+  }
+  .login-section .form-container {
+    gap: 20px;
+  }
+}
+@media (max-width: 576px) {
+  .login-section .login-form {
+    padding: 1rem;
+  }
+}
 
 .inventory-container {
   min-height: 100vh;
@@ -373,6 +424,33 @@ input[type=number] {
 }
 .inventory-container .display-content .inventory-table-container .table tr {
   position: sticky;
+}
+@media (max-width: 768px) {
+  .inventory-container aside {
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .inventory-container .display-content {
+    padding: 1rem;
+  }
+  .inventory-container .display-content .search-input {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .inventory-container .display-content .inventory-table-container {
+    height: 20rem;
+  }
+}
+@media (max-width: 576px) {
+  .inventory-container .display-content .search-input {
+    width: 100%;
+  }
+  .inventory-container .display-content .inventory-table-container {
+    height: 20rem;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */

@@ -6,6 +6,7 @@
                 <th scope="col">Descripcion</th>
                 <th scope="col">Cantidad</th>
                 <th scope="col">Editar</th>
+                <th scope="col">Eliminar</th>
             </tr>
         </thead>
         <script src="../../src/js/inventoryAjax.js"></script>

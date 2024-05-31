@@ -46,13 +46,34 @@ $klein->with('/dashboard', function () use ($klein) {
         require(INCLUDES_DIR . '/inventory/itemsTable.php');
     });
 
+    $klein->respond('GET', '/adjustmentTable', function () {
+        require(INCLUDES_DIR . '/inventory/ajustmentsTable.php');
+    });
+
     $klein->respond('POST', '/createItem', function () {
         require(INCLUDES_DIR . '/inventory/createItem.php');
+    });
+
+
+    $klein->respond('POST', '/deleteItem', function () {
+        require(INCLUDES_DIR . '/inventory/deleteItem.php');
     });
 
     $klein->respond('POST', '/ajustments', function () {
         require(INCLUDES_DIR . '/inventory/ajustments.php');
     });
+
+    ######################### Medic System  #########################
+
+    $klein->respond('GET', '/patientsTable', function () {
+        require(INCLUDES_DIR . '/medic/patientsTable.php');
+    });
+
+
+    $klein->respond('POST', '/createPatient', function () {
+        require(INCLUDES_DIR . '/medic/Createpatient.php');
+    });
+
 
     $klein->respond('GET', '', function ()  use ($klein) {
         if (session_status() === PHP_SESSION_NONE or !isset($_SESSION['idUsuario'])) {
@@ -64,6 +85,10 @@ $klein->with('/dashboard', function () use ($klein) {
 
 $klein->respond('GET', '/inventory', function () {
     require(LAYOUTS_DIR . '/dashboard/inventory.php');
+});
+
+$klein->respond('GET', '/medic', function () {
+    require(LAYOUTS_DIR . '/dashboard/medic.php');
 });
 
 

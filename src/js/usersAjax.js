@@ -28,9 +28,11 @@ $(document).ready(function () {
             success: function (response) {
                 response = JSON.parse(response);
                 console.log(response['message']);
-                $('#errorsAlerts').removeClass("hidden").addClass('alert alert-primary').text(response.message).show();
-                // flashToast('Registro exitoso.');
+                $('#errorsAlerts').removeClass("d-none").addClass('d-block alert alert-primary').text(response.message).show();
                 $('#signupForm')[0].reset();
+                setTimeout(function () {
+                    $('#errorsAlerts').addClass('d-none');
+                }, 6000);
                 updateUserTable();
             },
             error: function (error) {
@@ -72,5 +74,37 @@ $(document).ready(function () {
             }
         });
     });
-}, true); 
+
+    $(document).on('click', '.editbtn', function () {
+
+        let operationId = $(this).data('uid');
+        $('#editForm>input[name="uid"]').val(operationId);
+
+        var currentRow = $(this).closest("tr");
+        var firstName = currentRow.find('td:eq(0)').text();
+        var lastName = currentRow.find('td:eq(1)').text();
+        var userCd = currentRow.find('td:eq(2)').text();
+        var email = currentRow.find('td:eq(3)').text();
+        var rol = currentRow.find('td:eq(4)').text();
+
+        if (rol == "Doctor") {
+            rol = 2
+        } else {
+            rol = 3;
+        }
+
+        $('#editNombre').val(firstName);
+        $('#editApellido').val(lastName);
+        $('#editUserCd').val(userCd);
+        $('#editEmail').val(email);
+        $('#editRol').val(rol);
+    });
+
+    $(document).on('click', '.delbtn', function () {
+        let operationId = $(this).data('uid');
+        $('#delform>input[name="uid"]').val(operationId);
+        updateUserTable();
+    });
+
+}, true);
 

@@ -1,119 +1,58 @@
 <div class="modal fade" id="newItemModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content edit-item-modal" style="height: 30rem;">
-            <form action="/dashboard/createItem" id="createItem" method="post" class="modal-form row">
-
-
-                <div class="input-field col-12">
-                    <label class="form-label align-self-start" for="editNombre">Nombre</label>
-                    <input id="Itemname" class="input form-label " type="text" name="Itemname"> </input>
+        <div class="modal-content edit-item-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabel">Crear insumo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/dashboard/createItem" id="createItem" method="post" class="modal-form">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="Itemname" class="form-label">Nombre</label>
+                        <input type="text" id="Itemname" name="Itemname" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descripción</label>
+                        <textarea id="description" name="itemDescription" class="form-control"></textarea>
+                    </div>
+                    <div id="createItemErrorsAlerts" class="text-center d-none" role="alert"></div>
                 </div>
-
-                <div class="input-field col-12">
-                    <label class="form-label align-self-start" for="editApellido">Descripcion</label>
-                    <textarea id="description" class="input" type="textbox" name="itemDescription"></textarea>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Volver al menú</button>
                 </div>
-
-
-                <div class="input-field col-6">
-                    <button type="submit" name="submit" class="btn submit btn-primary m-1">Crear</button>
-                </div>
-
-                <div class="input-field col-6">
-                    <div type="button" class="btn btn-danger m-1" data-bs-dismiss="modal">Volver al menu</div>
-                </div>
-
-                <div id="createItemErrorsAlerts" class='hidden alert alert-primary mb-5 text-center' role='alert'></div>
             </form>
         </div>
     </div>
 </div>
 
-
-<!-- 
-<div class="modal w-85 fade" id="AjustementsModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-ajustment modal-content">
-            <form action="/dashboard/ajustments" id="ajustmentform" method="post" class="ajustment-form p-3 row">
-                <div class="col-6 ajustments-item-info-container">
-                    <h4 class="col-12 fs-2">Insumo a procesar</h4>
-                    <div class="row">
-                        <div class="input-group mb-3 col-12">
-                            <button data-bs-toggle='modal' data-bs-target='#fullScreenTable' class="input-group-text fs-5" id="fullTableLaunch">Buscar</button>
-                            <input id="searchItemAjustment" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                        </div>
-
-                        <div class="input-name mb-3 col-12">
-                            <span class="fs-5">Nombre</span>
-                            <input id="ajustItemName" name="itemName" type="text" disabled>
-                        </div>
-
-
-                        <div class="mb-3 col-12">
-                            <span class="fs-5">Descripción</span>
-                            <textarea id="ajustItemDescription" name="itemDescription" class="form-control" aria-label="With textarea" disabled></textarea>
-                        </div>
-
-                        <div class="input-group mb-3 col-12 d-flex row ">
-                            <div class="form-check col-3 m-1">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    Entrada
-                                </label>
-                            </div>
-
-                            <div class="form-check col-3  m-1">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                    Salida
-                                </label>
-                            </div>
-
-                            <div class="item-count col-4 gap-2 m-1   d-flex justify-content-center align-content-center">
-                                <label class="form-label for=">Cantidad</label>
-                                <input class=" form-control" type="number" name="" id="" checked>
-                            </div>
-
-                        </div>
-
+<div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content edit-item-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabel">Editar insumo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/dashboard/createItem" id="createItem" method="post" class="modal-form">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="Itemname" class="form-label">Nombre</label>
+                        <input type="text" id="Itemname" name="Itemname" class="form-control">
                     </div>
-                </div>
-
-                <div class="col-6 responsable-info-container">
-                    <div class="row">
-                        <h4 class="col-12 fs-2">Responsable</h4>
-
-                        <div class="col-6 mb-3">
-                            <span class="fs-5">Nombre</span>
-                            <input disabled type="text" id="responsableName" class="" name="responsableName">
-                        </div>
-                        <div class="col-6 mb-3">
-                            <span class="fs-5">Cédula</span>
-                            <input disabled type="text" id="responsableCd" class="" name="responsableCd">
-                        </div>
-                        <div class="col-12">
-                            <label for="ajustmentConcept" class="fs-5">Motivo de Ajuste</label>
-                            <textarea class="w-100" name="ajustmentConcept" id="ajustmentConcept"></textarea>
-                        </div>
-
-                        <div class="col-12 p-5 ">
-                            <button type="submit" class="btn m-1 bt-lg w-100 btn-primary">
-                                Realizar ajuste
-                            </button>
-
-                            <button id="cancelCurrentAjust" type="button" class="btn m-1 bt-lg w-100 btn-danger" data-bs-dismiss="modal">
-                                Cancelar
-                            </button>
-                        </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descripción</label>
+                        <textarea id="description" name="itemDescription" class="form-control"></textarea>
                     </div>
+                    <div id="createItemErrorsAlerts" class="text-center alert alert-primary" role="alert">Editado exitoso</div>
                 </div>
-
-                <div id="ajustmentErrorsAlerts" class='hidden alert alert-primary mb-5 text-center' role='alert'></div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Volver al menú</button>
+                </div>
             </form>
         </div>
     </div>
 </div>
- -->
 
 <div class="modal fade" id="AjustementsModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-ajustment">
@@ -145,7 +84,7 @@
                     </div>
                     <div class="mt-3">
                         <label for="ajustRazon" class="form-label">Razón del ajuste</label>
-                        <textarea  name="ajustRazon" id="AjusRazonTexarea" class="form-control" rows="3"></textarea>
+                        <textarea  name="ajustRazon" default="0" id="AjusRazonTexarea" class="form-control" rows="3"></textarea>
                     </div>
                     <div class="d-flex justify-content-between mt-3">
                         <button type="submit" class="btn btn-primary w-100 me-2">Realizar ajuste</button>
@@ -188,6 +127,65 @@
             <div class="modal-footer row">
                 <div id="fullScreenTableModalErros" class="d-flex align-content-center justify-content-center col-12 alert hidden alert-primary"></div>
                 <h5 class="modal-title col-5 text-start">Seleccione el item que desea agregar a la lista</h5>
+                <button type="button" class="btn col-5 btn-danger align-self-end" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Advertencia</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <h4>Estás apunto de eliminar un item.<br>
+                    ¿Está seguro de realizar esta operación?
+                </h4>
+            </div>
+
+            <form id="deliTemform" method="post" action="/dashboard/deleteItem" class="modal-footer">
+                <input type="hidden" name="uid" value="">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button for="userDelete" name="submit" class="btn submit btn-danger">Eliminar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ajustmentTable" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Informes de ajuste de inventario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <input id="searchAjustments" class="form-control" type="text" placeholder="Buscar">
+                </div>
+                <div class="table-responsive">
+                    <table  class="table table-striped table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+        
+                                <th scope="col">item procesado</th>
+                                <th scope="col">Por el usuario</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Razon</th>
+                                <th scope="col">Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ajustmentsViewTable">
+                            <!-- Items will be dynamically filled here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer row">
+                <div id="fullScreenTableModalErros" class="d-flex align-content-center justify-content-center col-12 alert hidden alert-primary"></div>
                 <button type="button" class="btn col-5 btn-danger align-self-end" data-bs-dismiss="modal">Cancelar</button>
             </div>
         </div>

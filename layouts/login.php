@@ -7,7 +7,7 @@ get_header();
 
     <img src="src/img/mediwave.svg" class="login-logo w-100">
     <div class="form-container w-100">
-      <h2 class="h2">Inicio de sesion</h2>
+      <h2 class="h2">Inicio de sesión</h2>
 
       <div class="input-field">
         <label class="form-label" for="userEmail">Email</label>
@@ -16,7 +16,7 @@ get_header();
 
       <div class="input-field">
         <label class="form-label" for="pwd">Contraseña</label>
-        <input class="input" type="input-field" name="pwd" placeholder="Contraseña">
+        <input class="input" type="password" name="pwd" placeholder="Contraseña">
       </div>
 
       <button class="btn btn-primary mb-2 col-6" type="submit" name="submit" class="btn">Iniciar Sesión</button>

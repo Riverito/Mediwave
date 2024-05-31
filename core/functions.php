@@ -97,9 +97,9 @@ function uidExists($userId)
     $conn = $GLOBALS['conn'];
     $sql = "SELECT * FROM users WHERE idUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
+    
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: " . url() . "/register.php?error=stmtfailed");
-        exit();
+        die('Error al preparar la consulta en uidExists: ' . mysqli_error($conn));
     }
 
     mysqli_stmt_bind_param($stmt, "s", $userId);
@@ -109,7 +109,7 @@ function uidExists($userId)
     $rowcount = mysqli_num_rows($resultData);
     mysqli_stmt_close($stmt);
 
-    if (!empty($rowcount) and $rowcount >= 1) {
+    if (!empty($rowcount) && $rowcount >= 1) {
         return true;
     } else {
         return false;
@@ -249,7 +249,7 @@ function LogoutUser()
     exit();
 }
 
-################################### CRUD FUNCTIONS ########################################## ###
+################################### USERS FUNCTIONS ########################################## ###
 
 function createUser($user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol)
 {
@@ -318,26 +318,30 @@ function userView($userId)
 function deleteUser($userId)
 {
     if (uidExists($userId)) {
-
-
         $conn = $GLOBALS['conn'];
 
         $sql = "DELETE FROM users WHERE idUsuario = ?";
         $stmt = mysqli_stmt_init($conn);
 
-        mysqli_stmt_prepare($stmt, $sql);
-        // Manejar error de preparación de la sentencia
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            die('Error al preparar la consulta en deleteUser: ' . mysqli_error($conn));
+        }
 
         mysqli_stmt_bind_param($stmt, "s", $userId);
-        mysqli_stmt_execute($stmt);
+        if (!mysqli_stmt_execute($stmt)) {
+            die('Error al ejecutar la consulta en deleteUser: ' . mysqli_stmt_error($stmt));
+        }
+
         mysqli_stmt_close($stmt);
-        exit();
+        return 'Usuario eliminado correctamente';
     } else {
-        echo 'Esta entrada ya no existe';
+        return 'Usuario no encontrado';
     }
 }
+
 ///AAAAAAAAAAAAA
 $GLOBALS['medi'] = '/mediwave';
+
 function url()
 {
     return sprintf(
@@ -374,7 +378,7 @@ function emptyNewItem($itemName, $ItemDrescription)
 function invalidItem($itemName)
 {
 
-    if (preg_match("/^[a-zA-Z\d\s]*$/", $itemName)) {
+    if (preg_match("/^[a-zA-Z\d\s\-]*$/", $itemName)) {
         return false;
     }
     return true;
@@ -429,7 +433,7 @@ function updateInventory($itemId, $itemQuantity, $operation)
     $conn = $GLOBALS['conn'];
     $currentCount = 0;
 
-    // Obtener la cantidad actual del inventario
+
     $sql = "SELECT countItem FROM inventory WHERE idItem = ?";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -449,13 +453,12 @@ function updateInventory($itemId, $itemQuantity, $operation)
     } elseif ($operation === "subtract") {
         $newCount = $currentCount - $itemQuantity;
         if ($newCount < 0) {
-            die("Error: la cantidad en el inventario no puede ser negativa.");
+            return 0;
         }
     } else {
         die("Operación no válida: " . htmlspecialchars($operation));
     }
 
-    // Actualizar la cantidad en la base de datos
     $sql = "UPDATE inventory SET countItem = ? WHERE idItem = ?";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
@@ -474,7 +477,7 @@ function updateInventory($itemId, $itemQuantity, $operation)
 function logAdjustment($itemId, $quantity, $operation, $reason)
 {
     $adjustmentId = generateUserid();  // Suponiendo que tienes una función para generar ID de ajustes
-    $userId = "j6jDRz";  // Suponiendo que tienes una función para generar ID de usuario
+    $userId = "cwCmzz";  // Suponiendo que tienes una función para generar ID de usuario
 
     $conn = $GLOBALS['conn'];
     $adjustmentAmount = ($operation === 'subtract') ? -$quantity : $quantity;
@@ -494,6 +497,99 @@ function logAdjustment($itemId, $quantity, $operation, $reason)
     }
 
     $stmt->close();
+
+    return $result;
+}
+
+function deleteItem($userId)
+{
+    if (uidExists($userId)) {
+
+
+        $conn = $GLOBALS['conn'];
+
+        $sql = "DELETE FROM users WHERE idUsuario = ?";
+        $stmt = mysqli_stmt_init($conn);
+
+        mysqli_stmt_prepare($stmt, $sql);
+        // Manejar error de preparación de la sentencia
+
+        mysqli_stmt_bind_param($stmt, "s", $userId);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        exit();
+    } else {
+        echo 'Esta entrada ya no existe';
+    }
+}
+
+########################################## #################### #########################################
+##########################################  FUNCIONES MEDICAS   #########################################
+########################################## #################### #########################################
+
+
+function emptyNewpatient($patientName, $PatientSecondName,$PatientGenre,$PatienAge)
+{
+    if (empty($patientName)  || empty($PatientSecondName) || empty($PatientGenre) || empty($PatienAge) ) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+    return $result;
+}
+
+function createPatient($patientName, $patientLastName, $patientGenre, $patientAge, $patientCd) {
+    $id = generateUserid();
+    
+    // Preparar la consulta SQL
+    $sql = "INSERT INTO patients (idPatient , patientName, patientLastName, patientCd, patientDOB, patientGender) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_stmt_init($GLOBALS['conn']);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        // Si hay un error al preparar la consulta, retornar el mensaje de error
+        return "Error al preparar la consulta: " . mysqli_error($GLOBALS['conn']);
+    }
+
+    // Vincular los parámetros a la consulta preparada
+    $success = mysqli_stmt_bind_param($stmt, "ssssss", $id, $patientName, $patientLastName, $patientCd, $patientAge, $patientGenre);
+    if (!$success) {
+        // Si hay un error al vincular los parámetros, retornar el mensaje de error
+        mysqli_stmt_close($stmt);
+        return "Error al vincular los parámetros: " . mysqli_stmt_error($stmt);
+    }
+
+    // Ejecutar la consulta preparada
+    $success = mysqli_stmt_execute($stmt);
+    if (!$success) {
+        // Si hay un error al ejecutar la consulta, retornar el mensaje de error
+        mysqli_stmt_close($stmt);
+        return "Error al ejecutar la consulta: " . mysqli_stmt_error($stmt);
+    }
+
+    // Cerrar la consulta preparada
+    mysqli_stmt_close($stmt);
+
+    // Retornar null si no hay errores
+    return true;
+}
+
+function patientCdExists($userCd)
+{
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM patients WHERE patientCd = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $userCd);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($resultData);
+    mysqli_stmt_close($stmt);
+
+    if (!empty($rowcount) and $rowcount >= 1) {
+        $result = true;
+    } else {
+        $result = false;
+    }
 
     return $result;
 }

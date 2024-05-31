@@ -1,7 +1,10 @@
 <?php
 if (isset($_POST["uid"])) {
+    $error = '';
+
     $userId = $_POST["uid"];
     deleteUser($userId);
-    echo 'Eliminado exitoso.';
+    $error =  deleteUser($userId);
+
+    var_dump($error);
 }
-echo 'Ha ocurrido un error.';

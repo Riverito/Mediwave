@@ -9,7 +9,7 @@
   background-color: #e8f3ff;
 }
 
-@mixin table-container{
+@mixin table-container {
   height: 33rem;
   border: 1px solid #dee2e6;
   overflow-y: auto;
@@ -37,15 +37,35 @@
       @include table-container;
     }
   }
-}
 
+  @media (max-width: 768px) {
+    aside {
+      height: auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .display-content {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .display-content {
+      .users-table-container {
+        height: auto;
+      }
+    }
+  }
+}
 
 .login-section {
   @include container;
   display: flex;
   align-items: center;
   justify-content: center;
-
 
   .login-form {
     @include modals.modal-form;
@@ -82,7 +102,23 @@
         }
       }
     }
+  }
 
+  @media (max-width: 768px) {
+    .login-form {
+      width: 100%;
+      padding: 1.5rem;
+    }
+
+    .form-container {
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .login-form {
+      padding: 1rem;
+    }
   }
 }
 
@@ -108,15 +144,50 @@
       width: 30%;
       margin: 0.25rem;
       background-color: white;
-      
     }
 
     .inventory-table-container {
       @include table-container;
-      .table{
-        tr{
+
+      .table {
+        tr {
           position: sticky;
         }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    aside {
+      height: auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .display-content {
+      padding: 1rem;
+
+      .search-input {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+
+      .inventory-table-container {
+        height: 20rem;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .display-content {
+      .search-input {
+        width: 100%;
+      }
+
+      .inventory-table-container {
+        height: 20rem;
       }
     }
   }
