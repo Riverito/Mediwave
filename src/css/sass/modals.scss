@@ -1,0 +1,198 @@
+@mixin modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    padding: 0px !important;
+}
+
+@mixin modal-form {
+    width: 30rem;
+    height: 40rem;
+    display: flex;
+    flex-direction: row;
+    padding: 15px 15px 15px 15px;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+@mixin input-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+@mixin input {
+    width: 93%;
+    height: 45px;
+    border: 1px solid black;
+    border-radius: 30px;
+    color: #000000;
+    padding: 0 0 0 42px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-register-container {
+    @include modal-container;
+
+    .register-modal-form {
+        @include modal-form;
+
+        .password-field {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            align-items: center;
+
+            input-eye {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .input {
+                @include input;
+            }
+
+            .eye-icon {
+                width: 25px;
+                height: 25;
+                cursor: pointer;
+            }
+        }
+
+        .input-field {
+            @include input-container;
+
+            .form-label {
+                font-size: medium;
+            }
+
+            input {
+                @include input;
+            }
+        }
+    }
+}
+
+.edit-user-container {
+    @include modal-container;
+
+    .modal-form {
+        @include modal-form;
+
+        .input-field {
+            @include input-container;
+
+
+            .form-label {
+                font-size: medium;
+            }
+
+            input {
+                @include input;
+            }
+        }
+    }
+}
+
+
+.edit-item-modal {
+    @include modal-container;
+
+    .modal-form {
+        @include modal-form;
+
+        .input-field {
+            @include input-container;
+
+
+            .form-label {
+                font-size: medium;
+            }
+
+            input {
+                @include input;
+            }
+        }
+    }
+}
+
+.modal-ajustment {
+    .modal-content {
+        border-radius: 10px;
+        padding: 20px;
+
+        .modal-header {
+            border-bottom: none;
+            .modal-title {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+            .btn-close {
+                background-color: transparent;
+                border: none;
+            }
+        }
+
+        .modal-body {
+            padding: 20px;
+
+            .input-group {
+                margin-bottom: 1rem;
+                .input-group-text {
+                    background-color: #007bff;
+                    color: white;
+                    border: none;
+                }
+                .form-control {
+                    border-left: none;
+                }
+            }
+
+            .table-responsive {
+                max-height: 300px;
+                overflow-y: auto;
+                margin-bottom: 1rem;
+            }
+
+            .table {
+                th, td {
+                    text-align: center;
+                    vertical-align: middle;
+                }
+                th {
+                    background-color: #f8f9fa;
+                }
+            }
+
+            .form-label {
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+
+            textarea.form-control {
+                resize: none;
+                border-radius: 0.25rem;
+                padding: 10px;
+            }
+
+            .d-flex {
+                button {
+                    font-size: 1rem;
+                    padding: 10px 20px;
+                }
+            }
+        }
+
+        .alert {
+            font-size: 1rem;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    }
+}
+
+ 

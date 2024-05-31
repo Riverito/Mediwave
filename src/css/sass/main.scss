@@ -1,0 +1,194 @@
+@use 'components.scss';
+@use 'fixes.scss';
+@use 'modals.scss';
+@use 'login.scss';
+
+@mixin container {
+  min-height: 100vh;
+  min-width: 100%;
+  background-color: #e8f3ff;
+}
+
+@mixin table-container {
+  height: 33rem;
+  border: 1px solid #dee2e6;
+  overflow-y: auto;
+  margin-top: 0px;
+}
+
+.admin-container {
+  @include container;
+
+  aside {
+    background-color: #d6e7ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    border-right: 1px solid rgb(83, 82, 82);
+  }
+
+  .display-content {
+    background-color: #e8f3ff;
+    flex-direction: column;
+
+    .users-table-container {
+      @include table-container;
+    }
+  }
+
+  @media (max-width: 768px) {
+    aside {
+      height: auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .display-content {
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .display-content {
+      .users-table-container {
+        height: auto;
+      }
+    }
+  }
+}
+
+.login-section {
+  @include container;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .login-form {
+    @include modals.modal-form;
+    background-color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    height: auto;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    padding: 3rem;
+
+    .login-logo {
+      height: 120px;
+      width: 120px;
+      margin-bottom: 0px;
+      margin-top: 0px;
+    }
+
+    .form-container {
+      height: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 30px;
+
+      .input-field {
+        @include modals.input-container;
+        width: 100%;
+        margin-bottom: 0px;
+
+        .input {
+          @include modals.input;
+          background: white;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .login-form {
+      width: 100%;
+      padding: 1.5rem;
+    }
+
+    .form-container {
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .login-form {
+      padding: 1rem;
+    }
+  }
+}
+
+.inventory-container {
+  @include container;
+
+  aside {
+    background-color: #d6e7ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    border-right: 1px solid rgb(83, 82, 82);
+  }
+
+  .display-content {
+    background-color: #e8f3ff;
+    flex-direction: column;
+
+    .search-input {
+      @include modals.input;
+      width: 30%;
+      margin: 0.25rem;
+      background-color: white;
+    }
+
+    .inventory-table-container {
+      @include table-container;
+
+      .table {
+        tr {
+          position: sticky;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    aside {
+      height: auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .display-content {
+      padding: 1rem;
+
+      .search-input {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+
+      .inventory-table-container {
+        height: 20rem;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .display-content {
+      .search-input {
+        width: 100%;
+      }
+
+      .inventory-table-container {
+        height: 20rem;
+      }
+    }
+  }
+}
