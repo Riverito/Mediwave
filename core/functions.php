@@ -339,7 +339,6 @@ function deleteUser($userId)
     }
 }
 
-///AAAAAAAAAAAAA
 $GLOBALS['medi'] = '/mediwave';
 
 function url()

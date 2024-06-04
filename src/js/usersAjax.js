@@ -49,7 +49,10 @@ $(document).ready(function () {
             data: $(this).serialize(),
             success: function (response) {
                 response = JSON.parse(response);
-                $('#editErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text(response.message).show();
+                $('#editErrorsAlerts').removeClass("d-none").addClass('alert alert-primary').text(response.message).show();
+                setTimeout(function () {
+                    $('#editErrorsAlerts').addClass('d-none');
+                }, 5000);
                 updateUserTable();
             },
             error: function (error) {

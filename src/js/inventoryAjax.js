@@ -241,7 +241,7 @@ $(document).ready(function () {
                 $('#ajustmentErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text(response.message).show();
                 setTimeout(function () {
                     $('#ajustmentErrorsAlerts').addClass('hidden');
-                }, 5000);
+                }, 6000);
                 if (response.status == 20) {
                     updateItemsTable();
                     updateAjustmentTable();

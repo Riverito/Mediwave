@@ -6,6 +6,7 @@ $response = array(
 );
 
 if (!empty($_POST)) {
+    
 
     if (editEmptyInputSignup($_POST["editNombre"], $_POST["editApellido"], $_POST["editUserCd"], $_POST["editMail"], $_POST["editRol"])) {
         $response['status'] = 1;
@@ -49,6 +50,5 @@ if (!empty($_POST)) {
         $response['status'] = 20;
         $response['message'] = 'Se edito';
     }
-
 }
 echo json_encode($response);
