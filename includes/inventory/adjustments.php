@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $itemQuantities = array_map('intval', $_POST['itemQuantity']);
     $operations = array_map('trim', $_POST['operation']);
     $itemIds = array_map('trim', $_POST['itemId']);
-    $ajustRazon = trim($_POST['ajustRazon']);
+    $adjustReason = trim($_POST['ajustRazon']);
 
     $conn = $GLOBALS['conn'];
     $conn->begin_transaction();
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 reportKill($response);
             }
 
-            if (!logAdjustment($itemId, $itemQuantity, $operation, $ajustRazon)) {
+            if (!logAdjustment($itemId, $itemQuantity, $operation, $adjustReason)) {
                 throw new Exception("Error al registrar el ajuste para el ítem: " . $itemName);
             }
         }

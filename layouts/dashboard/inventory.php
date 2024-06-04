@@ -23,7 +23,7 @@ get_header();
                     Ajuste de inventario
                 </button>
 
-                <button type='button' data-bs-toggle='modal' data-bs-target='#ajustmentTable' class='align-self-start btn-primary m-1 btn sm-btn'>
+                <button type='button' data-bs-toggle='modal' data-bs-target='#adjustmentTable' class='align-self-start btn-primary m-1 btn sm-btn'>
                     Reportes de inventario
                 </button>
             </div>

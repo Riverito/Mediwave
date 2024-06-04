@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/dashboard/create" id="signupForm" method="post" class="row g-3">
+                <form action="/users/create" id="signupForm" method="post" class="row g-3">
                     <div class="col-md-6">
                         <label for="newUserName" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="newUserName" name="user_name">
@@ -76,7 +76,7 @@
                 </h4>
             </div>
 
-            <form id="delform" method="post" action="/dashboard/delete" class="modal-footer">
+            <form id="delform" method="post" action="/users/delete" class="modal-footer">
                 <input type="hidden" name="uid" value="">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button for="userDelete" name="submit" class="btn submit btn-danger">Eliminar</button>
@@ -96,7 +96,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/dashboard/update" id="editForm" method="post" class="row g-3">
+                <form action="/users/update" id="editForm" method="post" class="row g-3">
 
                     <input type="hidden" name="uid" value="">
 
