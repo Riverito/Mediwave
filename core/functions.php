@@ -13,6 +13,64 @@ function get_footer()
 
 /* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
 
+/* ########################################## ## SESSION FUNCTIONS  ########################################## ######*/
+function checkSession(){
+    if( session_status() === PHP_SESSION_NONE || !isset($_SESSION) || empty($_SESSION)){
+        return false;
+    }
+
+    if( checkSessionID() && checkSessionRole() ){
+        return true;
+    }
+    return false;
+}
+
+function checkSessionID(){
+    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
+        return false;
+    }
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM users WHERE idUsuario = ?";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $_SESSION['idUsuario']);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($resultData);
+    mysqli_stmt_close($stmt);
+
+    if (!empty($rowcount) and $rowcount === 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkSessionRole(){
+    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
+        return false;
+    }
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM users WHERE userRol = ? AND idUsuario = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "ss", $_SESSION['userRol'], $_SESSION['idUsuario']);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($resultData);
+    mysqli_stmt_close($stmt);
+
+    if (!empty($rowcount) and $rowcount === 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/* ########################################## ## SESSION FUNCTIONS  ########################################## ######*/
+
 /* ########################################## ## REGISTER FUNCTIONS  ########################################## ######*/
 function emptyInputSignup($user_name, $pwd, $pwdRepeat, $user_apellido, $userCd, $userEmail, $userRol)
 {
@@ -183,29 +241,7 @@ function emptyInputLogin($userEmail, $pwd)
     return $result;
 }
 
-function createSession($userId, $userRol)
-{
-    session_start();
-
-    $_SESSION["userId"] = $userId;
-    $_SESSION["userRol"] = $userRol;
-
-    switch ($userRol) {
-        case 3:
-            header("location: " . url() . "/dashboard.php"); // Redirige a la página de inicio del enfermero
-            break;
-        case 2:
-            //TODO: IT DOES NOT HAVE LAYOUT YET SO THIS TECHNICALLY DOESNT WORK BRO WTF.
-            header("location: " . LAYOUTS_DIR . "/dashboard/users.php"); // Redirige a la página de inicio del doctor
-            break;
-        case 1:
-            header("location: " . LAYOUTS_DIR . "/dashboard/users.php"); // Redirige a la página de inicio del administrador
-            break;
-    }
-    exit();
-}
-
-function LoginUser($conn, $userEmail, $pwd)
+function LoginUser($userEmail, $pwd)
 {
     $conn = $GLOBALS['conn'];
 
@@ -218,7 +254,6 @@ function LoginUser($conn, $userEmail, $pwd)
 
     $resultData = mysqli_stmt_get_result($stmt);
     if ($row = mysqli_fetch_all($resultData, MYSQLI_ASSOC)) {
-
         foreach ($row as $r) {
             $hashedPwd = $r["usersPwd"];
             $userId = $r["idUsuario"];
@@ -226,9 +261,6 @@ function LoginUser($conn, $userEmail, $pwd)
         }
 
         if (password_verify($pwd, $hashedPwd)) {
-
-            session_start();
-
             $_SESSION["idUsuario"] = $userId;
             $_SESSION["userRol"] = $userRol;
         } else {
@@ -238,15 +270,6 @@ function LoginUser($conn, $userEmail, $pwd)
     } else {
         header("location: /auth?error=001");
     }
-}
-
-function LogoutUser()
-{
-    // Destruye la sesión
-    session_destroy();
-    // Redirige al usuario de vuelta al login
-    header("location: /");
-    exit();
 }
 
 ################################### USERS FUNCTIONS ########################################## ###

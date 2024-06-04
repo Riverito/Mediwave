@@ -11,8 +11,7 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
- 
-    if(LoginUser($GLOBALS["conn"], $userEmail, $pwd)){
-        $_POST = 'esto se jodio';
+    if(LoginUser($userEmail, $pwd)){
+        $_POST = 'Ha sucedido un error.';
     };
 } 

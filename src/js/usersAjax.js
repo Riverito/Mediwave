@@ -1,7 +1,7 @@
 function updateUserTable() {
     var tbody = '';
     $.ajax({
-        url: '/dashboard/index',
+        url: '/users/index',
         type: 'GET',
         dataType: 'json',
         success: function (response) {

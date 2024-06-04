@@ -133,61 +133,61 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-.modal-ajustment .modal-content {
+.modal-adjustment .modal-content {
   border-radius: 10px;
   padding: 20px;
 }
-.modal-ajustment .modal-content .modal-header {
+.modal-adjustment .modal-content .modal-header {
   border-bottom: none;
 }
-.modal-ajustment .modal-content .modal-header .modal-title {
+.modal-adjustment .modal-content .modal-header .modal-title {
   font-size: 1.5rem;
   font-weight: bold;
 }
-.modal-ajustment .modal-content .modal-header .btn-close {
+.modal-adjustment .modal-content .modal-header .btn-close {
   background-color: transparent;
   border: none;
 }
-.modal-ajustment .modal-content .modal-body {
+.modal-adjustment .modal-content .modal-body {
   padding: 20px;
 }
-.modal-ajustment .modal-content .modal-body .input-group {
+.modal-adjustment .modal-content .modal-body .input-group {
   margin-bottom: 1rem;
 }
-.modal-ajustment .modal-content .modal-body .input-group .input-group-text {
+.modal-adjustment .modal-content .modal-body .input-group .input-group-text {
   background-color: #007bff;
   color: white;
   border: none;
 }
-.modal-ajustment .modal-content .modal-body .input-group .form-control {
+.modal-adjustment .modal-content .modal-body .input-group .form-control {
   border-left: none;
 }
-.modal-ajustment .modal-content .modal-body .table-responsive {
+.modal-adjustment .modal-content .modal-body .table-responsive {
   max-height: 300px;
   overflow-y: auto;
   margin-bottom: 1rem;
 }
-.modal-ajustment .modal-content .modal-body .table th, .modal-ajustment .modal-content .modal-body .table td {
+.modal-adjustment .modal-content .modal-body .table th, .modal-adjustment .modal-content .modal-body .table td {
   text-align: center;
   vertical-align: middle;
 }
-.modal-ajustment .modal-content .modal-body .table th {
+.modal-adjustment .modal-content .modal-body .table th {
   background-color: #f8f9fa;
 }
-.modal-ajustment .modal-content .modal-body .form-label {
+.modal-adjustment .modal-content .modal-body .form-label {
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
-.modal-ajustment .modal-content .modal-body textarea.form-control {
+.modal-adjustment .modal-content .modal-body textarea.form-control {
   resize: none;
   border-radius: 0.25rem;
   padding: 10px;
 }
-.modal-ajustment .modal-content .modal-body .d-flex button {
+.modal-adjustment .modal-content .modal-body .d-flex button {
   font-size: 1rem;
   padding: 10px 20px;
 }
-.modal-ajustment .modal-content .alert {
+.modal-adjustment .modal-content .alert {
   font-size: 1rem;
   padding: 15px;
   margin-top: 20px;
