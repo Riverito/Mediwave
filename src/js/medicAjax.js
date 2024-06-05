@@ -23,10 +23,6 @@ $(document).ready(function () {
         $('#newPatientForm')[0].reset();
     });
 
-
-
-
-
     var fullTable = $('#patientsFullViewTable');
     var fullScreenTableModal = $('#FullpatientsViews');
 
@@ -52,17 +48,41 @@ $(document).ready(function () {
     const cedulaField = document.getElementById('cedulaField');
     const patientCdInput = document.getElementById('patientCd');
 
-
-
     hasCedulaSwitch.addEventListener('change', toggleCedulaField);
-
-
 
     $("#newPatientForm").submit(function (e) {
         e.preventDefault();
         $.ajax({
             type: "POST",
             url: '/medical-records/create',
+            data: $(this).serialize(),
+            success: function (response) {
+                console.log(response);
+                response = JSON.parse(response);
+                console.log(response['message']);
+                $('#createPatientsErrorsAlerts').removeClass("d-none").addClass('d-block alert alert-primary').text(response.message).show();
+                setTimeout(function () {
+                    $('#createPatientsErrorsAlerts').addClass('d-none');
+                }, 6000);
+                if (response.status == 20) {
+                    updatePatiensTable();
+                    $('#newPatientForm')[0].reset();
+                    setTimeout(function () {
+                        $('#createPatientsErrorsAlerts').addClass('d-none');
+                    }, 6000);
+                }
+            },
+            error: function (error) {
+                console.log("SignupForm ajax request fail", error);
+            }
+        });
+    });
+
+    $("#historyForm").submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: '/medical-records/asign',
             data: $(this).serialize(),
             success: function (response) {
                 console.log(response);

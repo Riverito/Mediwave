@@ -8,13 +8,12 @@ $inventoryItems = array();
 
 foreach ($row_inventory as $row) {
     $patient = array(
-        'PatienName' => $row["nombrePaciente "],
+        'PatienName' => $row["nombrePaciente"],
         'patientLastName' => $row["apellidoPaciente"],
         'patientCd' => $row["cedulaPaciente"],
-        'patientDOB' => $row[" 	fechaNacimientoPaciente"],
+        'patientDOB' => $row["fechaNacimientoPaciente"],
         'patientGender' => $row["generoPaciente"],
         'idPatient' => $row["idPaciente"]
-
     );
 
     $patients[] = $patient;

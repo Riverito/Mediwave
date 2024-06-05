@@ -26,11 +26,11 @@ if (!empty($_POST)) {
         reportKill($response);
     }
 
-    if (cdExists($_POST["editUserCd"])) {
-        $response['status'] = 4;
-        $response['message'] = 'La cédula ya esta registrada.';
-        reportKill($response);
-    }
+    // if (cdExists($_POST["editUserCd"])) {
+    //     $response['status'] = 4;
+    //     $response['message'] = 'La cédula ya esta registrada.';
+    //     reportKill($response);
+    // }
 
     if (!valid_email($_POST["editMail"])) {
         $response['status'] = 5;
@@ -40,11 +40,11 @@ if (!empty($_POST)) {
         $filteredEmail = valid_email($_POST["editMail"]);
     }
 
-    if (emailExists($filteredEmail)) {
-        $response['status'] = 6;
-        $response['message'] = 'Este correo ya fue registrado.';
-        reportKill($response);
-    }
+    // if (emailExists($filteredEmail)) {
+    //     $response['status'] = 6;
+    //     $response['message'] = 'Este correo ya fue registrado.';
+    //     reportKill($response);
+    // }
 
     if (editUser($_POST["editNombre"], $_POST["editApellido"], $_POST["editUserCd"], $_POST["editMail"], $_POST["editRol"], $_POST["uid"])) {
         $response['status'] = 20;

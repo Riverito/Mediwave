@@ -17,14 +17,20 @@ function get_footer()
 /* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
 
 /* ########################################## ## SESSION FUNCTIONS  ########################################## ######*/
+
 function checkSession(){
-    if( session_status() === PHP_SESSION_NONE || !isset($_SESSION) || empty($_SESSION)){
+    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
         return false;
     }
 
-    if( checkSessionID() && checkSessionRole() ){
-        return true;
+    // Verifica si $_SESSION contiene los datos necesarios
+    if(isset($_SESSION['user_id']) && isset($_SESSION['user_role'])){
+        // Verifica si los datos de la sesión son válidos
+        if(checkSessionID() && checkSessionRole()){
+            return true;
+        }
     }
+
     return false;
 }
 
