@@ -26,7 +26,7 @@ $klein->respond('GET', '/logout', function () use ($klein) {
 
 $klein->respond('POST', '/auth', function () use ($klein) {
     include(INCLUDES_DIR . '/account/auth.php');
-    $klein->response()->header('Location', '/users');
+    $klein->response()->header('Location', '/');
 });
 
 
@@ -108,7 +108,7 @@ $klein->with('/medical-records', function () use ($klein) {
         require(INCLUDES_DIR . '/medic/Createpatient.php');
     });
 
-    $klein->respond('POST', '/asign', function () {
+    $klein->respond('POST', '/assign', function () {
         require(INCLUDES_DIR . '/medic/MedicalRecordCreate.php');
     });
 

@@ -113,8 +113,8 @@ function updateInventory($itemId, $itemQuantity, $operation)
 
 function logAdjustment($itemId, $quantity, $operation, $reason)
 {
-    $adjustmentId = generateUserid();  // Suponiendo que tienes una función para generar ID de ajustes
-    $userId = "ZuBJdd";  // Suponiendo que tienes una función para generar ID de usuario
+    $ID = generateUserid();
+    $userId = $_SESSION['idUsuario'];
 
     $conn = $GLOBALS['conn'];
     $adjustmentAmount = ($operation === 'subtract') ? -$quantity : $quantity;
@@ -126,7 +126,7 @@ function logAdjustment($itemId, $quantity, $operation, $reason)
         die("Error en la preparación de la consulta: " . $conn->error);
     }
 
-    $stmt->bind_param("ssiss", $adjustmentId, $itemId, $adjustmentAmount, $reason, $userId);
+    $stmt->bind_param("ssiss", $ID, $itemId, $adjustmentAmount, $reason, $userId);
     $result = $stmt->execute();
 
     if (!$result) {

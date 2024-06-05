@@ -78,19 +78,15 @@ $(document).ready(function () {
         });
     });
 
-    $("#historyForm").submit(function (e) {
-        var file_data = $('#inputfile').prop('files')[0];   
-        var form_data = new FormData();                  
-        form_data.append('file', file_data);
-        alert(form_data); 
+    $("#historyForm").submit(function (e) {      
         e.preventDefault();
+        let formData = new FormData(this);
         $.ajax({
             type: "POST",
-            url: '/medical-records/asign',
-            data: new FormData(this),
-            dataType: "json",
+            url: '/medical-records/assign',
+            data: formData,
+            dataType: 'json',
             contentType: false,
-            enctype: 'multipart/form-data',
             processData: false,
             success: function (response) {
                 response = JSON.parse(response);
