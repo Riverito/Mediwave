@@ -3,8 +3,20 @@
 $klein = new \Klein\Klein();
 
 /******************** Basic Routing ********************/
-$klein->respond('GET', '/', function () {
+$klein->respond('GET', '/', function () use ($klein) {
     include(LAYOUTS_DIR . '/login.php');
+    $access = routeAccessController();
+    switch ($access){
+        case 3:
+            $klein->response()->redirect('/inventory');
+        break;
+        case 2:
+            $klein->response()->redirect('/medical-records');
+        break;
+        case 1:
+            $klein->response()->redirect('/users');
+        break;
+    }
 });
 $klein->respond('GET', '/logout', function () use ($klein) {
     unset($_SESSION);
@@ -40,9 +52,12 @@ $klein->with('/users', function () use ($klein) {
     });
 
     $klein->respond('GET', '', function ()  use ($klein) {
-        var_dump($_SESSION);
-        var_dump(checkSession());
-        include(LAYOUTS_DIR . '/dashboard/users.php');
+        if( routeAccessController() === 1){
+            include(LAYOUTS_DIR . '/dashboard/users.php');
+        }else{
+            $klein->response()->redirect('/');
+        }
+        
     });
 });
 
@@ -71,8 +86,13 @@ $klein->with('/inventory', function () use ($klein) {
         });
     });
 
-    $klein->respond('GET', '', function () {
-        require(LAYOUTS_DIR . '/dashboard/inventory.php');
+    $klein->respond('GET', '', function () use ($klein) {
+        $access = routeAccessController();
+        if( $access === 3 or $access === 1){
+            require(LAYOUTS_DIR . '/dashboard/inventory.php');
+        }else{
+            $klein->response()->redirect('/');
+        }
     });
 });
 
@@ -106,8 +126,14 @@ $klein->with('/medical-records', function () use ($klein) {
         });
     });
 
-    $klein->respond('GET', '', function () {
-        require(LAYOUTS_DIR . '/dashboard/medic.php');
+    $klein->respond('GET', '', function () use ($klein)  {
+        $access = routeAccessController();
+        if( $access === 2 or $access === 1){
+            require(LAYOUTS_DIR . '/dashboard/medic.php');
+        }else{
+            $klein->response()->redirect('/');
+        }
+        
     });
 });
 

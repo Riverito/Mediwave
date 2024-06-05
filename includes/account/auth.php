@@ -12,6 +12,6 @@ if (isset($_POST["submit"])) {
     }
 
     if(LoginUser($userEmail, $pwd)){
-        $_POST = 'Ha sucedido un error.';
+        return 'Ha sucedido un error.';
     };
 } 

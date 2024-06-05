@@ -1,7 +1,7 @@
 <?php
 require_once 'DB.php';
-require_once 'inventory.php';
-require_once 'medic.php';
+require_once 'functions/inventory.php';
+require_once 'functions/medic.php';
 
 /* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
 function get_header()
@@ -19,25 +19,26 @@ function get_footer()
 /* ########################################## ## SESSION FUNCTIONS  ########################################## ######*/
 
 function checkSession(){
-    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
-        return false;
+    if(checkSessionID() && checkSessionRole()){
+        return true;
     }
-
-    // Verifica si $_SESSION contiene los datos necesarios
-    if(isset($_SESSION['user_id']) && isset($_SESSION['user_role'])){
-        // Verifica si los datos de la sesión son válidos
-        if(checkSessionID() && checkSessionRole()){
-            return true;
-        }
-    }
-
     return false;
 }
+function getAllRoles(){
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM roles";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_execute($stmt);
 
+    $resultData = mysqli_stmt_get_result($stmt);
+    return $resultData;
+}
 function checkSessionID(){
-    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
+    if(!isset($_SESSION['idUsuario']) or !isset($_SESSION['idRol'])){
         return false;
     }
+
     $conn = $GLOBALS['conn'];
     $sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
     $stmt = mysqli_stmt_init($conn);
@@ -56,10 +57,34 @@ function checkSessionID(){
     }
 }
 
+function routeAccessController(){
+    if(checkSession()){
+            return $_SESSION['idRol'];
+    }
+}
+
+function updateSessionRole(){
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM usuarios WHERE idUsuario = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $_SESSION['idUsuario']);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($resultData);
+    mysqli_stmt_close($stmt);
+
+    if (!empty($rowcount) and $rowcount === 1) {
+        $_SESSION['idRol'] = $resultData['idRol'];
+    }
+}
+
 function checkSessionRole(){
-    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
+    if(!isset($_SESSION['idUsuario']) or !isset($_SESSION['idRol'])){
         return false;
     }
+
     $conn = $GLOBALS['conn'];
     $sql = "SELECT * FROM usuarios WHERE idRol = ? AND idUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
@@ -74,6 +99,7 @@ function checkSessionRole(){
     if (!empty($rowcount) and $rowcount === 1) {
         return true;
     } else {
+        updateSessionRole();
         return false;
     }
 }

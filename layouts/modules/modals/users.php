@@ -40,10 +40,14 @@
                         <label for="NewUserRol" class="form-label">Rol del usuario</label>
                         <select id="NewUserRol" class="form-select" name="userRol">
                             <option value="">Elija un rol para el usuario a registrar</option>
-                            <option value="3">Enfermero</option>
-                            <option value="2">Doctor</option>
+                            <?php
+                                $roles = getAllRoles();
+                                foreach ($roles as $role){
+                                    echo '<option value="'.$role['idRol'].'">'.$role['nombreRol'].'</option>';
+                                }
+                            ?>
                         </select>
-                        <div class="invalid-feedback">Por favor elija un rol para el usuario</div>
+                        <div class="invalid-feedback">Por favor, elija un rol para el usuario</div>
                     </div>
                     <div class="col-12 text-center">
                         <div id="errorsAlerts" class="alert d-none alert-primary" role="alert"></div>
