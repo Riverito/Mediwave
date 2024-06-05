@@ -60,7 +60,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/dashboard/AsignHistory" id="historyForm" method="post" class="adjustment-form p-3">
+                <form action="/dashboard/AsignHistory" id="historyForm" enctype="multipart/form-data" method="post" class="adjustment-form p-3">
                     <div class="input-group mb-3">
                         <button type="button" data-bs-toggle='modal' data-bs-target='#FullpatientsViews' class="input-group-text fs-5" id="fullTableLaunch">Buscar</button>
                         <input id="searchPatient" class="form-control" aria-label="Buscar paciente" aria-describedby="inputGroup-sizing-default">
@@ -84,7 +84,7 @@
                     <div class="mb-3">
                         <label for="inputGroupFile04" class="form-label">Subir archivo</label>
                         <div class="input-group">
-                            <input type="file" class="form-control" id="inputGroupFile04" name="fileUpload" aria-label="Upload">
+                            <input type="file" class="form-control" id="inputfile" name="fileUpload" aria-label="Upload">
                         </div>
                     </div>
 
@@ -93,7 +93,7 @@
                         <button id="cancelHistoryAsingn" type="button" class="btn btn-danger w-100 ms-2" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
-                <div id="adjustmentErrorsAlerts" class="hidden alert alert-primary mt-3 text-center" role="alert"></div>
+                <div id="HistoryAsignErrors" class="d-none alert alert-primary mt-3 text-center" role="alert"></div>
             </div>
         </div>
     </div>

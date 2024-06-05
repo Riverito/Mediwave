@@ -79,15 +79,22 @@ $(document).ready(function () {
     });
 
     $("#historyForm").submit(function (e) {
+        var file_data = $('#inputfile').prop('files')[0];   
+        var form_data = new FormData();                  
+        form_data.append('file', file_data);
+        alert(form_data); 
         e.preventDefault();
         $.ajax({
             type: "POST",
             url: '/medical-records/asign',
-            data: $(this).serialize(),
+            data: new FormData(this),
+            dataType: "json",
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
             success: function (response) {
-                console.log(response);
                 response = JSON.parse(response);
-                console.log(response['message']);
+                console.log(response);
                 $('#createPatientsErrorsAlerts').removeClass("d-none").addClass('d-block alert alert-primary').text(response.message).show();
                 setTimeout(function () {
                     $('#createPatientsErrorsAlerts').addClass('d-none');
@@ -96,7 +103,7 @@ $(document).ready(function () {
                     updatePatiensTable();
                     $('#newPatientForm')[0].reset();
                     setTimeout(function () {
-                        $('#createPatientsErrorsAlerts').addClass('d-none');
+                        $('#HistoryAsignErrors').addClass('d-none');
                     }, 6000);
                 }
             },

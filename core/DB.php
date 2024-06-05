@@ -2,7 +2,7 @@
 $serverName = "localhost";
 $dbUserName = "root";
 $dbPassword = "";
-$dbName = "mediwave";
+$dbName = "mediwavees";
 
 $GLOBALS["conn"] = mysqli_connect($serverName, $dbUserName, $dbPassword, $dbName);
 

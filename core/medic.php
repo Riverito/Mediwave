@@ -69,3 +69,34 @@ function patientCdExists($userCd)
 
     return $result;
 }
+
+
+function asignHistory($patientId, $file) {
+
+    $uploadDirectory = './archivos/';
+
+    // Nombre del archivo
+    $fileName = basename($file['name']);
+
+    // Ruta completa del archivo en el servidor
+    $filePath = $uploadDirectory . $fileName;
+
+    // Mover el archivo a la ubicación deseada en el servidor
+    if (move_uploaded_file($file['tmp_name'], $filePath)) {
+        // Si se mueve correctamente, registrar la ruta del archivo en la base de datos
+        $conn = $GLOBALS['conn']; // Debes establecer la conexión a la base de datos aquí
+        $sql = "INSERT INTO registros_medicos (idPaciente, rutaArchivoRegistro) VALUES (?, ?)";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 'ss', $patientId, $filePath);
+        if (mysqli_stmt_execute($stmt)) {
+            // Si se ejecuta correctamente la consulta, retorna true
+            return true;
+        } else {
+            // Si hay un error en la consulta SQL, retorna false
+            return false;
+        }
+    } else {
+        // Si hay un error al mover el archivo, retorna false
+        return false;
+    }
+}
