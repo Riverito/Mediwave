@@ -6,7 +6,7 @@
     </div>
 
     <div class="w-100">
-        <a href="/medic">
+        <a href="/medical-records">
             <button type="button" class="btn col-12 lg-btn">
                 <h5>Historial Medico</h5>
             </button>

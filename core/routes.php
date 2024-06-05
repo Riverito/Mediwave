@@ -88,10 +88,15 @@ $klein->with('/medical-records', function () use ($klein) {
         require(INCLUDES_DIR . '/medic/Createpatient.php');
     });
 
+    $klein->respond('POST', '/asign', function () {
+        require(INCLUDES_DIR . '/medic/MedicalRecordCreate.php');
+    });
+
     $klein->respond('POST', '/delete', function () {
         require(INCLUDES_DIR . '/inventory/deleteItem.php');
     });
     
+
     $klein->with('/adjustments', function () use ($klein) {
         $klein->respond('POST', '/create', function () {
             require(INCLUDES_DIR . '/inventory/adjustments.php');
