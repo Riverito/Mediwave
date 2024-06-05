@@ -1,40 +1,93 @@
 <div class="modal fade" id="newPacientModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl"> <!-- Aumenta el tamaño del modal -->
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="CreateModalLabel">datos básicos del paciente</h5>
+                <h5 class="modal-title" id="CreateModalLabel">Datos Básicos del Paciente</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="/dashboard/createPatient" id="newPatientForm" method="post" class="row g-3">
                     <div class="col-md-6">
                         <label for="patientName" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="patientName" name="patientName">
+                        <input type="text" class="form-control" id="patientName" name="patientName" required>
                     </div>
                     <div class="col-md-6">
                         <label for="patientLastname" class="form-label">Apellido</label>
-                        <input type="text" class="form-control" id="patientLastname" name="patientLastname">
+                        <input type="text" class="form-control" id="patientLastname" name="patientLastname" required>
                     </div>
-                    <div class="form-check form-switch col-12">
-                        <input class="form-check-input" name="HasCd" type="checkbox" role="switch" id="hasCedulaSwitch" checked>
-                        <label class="form-check-label" for="hasCedulaSwitch">¿Posee cédula?</label>
+                    <div class="col-md-6">
+                        <label for="patientPhone" class="form-label">Número de Teléfono</label>
+                        <input type="tel" class="form-control" id="patientPhone" name="patientPhone" placeholder="0414-1234567" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="patientAddress" class="form-label">Dirección</label>
+                        <textarea class="form-control" id="patientAddress" name="patientAddress" rows="2" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" name="HasCd" type="checkbox" role="switch" id="hasCedulaSwitch" checked>
+                            <label class="form-check-label" for="hasCedulaSwitch">¿Posee cédula?</label>
+                        </div>
                     </div>
                     <div class="col-md-6" id="cedulaField">
                         <label for="patientCd" class="form-label">Cédula</label>
-                        <input type="text" class="form-control" id="patientCd" name="patientCd" placeholder="V-">
+                        <input type="text" class="form-control" id="patientCd" name="patientCd" placeholder="V-" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="patientAge" class="form-label">Fecha de nacimiento</label>
-                        <input type="date" class="form-control" id="patientAge" name="patientAge">
+                        <label for="patientDOB" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="patientDOB" name="patientDOB" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="patientGenre" class="form-label">Género del paciente</label>
-                        <select id="patientGenre" class="form-select" name="patientGenre">
+                        <label for="patientGenre" class="form-label">Género del Paciente</label>
+                        <select id="patientGenre" class="form-select" name="patientGenre" required>
                             <option value="">Seleccione</option>
                             <option value="Masculino">Masculino</option>
                             <option value="Femenino">Femenino</option>
+                            <option value="Otro">Otro</option>
                         </select>
                         <div class="invalid-feedback">Por favor elija un género</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="patientBloodType" class="form-label">Tipo de Sangre</label>
+                        <select id="patientBloodType" class="form-select" name="patientBloodType" required>
+                            <option value="">Seleccione</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
+                        <div class="invalid-feedback">Por favor elija un tipo de sangre</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Historial Médico</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="hasDiabetes" name="medicalHistory[]" value="Diabetes">
+                            <label class="form-check-label" for="hasDiabetes">Diabetes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="hasHypertension" name="medicalHistory[]" value="Hipertensión">
+                            <label class="form-check-label" for="hasHypertension">Hipertensión</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="hasCardiovascular" name="medicalHistory[]" value="Enfermedad Cardiovascular">
+                            <label class="form-check-label" for="hasCardiovascular">Enfermedad Cardiovascular</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="hasAsthma" name="medicalHistory[]" value="Asma">
+                            <label class="form-check-label" for="hasAsthma">Asma</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="hasAllergies" name="medicalHistory[]" value="Alergias">
+                            <label class="form-check-label" for="hasAllergies">Alergias</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="hasKidneyDisease" name="medicalHistory[]" value="Enfermedad Renal">
+                            <label class="form-check-label" for="hasKidneyDisease">Enfermedad Renal</label>
+                        </div>
                     </div>
                     <div class="col-12 text-center">
                         <div id="createPatientsErrorsAlerts" class="alert alert-primary d-none" role="alert"></div>
@@ -51,15 +104,17 @@
     </div>
 </div>
 
+
+
 <div class="modal fade" id="sutmitPatienHistory" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md modal-ajustment">
+    <div class="modal-dialog modal-dialog-centered modal-md modal-adjustment">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="CreateModalLabel">Asignar historia médica</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/dashboard/AsignHistory" id="historyForm" method="post" class="ajustment-form p-3">
+                <form action="/dashboard/AsignHistory" id="historyForm" method="post" class="adjustment-form p-3">
                     <div class="input-group mb-3">
                         <button type="button" data-bs-toggle='modal' data-bs-target='#FullpatientsViews' class="input-group-text fs-5" id="fullTableLaunch">Buscar</button>
                         <input id="searchPatient" class="form-control" aria-label="Buscar paciente" aria-describedby="inputGroup-sizing-default">
@@ -92,7 +147,7 @@
                         <button id="cancelHistoryAsingn" type="button" class="btn btn-danger w-100 ms-2" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
-                <div id="ajustmentErrorsAlerts" class="hidden alert alert-primary mt-3 text-center" role="alert"></div>
+                <div id="adjustmentErrorsAlerts" class="hidden alert alert-primary mt-3 text-center" role="alert"></div>
             </div>
         </div>
     </div>

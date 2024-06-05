@@ -1,5 +1,8 @@
 <?php
 require_once 'DB.php';
+require_once 'inventory.php';
+require_once 'medic.php';
+
 /* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
 function get_header()
 {
@@ -12,6 +15,64 @@ function get_footer()
 }
 
 /* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
+
+/* ########################################## ## SESSION FUNCTIONS  ########################################## ######*/
+function checkSession(){
+    if( session_status() === PHP_SESSION_NONE || !isset($_SESSION) || empty($_SESSION)){
+        return false;
+    }
+
+    if( checkSessionID() && checkSessionRole() ){
+        return true;
+    }
+    return false;
+}
+
+function checkSessionID(){
+    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
+        return false;
+    }
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $_SESSION['idUsuario']);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($resultData);
+    mysqli_stmt_close($stmt);
+
+    if (!empty($rowcount) and $rowcount === 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkSessionRole(){
+    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
+        return false;
+    }
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM usuarios WHERE idRol = ? AND idUsuario = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "ss", $_SESSION['idRol'], $_SESSION['idUsuario']);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($resultData);
+    mysqli_stmt_close($stmt);
+
+    if (!empty($rowcount) and $rowcount === 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/* ########################################## ## SESSION FUNCTIONS  ########################################## ######*/
 
 /* ########################################## ## REGISTER FUNCTIONS  ########################################## ######*/
 function emptyInputSignup($user_name, $pwd, $pwdRepeat, $user_apellido, $userCd, $userEmail, $userRol)
@@ -95,7 +156,7 @@ function pwdMatch($pwd, $pwdRepeat)
 function uidExists($userId)
 {
     $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM users WHERE idUsuario = ?;";
+    $sql = "SELECT * FROM usuarios WHERE idUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
     
     if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -119,7 +180,7 @@ function uidExists($userId)
 function cdExists($userCd)
 {
     $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM users WHERE userCd = ?;";
+    $sql = "SELECT * FROM usuarios WHERE cedulaUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
     mysqli_stmt_prepare($stmt, $sql);
     mysqli_stmt_bind_param($stmt, "s", $userCd);
@@ -141,7 +202,7 @@ function cdExists($userCd)
 function emailExists($filteredEmail)
 {
     $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM users WHERE userEmail = ?;";
+    $sql = "SELECT * FROM usuarios WHERE emailUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
     mysqli_stmt_prepare($stmt, $sql);
     mysqli_stmt_bind_param($stmt, "s", $filteredEmail);
@@ -183,33 +244,11 @@ function emptyInputLogin($userEmail, $pwd)
     return $result;
 }
 
-function createSession($userId, $userRol)
-{
-    session_start();
-
-    $_SESSION["userId"] = $userId;
-    $_SESSION["userRol"] = $userRol;
-
-    switch ($userRol) {
-        case 3:
-            header("location: " . url() . "/dashboard.php"); // Redirige a la página de inicio del enfermero
-            break;
-        case 2:
-            //TODO: IT DOES NOT HAVE LAYOUT YET SO THIS TECHNICALLY DOESNT WORK BRO WTF.
-            header("location: " . LAYOUTS_DIR . "/dashboard/users.php"); // Redirige a la página de inicio del doctor
-            break;
-        case 1:
-            header("location: " . LAYOUTS_DIR . "/dashboard/users.php"); // Redirige a la página de inicio del administrador
-            break;
-    }
-    exit();
-}
-
-function LoginUser($conn, $userEmail, $pwd)
+function LoginUser($userEmail, $pwd)
 {
     $conn = $GLOBALS['conn'];
 
-    $sql = "SELECT * FROM users WHERE userEmail = ?;";
+    $sql = "SELECT * FROM usuarios WHERE emailUsuario  = ?;";
     $stmt = mysqli_stmt_init($conn);
     mysqli_stmt_prepare($stmt, $sql);
 
@@ -218,19 +257,15 @@ function LoginUser($conn, $userEmail, $pwd)
 
     $resultData = mysqli_stmt_get_result($stmt);
     if ($row = mysqli_fetch_all($resultData, MYSQLI_ASSOC)) {
-
         foreach ($row as $r) {
-            $hashedPwd = $r["usersPwd"];
+            $hashedPwd = $r["contrasenaUsuario"];
             $userId = $r["idUsuario"];
-            $userRol = $r["userRol"];
+            $userRol = $r["idRol"];
         }
 
         if (password_verify($pwd, $hashedPwd)) {
-
-            session_start();
-
             $_SESSION["idUsuario"] = $userId;
-            $_SESSION["userRol"] = $userRol;
+            $_SESSION["idRol"] = $userRol;
         } else {
             header("location: /auth?error=002");
         }
@@ -240,22 +275,13 @@ function LoginUser($conn, $userEmail, $pwd)
     }
 }
 
-function LogoutUser()
-{
-    // Destruye la sesión
-    session_destroy();
-    // Redirige al usuario de vuelta al login
-    header("location: /");
-    exit();
-}
-
 ################################### USERS FUNCTIONS ########################################## ###
 
 function createUser($user_name, $pwd, $user_apellido, $userCd, $userEmail, $userRol)
 {
     $id = generateUserid();
 
-    $sql = "INSERT INTO users  (idUsuario, usersName, usersPwd, userApellido, userCd, userEmail, userRol) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO usuarios (idUsuario, nombreUsuario, contrasenaUsuario, apellidoUsuario, cedulaUsuario, emailUsuario, idRol) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_stmt_init($GLOBALS['conn']);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         exit();
@@ -277,7 +303,7 @@ function createUser($user_name, $pwd, $user_apellido, $userCd, $userEmail, $user
 function editUser($user_name, $user_apellido, $userCd, $userEmail, $userRol, $userId)
 {
     $conn = $GLOBALS['conn'];
-    $sql = "UPDATE users SET usersName=?, userApellido=?, userCd=?, userEmail=?, userRol=? WHERE idUsuario=?";
+    $sql = "UPDATE usuarios SET nombreUsuario=?, apellidoUsuario=?, cedulaUsuario=?, emailUsuario=?, idRol=? WHERE idUsuario=?";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         exit();
@@ -290,37 +316,13 @@ function editUser($user_name, $user_apellido, $userCd, $userEmail, $userRol, $us
     return true;
 }
 
-function userView($userId)
-{
-    $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM users WHERE idUsuario = ?;";
-    $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        exit();
-    }
-
-    mysqli_stmt_bind_param($stmt, "s", $userId);
-    mysqli_stmt_execute($stmt);
-    $resultData = mysqli_stmt_get_result($stmt);
-    mysqli_stmt_close($stmt);
-    if ($row = mysqli_fetch_assoc($resultData)) {
-        $userData = [
-            'username' => $row['usersName'],
-            'apellido' => $row['userApellido'],
-            'email' => $row['userEmail'],
-            'cd' => $row['userCd'],
-            'rol' => $row['userRol'],
-        ];
-        return $userData;
-    }
-}
 
 function deleteUser($userId)
 {
     if (uidExists($userId)) {
         $conn = $GLOBALS['conn'];
 
-        $sql = "DELETE FROM users WHERE idUsuario = ?";
+        $sql = "DELETE FROM usuarios WHERE idUsuario = ?";
         $stmt = mysqli_stmt_init($conn);
 
         if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -339,7 +341,6 @@ function deleteUser($userId)
     }
 }
 
-///AAAAAAAAAAAAA
 $GLOBALS['medi'] = '/mediwave';
 
 function url()
@@ -359,237 +360,4 @@ function reportKill(&$response)
 }
 
 
-########################################## #################### #########################################
-########################################## FUNCIONES INVENTARIO #########################################
-########################################## #################### #########################################
 
-
-function emptyNewItem($itemName, $ItemDrescription)
-{
-
-    if (empty($itemName)  || empty($ItemDrescription)) {
-        $result = true;
-    } else {
-        $result = false;
-    }
-    return $result;
-}
-
-function invalidItem($itemName)
-{
-
-    if (preg_match("/^[a-zA-Z\d\s\-]*$/", $itemName)) {
-        return false;
-    }
-    return true;
-}
-
-function itemExists($itemName)
-{
-    $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM inventory WHERE nameItem = ?;";
-    $stmt = mysqli_stmt_init($conn);
-    mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $itemName);
-    mysqli_stmt_execute($stmt);
-
-    $resultData = mysqli_stmt_get_result($stmt);
-    $rowcount = mysqli_num_rows($resultData);
-    mysqli_stmt_close($stmt);
-
-    if (!empty($rowcount) and $rowcount >= 1) {
-        $result = true;
-    } else {
-        $result = false;
-    }
-    return $result;
-}
-
-
-function createItem($itemName, $ItemDrescription)
-{
-    $id = generateUserid();
-
-    $sql = "INSERT INTO inventory  (idItem, nameItem, descriptionItem) VALUES (?, ?, ?)";
-    $stmt = mysqli_stmt_init($GLOBALS['conn']);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        exit();
-    }
-
-    mysqli_stmt_bind_param($stmt, "sss", $id, $itemName, $ItemDrescription);
-    mysqli_stmt_execute($stmt);
-
-    if (mysqli_errno($GLOBALS['conn']) == 1062) {
-        return '1062';
-    }
-
-    mysqli_stmt_close($stmt);
-    return true;
-}
-
-
-function updateInventory($itemId, $itemQuantity, $operation)
-{
-    $conn = $GLOBALS['conn'];
-    $currentCount = 0;
-
-
-    $sql = "SELECT countItem FROM inventory WHERE idItem = ?";
-    $stmt = mysqli_stmt_init($conn);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        die("Error en la preparación de la consulta: " . $conn->error);
-    }
-
-    mysqli_stmt_bind_param($stmt, "s", $itemId);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    if ($row = mysqli_fetch_assoc($result)) {
-        $currentCount = $row['countItem'];
-    }
-    mysqli_stmt_close($stmt);
-
-    if ($operation === "sum") {
-        $newCount = $currentCount + $itemQuantity;
-    } elseif ($operation === "subtract") {
-        $newCount = $currentCount - $itemQuantity;
-        if ($newCount < 0) {
-            return 0;
-        }
-    } else {
-        die("Operación no válida: " . htmlspecialchars($operation));
-    }
-
-    $sql = "UPDATE inventory SET countItem = ? WHERE idItem = ?";
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        die("Error en la preparación de la consulta: " . $conn->error);
-    }
-    $stmt->bind_param("is", $newCount, $itemId);
-    $result = $stmt->execute();
-    $stmt->close();
-
-    return $result;
-}
-
-
-
-
-function logAdjustment($itemId, $quantity, $operation, $reason)
-{
-    $adjustmentId = generateUserid();  // Suponiendo que tienes una función para generar ID de ajustes
-    $userId = "cwCmzz";  // Suponiendo que tienes una función para generar ID de usuario
-
-    $conn = $GLOBALS['conn'];
-    $adjustmentAmount = ($operation === 'subtract') ? -$quantity : $quantity;
-
-    $sql = "INSERT INTO inventory_adjustments (adjustmentId, itemId, adjustmentAmount, adjustmentReason, adjustmentDateTime, userId) VALUES (?, ?, ?, ?, NOW(), ?)";
-    $stmt = $conn->prepare($sql);
-
-    if (!$stmt) {
-        die("Error en la preparación de la consulta: " . $conn->error);
-    }
-
-    $stmt->bind_param("ssiss", $adjustmentId, $itemId, $adjustmentAmount, $reason, $userId);
-    $result = $stmt->execute();
-
-    if (!$result) {
-        die("Error en la ejecución de la consulta: " . $stmt->error);
-    }
-
-    $stmt->close();
-
-    return $result;
-}
-
-function deleteItem($userId)
-{
-    if (uidExists($userId)) {
-
-
-        $conn = $GLOBALS['conn'];
-
-        $sql = "DELETE FROM users WHERE idUsuario = ?";
-        $stmt = mysqli_stmt_init($conn);
-
-        mysqli_stmt_prepare($stmt, $sql);
-        // Manejar error de preparación de la sentencia
-
-        mysqli_stmt_bind_param($stmt, "s", $userId);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-        exit();
-    } else {
-        echo 'Esta entrada ya no existe';
-    }
-}
-
-########################################## #################### #########################################
-##########################################  FUNCIONES MEDICAS   #########################################
-########################################## #################### #########################################
-
-
-function emptyNewpatient($patientName, $PatientSecondName,$PatientGenre,$PatienAge)
-{
-    if (empty($patientName)  || empty($PatientSecondName) || empty($PatientGenre) || empty($PatienAge) ) {
-        $result = true;
-    } else {
-        $result = false;
-    }
-    return $result;
-}
-
-function createPatient($patientName, $patientLastName, $patientGenre, $patientAge, $patientCd) {
-    $id = generateUserid();
-    
-    // Preparar la consulta SQL
-    $sql = "INSERT INTO patients (idPatient , patientName, patientLastName, patientCd, patientDOB, patientGender) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = mysqli_stmt_init($GLOBALS['conn']);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        // Si hay un error al preparar la consulta, retornar el mensaje de error
-        return "Error al preparar la consulta: " . mysqli_error($GLOBALS['conn']);
-    }
-
-    // Vincular los parámetros a la consulta preparada
-    $success = mysqli_stmt_bind_param($stmt, "ssssss", $id, $patientName, $patientLastName, $patientCd, $patientAge, $patientGenre);
-    if (!$success) {
-        // Si hay un error al vincular los parámetros, retornar el mensaje de error
-        mysqli_stmt_close($stmt);
-        return "Error al vincular los parámetros: " . mysqli_stmt_error($stmt);
-    }
-
-    // Ejecutar la consulta preparada
-    $success = mysqli_stmt_execute($stmt);
-    if (!$success) {
-        // Si hay un error al ejecutar la consulta, retornar el mensaje de error
-        mysqli_stmt_close($stmt);
-        return "Error al ejecutar la consulta: " . mysqli_stmt_error($stmt);
-    }
-
-    // Cerrar la consulta preparada
-    mysqli_stmt_close($stmt);
-
-    // Retornar null si no hay errores
-    return true;
-}
-
-function patientCdExists($userCd)
-{
-    $conn = $GLOBALS['conn'];
-    $sql = "SELECT * FROM patients WHERE patientCd = ?;";
-    $stmt = mysqli_stmt_init($conn);
-    mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $userCd);
-    mysqli_stmt_execute($stmt);
-
-    $resultData = mysqli_stmt_get_result($stmt);
-    $rowcount = mysqli_num_rows($resultData);
-    mysqli_stmt_close($stmt);
-
-    if (!empty($rowcount) and $rowcount >= 1) {
-        $result = true;
-    } else {
-        $result = false;
-    }
-
-    return $result;
-}

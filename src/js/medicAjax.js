@@ -62,7 +62,7 @@ $(document).ready(function () {
         e.preventDefault();
         $.ajax({
             type: "POST",
-            url: $(this).attr("action"),
+            url: '/medical-records/create',
             data: $(this).serialize(),
             success: function (response) {
                 console.log(response);
@@ -97,7 +97,7 @@ const toggleCedulaField = () => {
 
 function updatePatiensTable() {
     $.ajax({
-        url: '/dashboard/patientsTable',
+        url: '/medical-records/index',
         type: 'GET',
         dataType: 'json',
         success: function (response) {

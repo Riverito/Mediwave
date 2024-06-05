@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="CreateModalLabel">Crear insumo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/dashboard/createItem" id="createItem" method="post" class="modal-form">
+            <form action="/inventory/create" id="createItem" method="post" class="modal-form">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="Itemname" class="form-label">Nombre</label>
@@ -55,17 +55,17 @@
 </div>
 
 <div class="modal fade" id="AjustementsModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-ajustment">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-adjustment">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="CreateModalLabel">Insumo a procesar</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/dashboard/ajustments" id="ajustmentform" method="post" class="ajustment-form p-3">
+                <form action="/dashboard/adjustments" id="adjustmentform" method="post" class="adjustment-form p-3">
                     <div class="input-group mb-3">
                         <button type="button" data-bs-toggle='modal' data-bs-target='#fullScreenTable' class="input-group-text fs-5" id="fullTableLaunch">Buscar</button>
-                        <input id="searchItemAjustment" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <input id="searchItemadjustment" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
                     <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
                         <table class="table table-striped table-bordered table-hover">
@@ -91,7 +91,7 @@
                         <button id="cancelCurrentAjust" type="button" class="btn btn-danger w-100 ms-2" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
-                <div id="ajustmentErrorsAlerts" class='hidden alert alert-primary mt-3 text-center' role='alert'></div>
+                <div id="adjustmentErrorsAlerts" class='hidden alert alert-primary mt-3 text-center' role='alert'></div>
             </div>
         </div>
     </div>
@@ -155,7 +155,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="ajustmentTable" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
+<div class="modal fade" id="adjustmentTable" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
@@ -164,7 +164,7 @@
             </div>
             <div class="modal-body">
                 <div class="mb-3">
-                    <input id="searchAjustments" class="form-control" type="text" placeholder="Buscar">
+                    <input id="searchadjustments" class="form-control" type="text" placeholder="Buscar">
                 </div>
                 <div class="table-responsive">
                     <table  class="table table-striped table-bordered table-hover">
@@ -178,7 +178,7 @@
                                 <th scope="col">Fecha</th>
                             </tr>
                         </thead>
-                        <tbody id="ajustmentsViewTable">
+                        <tbody id="adjustmentsViewTable">
                             <!-- Items will be dynamically filled here -->
                         </tbody>
                     </table>

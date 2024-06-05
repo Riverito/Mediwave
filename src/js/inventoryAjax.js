@@ -1,6 +1,6 @@
 function updateItemsTable() {
     $.ajax({
-        url: '/dashboard/itemsTable',
+        url: '/inventory/index',
         type: 'GET',
         dataType: 'json',
         success: function (response) {
@@ -15,15 +15,15 @@ function updateItemsTable() {
     });
 }
 
-function updateAjustmentTable() {
+function updateadjustmentTable() {
     $.ajax({
-        url: '/dashboard/adjustmentTable',
+        url: '/inventory/adjustments',
         type: 'GET',
         dataType: 'json',
         success: function (response) {
             if (response) {
                 console.log(response);
-                renderAjustments(response);
+                renderadjustments(response);
             }
         },
         error: function (error) {
@@ -33,25 +33,25 @@ function updateAjustmentTable() {
     
 }
 
-function renderAjustments(ajustments) {
-    var searchText = $('#searchAjustments').val().toLowerCase();
-    var filteredAjustments = ajustments.filter(function (ajustment) {
-        return ajustment.nameItem.toLowerCase().includes(searchText) ||
-            ajustment.usersName.toLowerCase().includes(searchText);
+function renderadjustments(adjustments) {
+    var searchText = $('#searchadjustments').val().toLowerCase();
+    var filteredadjustments = adjustments.filter(function (adjustment) {
+        return adjustment.nameItem.toLowerCase().includes(searchText) ||
+            adjustment.usersName.toLowerCase().includes(searchText);
     });
 
     var tbody = '';
-    filteredAjustments.forEach(function (ajustment) {
+    filteredadjustments.forEach(function (adjustment) {
         tbody += '<tr>' +
-            '<td>' + ajustment.nameItem + '</td>' +
-            '<td>' + ajustment.usersName + '</td>' +
-            '<td>' + ajustment.adjustmentAmount + '</td>' +
-            '<td>' + ajustment.adjustmentReason + '</td>' +
-            '<td>' + ajustment.adjustmentDateTime + '</td>' +
+            '<td>' + adjustment.nameItem + '</td>' +
+            '<td>' + adjustment.usersName + '</td>' +
+            '<td>' + adjustment.adjustmentAmount + '</td>' +
+            '<td>' + adjustment.adjustmentReason + '</td>' +
+            '<td>' + adjustment.adjustmentDateTime + '</td>' +
             '</tr>';
     });
 
-    $('#ajustmentsViewTable').html(tbody);
+    $('#adjustmentsViewTable').html(tbody);
 }
 
 
@@ -109,7 +109,7 @@ $(document).ready(function () {
     $('#AjusRazonTexarea').val('');
     $("#ajustTableProccess").empty();
     updateItemsTable();
-    updateAjustmentTable();
+    updateadjustmentTable();
 
     var fullTable = $('#inventoryFullViewTable');
     var fullScreenTableModal = $('#fullScreenTable');
@@ -161,8 +161,6 @@ $(document).ready(function () {
         }
     });
 
-
-
     cancelCurrentAjust.on("click", function () {
         ajustTableProccess.empty();
     });
@@ -170,8 +168,6 @@ $(document).ready(function () {
     ajustTableProccess.on("click", ".removebtn", function () {
         $(this).closest("tr").remove();
     });
-
-
 
     $("#createItem").submit(function (e) {
         e.preventDefault();
@@ -206,20 +202,20 @@ $(document).ready(function () {
         updateItemsTable();
     });
 
-    $('#searchAjustments').on('input', function () {
-        updateAjustmentTable();
+    $('#searchadjustments').on('input', function () {
+        updateadjustmentTable();
     });
 
     $("#delItemform").submit(function (e) {
         e.preventDefault();
         $.ajax({
             type: "POST",
-            url: $(this).attr("action"),
+            url: '/inventory/delete',
             data: $(this).serialize(),
             success: function (response) {
                 $('#deleteItemModal').modal('hide');
                 updateUserTable();
-                updateAjustmentTable();
+                updateadjustmentTable();
             },
             error: function (error) {
                 console.log("Algo salio mal", error)
@@ -227,25 +223,23 @@ $(document).ready(function () {
         });
     });
 
-
-
-    $("#ajustmentform").submit(function (e) {
+    $("#adjustmentform").submit(function (e) {
         e.preventDefault();
         $.ajax({
             type: "POST",
-            url: $(this).attr("action"),
+            url: '/inventory/adjustments/create',
             data: $(this).serialize(),
             success: function (response) {
                 console.log(response);
                 response = JSON.parse(response);
-                $('#ajustmentErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text(response.message).show();
+                $('#adjustmentErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text(response.message).show();
                 setTimeout(function () {
-                    $('#ajustmentErrorsAlerts').addClass('hidden');
+                    $('#adjustmentErrorsAlerts').addClass('hidden');
                 }, 5000);
                 if (response.status == 20) {
                     updateItemsTable();
-                    updateAjustmentTable();
-                    $('#ajustmentform')[0].reset();
+                    updateadjustmentTable();
+                    $('#adjustmentform')[0].reset();
                     ajustTableProccess.empty();
                 }
             },
