@@ -4,17 +4,17 @@ $conn = $GLOBALS['conn'];
 // Consulta SQL para obtener los datos requeridos
 $sql = "
     SELECT 
-        inventory.nameItem, 
-        users.usersName, 
-        inventory_adjustments.adjustmentAmount, 
-        inventory_adjustments.adjustmentReason,
-        inventory_adjustments.adjustmentDateTime
+        inventario.nombreArticulo, 
+        usuarios.nombreUsuario, 
+        ajustes_inventario.cantidadAjuste, 
+        ajustes_inventario.razonAjuste,
+        ajustes_inventario.fechaHoraAjuste
     FROM 
-        inventory_adjustments 
+        ajustes_inventario 
     JOIN 
-        inventory ON inventory_adjustments.itemId = inventory.idItem 
+        inventario ON ajustes_inventario.idArticulo = inventario.idArticulo 
     JOIN 
-        users ON inventory_adjustments.userId = users.idUsuario
+        usuarios ON ajustes_inventario.idUsuario = usuarios.idUsuario
 ";
 
 $result = mysqli_query($conn, $sql);
@@ -26,14 +26,15 @@ $row_adjustments = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 $adjustments = array();
 
+
 foreach ($row_adjustments as $row) {
     // Crear un objeto para cada ajuste del inventario
     $adjustment = array(
-        'nameItem' => $row["nameItem"],
-        'usersName' => $row["usersName"],
-        'adjustmentAmount' => $row["adjustmentAmount"],
-        'adjustmentReason' => $row["adjustmentReason"],
-        'adjustmentDateTime' => $row["adjustmentDateTime"]
+        'nameItem' => $row["nombreArticulo"],
+        'usersName' => $row["nombreUsuario"],
+        'adjustmentAmount' => $row["cantidadAjuste"],
+        'adjustmentReason' => $row["razonAjuste"],
+        'adjustmentDateTime' => $row["fechaHoraAjuste"]
     );
 
     $adjustments[] = $adjustment;

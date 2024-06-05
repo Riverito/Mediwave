@@ -4,7 +4,7 @@ $sql1 = "SELECT * FROM roles";
 $result1 = mysqli_query($conn, $sql1);
 $row_roles = mysqli_fetch_all($result1, MYSQLI_ASSOC);
 
-$sql2 = "SELECT * FROM users";
+$sql2 = "SELECT * FROM usuarios";
 $result2 = mysqli_query($conn, $sql2);
 
 $usuarios = array();
@@ -12,14 +12,14 @@ $usuarios = array();
 while ($row2 = mysqli_fetch_array($result2)) {
     $cargo = '';
     $user = '<tr>' .
-        '<td>' . $row2["usersName"] . '</td>' .
-        '<td>' . $row2["userApellido"] . '</td>' .
-        '<td>' . $row2["userCd"] . '</td>' .
-        '<td>' . $row2["userEmail"] . '</td>' .
+        '<td>' . $row2["nombreUsuario"] . '</td>' .
+        '<td>' . $row2["apellidoUsuario"] . '</td>' .
+        '<td>' . $row2["cedulaUsuario"] . '</td>' .
+        '<td>' . $row2["emailUsuario"] . '</td>' .
         '<td>';
     foreach ($row_roles as $row1) {
-        if ($row1['role_id'] == $row2["userRol"]) {
-            $user .= $row1['role_name'];
+        if ($row1['idRol'] == $row2["idRol"]) {
+            $user .= $row1['nombreRol'];
             break;
         }
     }
@@ -38,3 +38,4 @@ while ($row2 = mysqli_fetch_array($result2)) {
 }
 
 echo json_encode($usuarios);
+?>

@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="CreateModalLabel">Crear insumo</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="/dashboard/createItem" id="createItem" method="post" class="modal-form">
+            <form action="/inventory/create" id="createItem" method="post" class="modal-form">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="Itemname" class="form-label">Nombre</label>
