@@ -73,12 +73,15 @@ function updateSessionRole(){
 
     $resultData = mysqli_stmt_get_result($stmt);
     $rowcount = mysqli_num_rows($resultData);
-    mysqli_stmt_close($stmt);
-
+    
     if (!empty($rowcount) and $rowcount === 1) {
-        $_SESSION['idRol'] = $resultData['idRol'];
+        $row = mysqli_fetch_assoc($resultData); // Convertir a array asociativo
+        $_SESSION['idRol'] = $row['idRol'];
     }
+    
+    mysqli_stmt_close($stmt);
 }
+
 
 function checkSessionRole(){
     if(!isset($_SESSION['idUsuario']) or !isset($_SESSION['idRol'])){

@@ -138,24 +138,39 @@ function logAdjustment($itemId, $quantity, $operation, $reason)
     return $result;
 }
 
-function deleteItem($userId)
+function deleteItem($itemId)
 {
-    if (uidExists($userId)) {
+    $conn = $GLOBALS['conn'];
 
+    $sql = "DELETE FROM inventario WHERE idArticulo = ?";
+    $stmt = mysqli_stmt_init($conn);
 
-        $conn = $GLOBALS['conn'];
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        die('Error al preparar la consulta en deleteItem: ' . mysqli_error($conn));
+    }
 
-        $sql = "DELETE FROM inventario WHERE idArticulo = ?";
-        $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_bind_param($stmt, "s", $itemId);
 
-        mysqli_stmt_prepare($stmt, $sql);
-        // Manejar error de preparación de la sentencia
-
-        mysqli_stmt_bind_param($stmt, "s", $userId);
-        mysqli_stmt_execute($stmt);
+    if (!mysqli_stmt_execute($stmt)) {
+        $errorCode = mysqli_stmt_errno($stmt);
         mysqli_stmt_close($stmt);
-        exit();
+
+        if ($errorCode == 1451) {
+            // Error 1451: Cannot delete or update a parent row: a foreign key constraint fails
+            return 'El articulo posee movimientos, por favor contacte un administrador.';
+        } else {
+            return 'Error al ejecutar la consulta en deleteItem: ' . mysqli_stmt_error($stmt);
+        }
+    }
+
+    // Verificar las filas afectadas antes de cerrar el statement
+    $affectedRows = mysqli_stmt_affected_rows($stmt);
+    mysqli_stmt_close($stmt);
+
+    if ($affectedRows > 0) {
+        return 'Artículo eliminado correctamente';
     } else {
-        echo 'Esta entrada ya no existe';
+        return 'Artículo no encontrado';
     }
 }
+

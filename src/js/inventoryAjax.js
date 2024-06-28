@@ -68,12 +68,7 @@ function renderItems(items) {
             '<td>' + item.descriptionItem + '</td>' +
             '<td>' + item.countItem + '</td>' +
             '<td>' +
-            '<button type="button" data-bs-toggle="modal" data-bs-target="#editItemModal" class="editbtn m-1 btn btn-primary" data-uid="' + item.idItem + '">' +
-            '<i class="fa-solid fa-pen-to-square"></i>' +
-            '</button>' +
-            '</td>' +
-            '<td>' +
-            '<button type="button" data-bs-toggle="modal" data-bs-target="#deleteItemModal" class="editbtn m-1 btn btn-danger" data-uid="' + item.idItem + '">' +
+            '<button type="button" data-bs-toggle="modal" data-bs-target="#deleteItemModal" class="delbtn m-1 btn btn-danger" data-uid="' + item.idItem + '">' +
             '<i class="fa-solid fa-trash"></i>' +
             '</button>' +
             '</td>' +
@@ -206,22 +201,51 @@ $(document).ready(function () {
         updateadjustmentTable();
     });
 
-    $("#delItemform").submit(function (e) {
+    $(document).on('click', '.delbtn', function () {
+        let operationId = $(this).data('uid');
+        $('#delItemForm>input[name="uid"]').val(operationId);
+        updateUserTable();
+    });
+
+    $("#delItemForm").submit(function (e) {
         e.preventDefault();
+        
         $.ajax({
             type: "POST",
             url: '/inventory/delete',
             data: $(this).serialize(),
             success: function (response) {
-                $('#deleteItemModal').modal('hide');
-                updateUserTable();
-                updateadjustmentTable();
+                response = JSON.parse(response);
+                $('#delItemErrorsAlerts')
+                    .removeClass("d-none alert-primary alert-danger")
+                    .addClass('d-block w-100 alert alert-primary')
+                    .text(response.message)
+                    .show();
+    
+                setTimeout(function () {
+                    $('#delItemErrorsAlerts').addClass('d-none');
+                }, 6000);
+    
+                if (response.status === 2) {
+                    updateItemsTable();
+                }
             },
             error: function (error) {
-                console.log("Algo salio mal", error)
+                console.log("Algo salió mal", error);
+    
+                $('#delItemErrorsAlerts')
+                    .removeClass("d-none alert-primary")
+                    .addClass('d-block alert alert-danger')
+                    .text('Ha ocurrido un error al procesar la solicitud.')
+                    .show();
+    
+                setTimeout(function () {
+                    $('#delItemErrorsAlerts').addClass('d-none');
+                }, 6000);
             }
         });
     });
+    
 
     $("#adjustmentform").submit(function (e) {
         e.preventDefault();
