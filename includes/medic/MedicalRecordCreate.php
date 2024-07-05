@@ -48,19 +48,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         reportKill($response);
     }
 
-    $fileDestination = '../../src/historiales/' . $fileName;
+    $newFilename = "mrec_$patientId.$fileExtension";
+    $fileDestination = RECORDS_DIR . $newFilename;
 
-    if (!is_dir('../../src/historiales')) {
-        mkdir('../../src/historiales', 0777, true);
+    if (!is_dir( RECORDS_DIR )) {
+        mkdir( RECORDS_DIR, 0777, true);
     }
 
-    if (!move_uploaded_file($fileTmpName, $fileDestination)) {
+    if (move_uploaded_file($fileTmpName, $fileDestination) == false) {
         $response['status'] = 5;
         $response['message'] = 'Error al mover el archivo.';
         reportKill($response);
     }
 
-    if (saveFilePathToDatabase($patientId, $fileName)) {
+    if (saveFilePathToDatabase($patientId, $fileDestination)) {
         $response['status'] = 100;
         $response['message'] = 'Archivo subido con éxito.';
         reportKill($response);
