@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2024 at 03:08 AM
+-- Generation Time: Jul 05, 2024 at 05:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -41,12 +41,9 @@ CREATE TABLE `ajustes_inventario` (
 --
 
 INSERT INTO `ajustes_inventario` (`idAjuste`, `idArticulo`, `cantidadAjuste`, `razonAjuste`, `fechaHoraAjuste`, `idUsuario`) VALUES
-('ou5HxH', 'KzBLnT', 20, 'Llegada de nuevos insumos del mes de mayo', '2024-05-28 12:55:56', 'cwCmzz'),
-('bTeOOP', 'KzBLnT', 5, 'porque hoy si', '2024-06-04 19:49:53', 'cwCmzz'),
-('3xvNtF', 'F1gva1', 5, 'porque hoy si', '2024-06-04 19:49:53', 'cwCmzz'),
-('GbUxeF', 'F1gva1', 60, '', '2024-06-04 19:54:20', 'cwCmzz'),
-('nbKZFV', 'F1gva1', 10, 'si', '2024-06-04 19:54:35', 'cwCmzz'),
-('eC0w9v', 'F1gva1', 34, 'se', '2024-06-04 20:18:06', 'ZuBJdd');
+('123456', 'KzBLnT', 50, 'HOY SI', '2024-06-05 01:29:56', '2q9YO2'),
+('R8n96M', '72WEdA', 44, 'asdasd', '2024-06-05 08:12:27', 'Y1lYyf'),
+('ucM9U6', 'KzBLnT', 123, 'asdasdasdasd', '2024-06-05 01:44:29', 'Y1lYyf');
 
 -- --------------------------------------------------------
 
@@ -68,9 +65,8 @@ CREATE TABLE `inventario` (
 --
 
 INSERT INTO `inventario` (`idArticulo`, `nombreArticulo`, `descripcionArticulo`, `cantidadArticulo`, `ultima_entrada`, `ultima_salida`) VALUES
-('KzBLnT', 'Paracetamol', 'Tabletas de 15 pastillas para adultos', 25, NULL, NULL),
-('F1gva1', 'Greyvin', 'Rivero', 109, NULL, NULL),
-('GBtUHV', 'pelo peluo', 'sxd', 0, NULL, NULL);
+('72WEdA', 'ssssss', 'ssssssssssss', 44, NULL, NULL),
+('KzBLnT', 'Paracetamol', 'Tabletas de 15 pastillas para adultos', 271, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -86,15 +82,6 @@ CREATE TABLE `pacientes` (
   `fechaNacimientoPaciente` date NOT NULL,
   `generoPaciente` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `pacientes`
---
-
-INSERT INTO `pacientes` (`idPaciente`, `nombrePaciente`, `apellidoPaciente`, `cedulaPaciente`, `fechaNacimientoPaciente`, `generoPaciente`) VALUES
-('MbgiWC', 'Maria', 'Rivas', '12345678', '1999-04-21', 'Femenino'),
-('NXAXAi', 'Juan', 'Serrano', '26546789', '2007-04-11', 'Masculino'),
-('VxYdpw', 'Greyvin', 'Rivero', '28046951', '2001-01-11', 'Masculino');
 
 -- --------------------------------------------------------
 
@@ -150,11 +137,41 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`idUsuario`, `nombreUsuario`, `contrasenaUsuario`, `apellidoUsuario`, `cedulaUsuario`, `emailUsuario`, `idRol`) VALUES
-('ZuBJdd', 'Greyvin', '$2y$10$OurW/uo/zaEfDhhbRAO9F.quPGvOTvMv4R1gyudJ2QR.8r1Sk.5eq', 'Rivero', '28046958', 'greyvinpaz@gmail.com', 3);
+('2q9YO2', 'stefa', '$2y$10$EQgt39rOFipSt83/Og6KIOvLVKyDm3CJISJzsFC334xOe4wJLK6zy', 'Rssd', '1236548', 'stefa@gmail.com', 3),
+('tCgEjI', 'Greyvin', '$2y$10$tL.0702OY7iaiD54noU6KOxSRChMuC5Mtgbtl7w8Lzrgw529C74Te', 'Rivero', '28046959', 'greyvinpaz@gmail.com', 2),
+('veWvW9', 'Juano', '$2y$10$bObE9KL17AeMmJ6yklhZ6.mEiZAegDgEoEKuwsSe4W991Mx3cs6tO', 'Magano', '12345677', 'gu@gmail.com', 1),
+('Y1lYyf', 'Riverito', '$2y$10$NpvDvCPTJ5nQ/eDlRJNwJuP2u5b3cWE2tOyQso3MuQlYPwUquBHAa', 'Rivero', '12345678', 'greyvinpazz@gmail.com', 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `ajustes_inventario`
+--
+ALTER TABLE `ajustes_inventario`
+  ADD PRIMARY KEY (`idAjuste`),
+  ADD KEY `idUsuario` (`idUsuario`),
+  ADD KEY `fk_idArticulo` (`idArticulo`);
+
+--
+-- Indexes for table `inventario`
+--
+ALTER TABLE `inventario`
+  ADD PRIMARY KEY (`idArticulo`);
+
+--
+-- Indexes for table `pacientes`
+--
+ALTER TABLE `pacientes`
+  ADD PRIMARY KEY (`idPaciente`);
+
+--
+-- Indexes for table `registros_medicos`
+--
+ALTER TABLE `registros_medicos`
+  ADD PRIMARY KEY (`idRegistro`),
+  ADD KEY `idPaciente` (`idPaciente`);
 
 --
 -- Indexes for table `usuarios`
@@ -162,6 +179,23 @@ INSERT INTO `usuarios` (`idUsuario`, `nombreUsuario`, `contrasenaUsuario`, `apel
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`idUsuario`),
   ADD KEY `idRol` (`idRol`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `ajustes_inventario`
+--
+ALTER TABLE `ajustes_inventario`
+  ADD CONSTRAINT `ajustes_inventario_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`),
+  ADD CONSTRAINT `fk_idArticulo` FOREIGN KEY (`idArticulo`) REFERENCES `inventario` (`idArticulo`);
+
+--
+-- Constraints for table `registros_medicos`
+--
+ALTER TABLE `registros_medicos`
+  ADD CONSTRAINT `registros_medicos_ibfk_1` FOREIGN KEY (`idPaciente`) REFERENCES `pacientes` (`idPaciente`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
