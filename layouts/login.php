@@ -3,7 +3,7 @@ get_header();
 ?>
 <section class="login-section">
 
-  <form action="/auth" method="post" class="login-form d-flex align-items-center justify-contetent-center" id>
+  <form action="/auth" id="loginForm" method="post" class="login-form d-flex align-items-center justify-contetent-center">
 
     <img src="src/img/mediwave.svg" class="login-logo w-100">
     <div class="form-container w-100">
@@ -20,28 +20,7 @@ get_header();
       </div>
 
       <button class="btn btn-primary mb-2 col-6" type="submit" name="submit" class="btn">Iniciar Sesión</button>
-
-      <?php
-      if (isset($_GET["error"])) {
-        if ($_GET["error"] == "campovacio")
-          echo "<div class='alert alert-primary col-12 text-center' role='alert'>
-          Por favor llena todos los campos!
-        </div>";
-        else  if ($_GET["error"] == "nombremal") {
-          echo "<div class='alert alert-primary col-12 text-center' role='alert'>
-          Este usuario no existe!
-        </div>";
-        } else  if ($_GET["error"] == "002") {
-          echo "<div class='alert alert-primary col-12 text-center' role='alert'>
-          Clave invalida!
-        </div>";
-        } else  if ($_GET["error"] == "001") {
-          echo "<div class='alert alert-primary col-12 text-center' role='alert'>
-          Este usuario no existe
-        </div>";
-        }
-      }
-      ?>
+      <div id="loginErrorsAlerts" class=' w-75 d-none alert alert-primary text-center' role='alert'></div>
     </div>
   </form>
 </section>

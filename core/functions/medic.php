@@ -69,3 +69,67 @@ function patientCdExists($userCd)
 
     return $result;
 }
+
+function saveFilePathToDatabase($patientId, $fileName) {
+    $conn = $GLOBALS['conn'];
+    $currentDate = date('Y-m-d');
+    $basePath = 'http://localhost/Mediwave/src/historiales/';
+
+    // Assuming $filePath contains just the filename after move_uploaded_file
+    $normalizedUrl = $basePath . $fileName;
+
+    $sql = "INSERT INTO registros_medicos (idRegistro, idPaciente, fechaRegistro, rutaArchivoRegistro) VALUES (UUID(), ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+
+    if ($stmt) {
+        $stmt->bind_param("sss", $patientId, $currentDate, $normalizedUrl);
+        $result = $stmt->execute();
+        $stmt->close();
+
+        if ($result) {
+            return true;
+        } else {
+            error_log("Error al ejecutar la consulta: " . $conn->error);
+            return false;
+        }
+    } else {
+        error_log("Error al preparar la consulta: " . $conn->error);
+        return false;
+    }
+}
+
+function delpacient($pacienId)
+{
+    $conn = $GLOBALS['conn'];
+
+    $sql = "DELETE FROM pacientes WHERE idPaciente = ?";
+    $stmt = mysqli_stmt_init($conn);
+
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        die('Error al preparar la consulta en deleteItem: ' . mysqli_error($conn));
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $pacienId);
+
+    if (!mysqli_stmt_execute($stmt)) {
+        $errorCode = mysqli_stmt_errno($stmt);
+        mysqli_stmt_close($stmt);
+
+        if ($errorCode == 1451) {
+            // Error 1451: Cannot delete or update a parent row: a foreign key constraint fails
+            return 'Por favor contacte un administrador';
+        } else {
+            return 'Error al ejecutar la consulta en eliminar paciente: ' . mysqli_stmt_error($stmt);
+        }
+    }
+
+    // Verificar las filas afectadas antes de cerrar el statement
+    $affectedRows = mysqli_stmt_affected_rows($stmt);
+    mysqli_stmt_close($stmt);
+
+    if ($affectedRows > 0) {
+        return 'Paciente eliminado correctamente';
+    } else {
+        return 'Paciente no encontrado';
+    }
+}

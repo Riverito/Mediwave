@@ -92,6 +92,7 @@
                         <button type="submit" class="btn btn-primary w-100 me-2">Asignar historial</button>
                         <button id="cancelHistoryAsingn" type="button" class="btn btn-danger w-100 ms-2" data-bs-dismiss="modal">Cancelar</button>
                     </div>
+                    <input type="hidden" name="patient_id" id="Hpatient_id" value="">
                 </form>
                 <div id="HistoryAsignErrors" class="d-none alert alert-primary mt-3 text-center" role="alert"></div>
             </div>
@@ -114,7 +115,8 @@
                 </h4>
             </div>
 
-            <form id="deliTemform" method="post" action="/dashboard/deleteItem" class="modal-footer">
+            <form id="delpacient" method="post" action="/dashboard/delete" class="modal-footer">
+                <div id="delpatientErrorsAlerts" class='d-none alert alert-primary mt-3 text-center' role='alert'></div>
                 <input type="hidden" name="uid" value="">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button for="userDelete" name="submit" class="btn submit btn-danger">Eliminar</button>

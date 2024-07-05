@@ -2,7 +2,6 @@
 # Activa el módulo de reescritura
 RewriteEngine On
 # Excluir recursos estáticos
-RewriteCond %{REQUEST_URI} !\.(js|css|scss|jpg|jpeg|png|webp|svg)$
+RewriteCond %{REQUEST_URI} !\.(js|css|scss|jpg|jpeg|png|webp|doc|docx|pdf|txt|svg)$
 RewriteRule ^(.*)$ index.php/$1 [L]
-
 </IfModule>

@@ -18,19 +18,20 @@ $klein->respond('GET', '/', function () use ($klein) {
         break;
     }
 });
+
 $klein->respond('GET', '/logout', function () use ($klein) {
     unset($_SESSION);
     session_destroy();
     $klein->response()->redirect('/');
 });
 
-$klein->respond('POST', '/auth', function () use ($klein) {
-    include(INCLUDES_DIR . '/account/auth.php');
-    $klein->response()->header('Location', '/');
+$klein->respond('GET', '/ac', function () {
+    include(INCLUDES_DIR . '/account/routesac.php');
 });
 
-
-/******************** Basic Routing *******************/
+$klein->respond('POST', '/auth', function () {
+    include(INCLUDES_DIR . '/account/auth.php');
+});
 
 /******************* Users *******************/
 $klein->with('/users', function () use ($klein) {
@@ -104,6 +105,10 @@ $klein->with('/medical-records', function () use ($klein) {
         require(INCLUDES_DIR . '/medic/patientsTable.php');
     });
 
+    $klein->respond('GET', '/view', function () {
+        require(INCLUDES_DIR . '/medic/ViewMR.php');
+    });
+
     $klein->respond('POST', '/create', function () {
         require(INCLUDES_DIR . '/medic/Createpatient.php');
     });
@@ -113,10 +118,9 @@ $klein->with('/medical-records', function () use ($klein) {
     });
 
     $klein->respond('POST', '/delete', function () {
-        require(INCLUDES_DIR . '/inventory/deleteItem.php');
+        require(INCLUDES_DIR . '/medic/deletePacient.php');
     });
     
-
     $klein->with('/adjustments', function () use ($klein) {
         $klein->respond('POST', '/create', function () {
             require(INCLUDES_DIR . '/inventory/adjustments.php');
