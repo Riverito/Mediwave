@@ -70,32 +70,31 @@ function patientCdExists($userCd)
     return $result;
 }
 
-function saveFilePathToDatabase($patientId, $fileName) {
+function saveFilePathToDatabase($patientId,  $fileDestination) {
     $conn = $GLOBALS['conn'];
     $currentDate = date('Y-m-d');
-    $basePath = 'http://localhost/Mediwave/src/historiales/';
 
     // Assuming $filePath contains just the filename after move_uploaded_file
-    $normalizedUrl = $basePath . $fileName;
+    $normalizedUrl =  $fileDestination;
 
     $sql = "INSERT INTO registros_medicos (idRegistro, idPaciente, fechaRegistro, rutaArchivoRegistro) VALUES (UUID(), ?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
-    if ($stmt) {
-        $stmt->bind_param("sss", $patientId, $currentDate, $normalizedUrl);
-        $result = $stmt->execute();
-        $stmt->close();
-
-        if ($result) {
-            return true;
-        } else {
-            error_log("Error al ejecutar la consulta: " . $conn->error);
-            return false;
-        }
-    } else {
+    if (!$stmt) {
         error_log("Error al preparar la consulta: " . $conn->error);
         return false;
     }
+
+    $stmt->bind_param("sss", $patientId, $currentDate, $normalizedUrl);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    if (!$result) {
+        error_log("Error al ejecutar la consulta: " . $conn->error);
+        return false;
+    }
+    
+    return true;
 }
 
 function delpacient($pacienId)
