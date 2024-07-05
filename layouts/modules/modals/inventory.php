@@ -146,8 +146,9 @@
                 </h4>
             </div>
 
-            <form id="deliTemform" method="post" action="/dashboard/deleteItem" class="modal-footer">
+            <form id="delItemForm" method="post" action="/dashboard/deleteItem" class="modal-footer">
                 <input type="hidden" name="uid" value="">
+                <div id="delItemErrorsAlerts" class='d-none alert alert-primary mt-3 text-center' role='alert'></div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button for="userDelete" name="submit" class="btn submit btn-danger">Eliminar</button>
             </form>

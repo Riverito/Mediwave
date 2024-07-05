@@ -29,11 +29,13 @@ $(document).ready(function () {
                 response = JSON.parse(response);
                 console.log(response['message']);
                 $('#errorsAlerts').removeClass("d-none").addClass('d-block alert alert-primary').text(response.message).show();
-                $('#signupForm')[0].reset();
                 setTimeout(function () {
                     $('#errorsAlerts').addClass('d-none');
                 }, 6000);
-                updateUserTable();
+                if (response.status === 20){
+                    updateUserTable();
+                    $('#signupForm')[0].reset();
+                }
             },
             error: function (error) {
                 console.log("SignupForm ajax request fail", error);

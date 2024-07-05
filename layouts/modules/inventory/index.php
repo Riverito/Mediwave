@@ -5,7 +5,6 @@
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripcion</th>
                 <th scope="col">Cantidad</th>
-                <th scope="col">Editar</th>
                 <th scope="col">Eliminar</th>
             </tr>
         </thead>

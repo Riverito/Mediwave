@@ -1,7 +1,7 @@
 <?php
 require_once 'DB.php';
-require_once 'inventory.php';
-require_once 'medic.php';
+require_once 'functions/inventory.php';
+require_once 'functions/medic.php';
 
 /* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
 function get_header()
@@ -17,19 +17,28 @@ function get_footer()
 /* ########################################## ## LAYOUT FUNCTIONS  ########################################## ######*/
 
 /* ########################################## ## SESSION FUNCTIONS  ########################################## ######*/
-function checkSession(){
-    if( session_status() === PHP_SESSION_NONE || !isset($_SESSION) || empty($_SESSION)){
-        return false;
-    }
 
-    if( checkSessionID() && checkSessionRole() ){
+function checkSession()
+{
+    if (checkSessionID() && checkSessionRole()) {
         return true;
     }
     return false;
 }
+function getAllRoles()
+{
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM roles";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_execute($stmt);
 
-function checkSessionID(){
-    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
+    $resultData = mysqli_stmt_get_result($stmt);
+    return $resultData;
+}
+function checkSessionID()
+{
+    if (!isset($_SESSION['idUsuario']) or !isset($_SESSION['idRol'])) {
         return false;
     }
     $conn = $GLOBALS['conn'];
@@ -50,10 +59,40 @@ function checkSessionID(){
     }
 }
 
-function checkSessionRole(){
-    if(session_status() === PHP_SESSION_NONE || !isset($_SESSION)){
+function routeAccessController()
+{
+    if (checkSession()) {
+        return $_SESSION['idRol'];
+    }
+}
+
+function updateSessionRole()
+{
+    $conn = $GLOBALS['conn'];
+    $sql = "SELECT * FROM usuarios WHERE idUsuario = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $_SESSION['idUsuario']);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+    $rowcount = mysqli_num_rows($resultData);
+
+    if (!empty($rowcount) and $rowcount === 1) {
+        $row = mysqli_fetch_assoc($resultData);
+        $_SESSION['idRol'] = $row['idRol'];
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
+
+function checkSessionRole()
+{
+    if (!isset($_SESSION['idUsuario']) or !isset($_SESSION['idRol'])) {
         return false;
     }
+
     $conn = $GLOBALS['conn'];
     $sql = "SELECT * FROM usuarios WHERE idRol = ? AND idUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
@@ -68,6 +107,7 @@ function checkSessionRole(){
     if (!empty($rowcount) and $rowcount === 1) {
         return true;
     } else {
+        updateSessionRole();
         return false;
     }
 }
@@ -158,7 +198,7 @@ function uidExists($userId)
     $conn = $GLOBALS['conn'];
     $sql = "SELECT * FROM usuarios WHERE idUsuario = ?;";
     $stmt = mysqli_stmt_init($conn);
-    
+
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         die('Error al preparar la consulta en uidExists: ' . mysqli_error($conn));
     }
@@ -263,17 +303,17 @@ function LoginUser($userEmail, $pwd)
             $userRol = $r["idRol"];
         }
 
-        if (password_verify($pwd, $hashedPwd)) {
-            $_SESSION["idUsuario"] = $userId;
-            $_SESSION["idRol"] = $userRol;
-        } else {
-            header("location: /auth?error=002");
+        if (!password_verify($pwd, $hashedPwd)) {
+            return false;
+            exit;
         }
+        $_SESSION["idUsuario"] = $userId;
+        $_SESSION["idRol"] = $userRol;
         mysqli_stmt_close($stmt);
-    } else {
-        header("location: /auth?error=001");
+        return true;
     }
 }
+
 
 ################################### USERS FUNCTIONS ########################################## ###
 
@@ -358,6 +398,3 @@ function reportKill(&$response)
     echo json_encode($response);
     die();
 }
-
-
-
