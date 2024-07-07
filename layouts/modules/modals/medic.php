@@ -51,7 +51,6 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="sutmitPatienHistory" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md modal-adjustment">
         <div class="modal-content">
@@ -100,7 +99,6 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="deletePacientModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -119,12 +117,11 @@
                 <div id="delpatientErrorsAlerts" class='d-none alert alert-primary mt-3 text-center' role='alert'></div>
                 <input type="hidden" name="uid" value="">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button for="userDelete" name="submit" class="btn submit btn-danger">Eliminar</button>
+                <button id="delsubmit"for="userDelete" name="submit" class="btn submit btn-danger">Eliminar</button>
             </form>
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="FullpatientsViews" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
@@ -156,6 +153,60 @@
                 <div id="fullScreenTableModalErros" class="d-flex align-content-center justify-content-center col-12 alert hidden alert-primary"></div>
                 <h5 class="modal-title col-5 text-start">Seleccione el paciente al que quiere asignar un historial</h5>
                 <button type="button" class="btn col-5 btn-danger align-self-end" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editPatientModal" tabindex="-1" aria-labelledby="CreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateModalLabel">Editar datos básicos del paciente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/dashboard/editpatient" id="editPatientForm" method="post" class="row g-3">
+                    <input id="patientId" type="hidden" name="uid" value="">
+                    <div class="col-md-6">
+                        <label for="patientName" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editpatientName" name="patientName">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="patientLastname" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="editpatientLastname" name="patientLastname">
+                    </div>
+                    <div class="form-check form-switch col-12">
+                        <input class="form-check-input" name="HasCd" type="checkbox" role="switch" id="edithasCedulaSwitch" checked>
+                        <label class="form-check-label" for="edithasCedulaSwitch">¿Posee cédula?</label>
+                    </div>
+                    <div class="col-md-6" id="editcedulaField">
+                        <label for="patientCd" class="form-label">Cédula</label>
+                        <input type="text" class="form-control" id="editpatientCd" name="patientCd" placeholder="V-">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="patientBirthdate" class="form-label">Fecha de nacimiento</label>
+                        <input type="date" class="form-control" id="idpatientAge" name="patientBirthdate">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="patientGenre" class="form-label">Género del paciente</label>
+                        <select id="idpatientGenre" class="form-select" name="patientGenre">
+                            <option value="">Seleccione</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                        </select>
+                        <div class="invalid-feedback">Por favor elija un género</div>
+                    </div>
+                    <div class="col-12 text-center">
+                        <div id="editPatientsErrorsAlerts" class="alert alert-primary d-none" role="alert"></div>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" id="editButton" name="submit" class="btn btn-primary w-100" disabled>Editar</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" id="CancelNewPatient" class="btn btn-danger w-100" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

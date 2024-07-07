@@ -14,7 +14,7 @@ function emptyNewpatient($patientName, $PatientSecondName,$PatientGenre,$PatienA
     return $result;
 }
 
-function createPatient($patientName, $patientLastName, $patientGenre, $patientAge, $patientCd) {
+function createPatient($patientName, $patientLastName, $patientGenre, $patientAge, $patientCd = "") {
     $id = generateUserid();
     
     // Preparar la consulta SQL

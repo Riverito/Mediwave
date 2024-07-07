@@ -1,14 +1,7 @@
 <?php
-// Verificar si se ha proporcionado un ID válido
-if (!isset($_GET['id'])) {
-    echo json_encode(array('status' => 0, 'message' => 'ID de paciente no proporcionado.'));
-    exit();
-}
-
-// Obtener el ID del paciente desde el parámetro GET
 $idPaciente = $_GET['id'];
 
-$conn = $GLOBALS['conn']; // Usando la conexión global, asegúrate de que $GLOBALS['conn'] esté correctamente configurado en tu aplicación
+$conn = $GLOBALS['conn'];
 
 $sql = "SELECT rutaArchivoRegistro FROM registros_medicos WHERE idPaciente = ?;";
 $stmt = mysqli_stmt_init($conn);
@@ -28,8 +21,23 @@ $result = mysqli_stmt_get_result($stmt);
 if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $rutaArchivo = $row['rutaArchivoRegistro'];
-    echo json_encode(array('status' => 1, 'filePath' => $rutaArchivo));
+    
+    // Verificar si el archivo existe
+    if (file_exists($rutaArchivo)) {
+        // Configurar las cabeceras para la descarga
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="'.basename($rutaArchivo).'"');
+        header('Content-Length: ' . filesize($rutaArchivo));
+        header('Pragma: public');
+        flush(); // Limpiar el buffer de salida del sistema
+        readfile($rutaArchivo); // Leer el archivo y escribirlo en la salida
+        exit();
+    } else {
+        echo json_encode(array('status' => 0, 'message' => 'Archivo no encontrado en el servidor.'));
+    }
 } else {
     echo json_encode(array('status' => 0, 'message' => 'No se encontró archivo médico para este paciente.'));
 }
-?>
+
+
