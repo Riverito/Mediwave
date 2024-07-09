@@ -132,3 +132,42 @@ function delpacient($pacienId)
         return 'Paciente no encontrado';
     }
 }
+
+function updatePatient($id, $patientName, $patientLastName, $patientCd, $patientBirthdate, $patientGender) {
+    // SQL para actualizar los datos del paciente
+    $sql = "UPDATE pacientes 
+            SET nombrePaciente = ?, 
+                apellidoPaciente = ?, 
+                cedulaPaciente = ?, 
+                fechaNacimientoPaciente = ?, 
+                generoPaciente = ?
+            WHERE idPaciente = ?";
+
+    // Inicializar la declaración preparada
+    $stmt = mysqli_stmt_init($GLOBALS['conn']);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        // Si hay un error al preparar la consulta, retornar el mensaje de error
+        return "Error al preparar la consulta: " . mysqli_error($GLOBALS['conn']);
+    }
+
+    // Vincular los parámetros a la consulta preparada
+    $success = mysqli_stmt_bind_param($stmt, "ssssss", $patientName, $patientLastName, $patientCd, $patientBirthdate, $patientGender, $id);
+    if (!$success) {
+        // Si hay un error al vincular los parámetros, retornar el mensaje de error
+        mysqli_stmt_close($stmt);
+        return "Error al vincular los parámetros: " . mysqli_stmt_error($stmt);
+    }
+
+    // Ejecutar la consulta preparada
+    $success = mysqli_stmt_execute($stmt);
+    if (!$success) {
+        // Si hay un error al ejecutar la consulta, retornar el mensaje de error
+        mysqli_stmt_close($stmt);
+        return "Error al ejecutar la consulta: " . mysqli_stmt_error($stmt);
+    }
+
+
+    mysqli_stmt_close($stmt);
+
+    return true;
+}

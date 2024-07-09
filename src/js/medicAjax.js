@@ -64,15 +64,11 @@ $(document).ready(function () {
         });
     }
 
-    function toggleCedulaField(toggleCheck, fieldCh, input) {
+    function toggleCedulaField(toggleCheck, fieldCh) {
         if (toggleCheck.checked) {
             fieldCh.style.display = 'block';
-            input.disabled = false;
         } else {
-            console.log(input);
-            console.log('hola');
             fieldCh.style.display = 'none';
-            input.disabled = true;
         }
     }
 

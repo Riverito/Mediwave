@@ -7,10 +7,20 @@ $row_roles = mysqli_fetch_all($result1, MYSQLI_ASSOC);
 $sql2 = "SELECT * FROM usuarios";
 $result2 = mysqli_query($conn, $sql2);
 
+// Contar el número total de usuarios
+$total_users = mysqli_num_rows($result2);
+
 $usuarios = array();
 
+// Variable para controlar el índice del usuario actual
+$current_index = 0;
+
 while ($row2 = mysqli_fetch_array($result2)) {
-    $cargo = '';
+    // Omitir el último usuario
+    if ($current_index == $total_users - 1) {
+        break;
+    }
+
     $user = '<tr>' .
         '<td>' . $row2["nombreUsuario"] . '</td>' .
         '<td>' . $row2["apellidoUsuario"] . '</td>' .
@@ -35,6 +45,8 @@ while ($row2 = mysqli_fetch_array($result2)) {
         '</tr>';
 
     $usuarios[] = $user;
+
+    $current_index++;
 }
 
 echo json_encode($usuarios);

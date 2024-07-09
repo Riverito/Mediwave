@@ -177,7 +177,7 @@ $(document).ready(function () {
                 $('#createItemErrorsAlerts').removeClass("d-none").addClass('d-block alert alert-primary').text(response.message).show();
                 setTimeout(function () {
                     $('#createItemErrorsAlerts').addClass('d-none');
-                }, 6000);
+                }, 3000);
                 if (response.status == 20) {
                     $('#createItem')[0].reset();
                     updateItemsTable();
@@ -224,7 +224,7 @@ $(document).ready(function () {
     
                 setTimeout(function () {
                     $('#delItemErrorsAlerts').addClass('d-none');
-                }, 6000);
+                }, 3000);
     
                 if (response.status === 2) {
                     updateItemsTable();
@@ -241,7 +241,7 @@ $(document).ready(function () {
     
                 setTimeout(function () {
                     $('#delItemErrorsAlerts').addClass('d-none');
-                }, 6000);
+                }, 3000);
             }
         });
     });
@@ -259,7 +259,7 @@ $(document).ready(function () {
                 $('#adjustmentErrorsAlerts').removeClass("hidden").addClass('alert alert-primary').text(response.message).show();
                 setTimeout(function () {
                     $('#adjustmentErrorsAlerts').addClass('hidden');
-                }, 5000);
+                }, 3000);
                 if (response.status == 20) {
                     updateItemsTable();
                     updateadjustmentTable();

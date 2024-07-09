@@ -15,10 +15,10 @@ function emptyNewItem($itemName, $ItemDrescription)
     return $result;
 }
 
-function invalidItem($itemName)
+function invalidItem($user_name)
 {
-
-    if (preg_match("/^[a-zA-Z\d\s\-]*$/", $itemName)) {
+    // La expresión regular incluye letras (con y sin acentos), la letra ñ, y espacios.
+    if (preg_match("/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*$/", $user_name)) {
         return false;
     }
     return true;

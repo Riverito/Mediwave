@@ -117,6 +117,11 @@ $klein->with('/medical-records', function () use ($klein) {
         require(INCLUDES_DIR . '/medic/MedicalRecordCreate.php');
     });
 
+    
+    $klein->respond('POST', '/update', function () {
+        require(INCLUDES_DIR . '/medic/updatepatient.php');
+    });
+
     $klein->respond('POST', '/delete', function () {
         require(INCLUDES_DIR . '/medic/deletePacient.php');
     });

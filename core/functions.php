@@ -138,7 +138,7 @@ function editEmptyInputSignup($user_name, $user_apellido, $userCd, $userEmail, $
 
 function invalidName($user_name)
 {
-    if (preg_match("/^[a-zA-Z]*$/", $user_name)) {
+    if (preg_match("/^[a-zA-ZñÑ\s]*$/", $user_name)) {
         return false;
     }
     return true;
@@ -146,13 +146,15 @@ function invalidName($user_name)
 
 function invalidSecondName($user_apellido)
 {
-    if (!preg_match("/^[a-zA-Z]*$/", $user_apellido)) {
+    if (!preg_match("/^[a-zA-ZñÑ\s]*$/", $user_apellido)) {
         return true;
     } else {
         $result = false;
     }
     return $result;
 }
+
+
 
 function invalidCd($userCd)
 {
